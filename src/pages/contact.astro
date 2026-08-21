@@ -12,15 +12,17 @@ import SiteLayout from '../layouts/SiteLayout.astro';
 	image="/images/airport-chauffeur.jpg"
 	imageAlt="Chauffeur standing beside a black executive SUV at an airport terminal"
 >
-	<PageHero
-		eyebrow="Contact"
-		title="Let's Talk About"
-		accent="Your Transportation"
-		description="Call, email, or open a prepared email draft with your question. For trip pricing and availability, use the quote page to share your itinerary."
-		image="/images/airport-chauffeur.jpg"
-		imageAlt="Chauffeur standing beside a black executive SUV at an airport terminal"
-		compact
-	/>
+	<div class="contact-page-hero">
+		<PageHero
+			eyebrow="Contact"
+			title="Let's Talk About"
+			accent="Your Transportation"
+			description="Call, email, or open a prepared email draft with your question. For trip pricing and availability, use the quote page to share your itinerary."
+			image="/images/airport-chauffeur.jpg"
+			imageAlt="Chauffeur standing beside a black executive SUV at an airport terminal"
+			compact
+		/>
+	</div>
 
 	<section class="contact-section" aria-labelledby="contact-options-heading">
 		<div class="contact-shell contact-grid">
@@ -230,6 +232,26 @@ import SiteLayout from '../layouts/SiteLayout.astro';
 	}
 
 	@media (max-width: 46rem) {
+		.contact-page-hero :global(.page-hero.page-hero--compact) {
+			min-height: 23rem;
+		}
+
+		.contact-page-hero :global(.page-hero__shell) {
+			padding-block: 0;
+		}
+
+		.contact-page-hero :global(.page-hero__content) {
+			transform: translateY(2rem);
+		}
+
+		.contact-form-wrap {
+			order: 1;
+		}
+
+		.contact-panel {
+			order: 2;
+		}
+
 		.contact-list {
 			grid-template-columns: 1fr;
 			border-left: 0;

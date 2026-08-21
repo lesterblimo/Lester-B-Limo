@@ -26,6 +26,7 @@ import SiteLayout from '../../layouts/SiteLayout.astro';
 			<div class="page-shell vehicle-list">
 				{fleet.map((vehicle, index) => (
 					<article class:list={['vehicle-card', { 'vehicle-card--reverse': index % 2 === 1 }]} id={vehicle.slug}>
+						<a class="vehicle-card__overlay" href={`/fleet/${vehicle.slug}/`} aria-label={`Explore ${vehicle.name}`} aria-hidden="true" tabindex="-1"></a>
 						<div class="vehicle-card__media">
 							<img
 								src={vehicle.image}
@@ -186,12 +187,25 @@ import SiteLayout from '../../layouts/SiteLayout.astro';
 	}
 
 	.vehicle-card {
+		position: relative;
 		display: grid;
 		grid-template-columns: minmax(0, 1.12fr) minmax(21rem, 0.88fr);
 		align-items: stretch;
 		gap: clamp(2.5rem, 5vw, 5rem);
 		min-width: 0;
 		scroll-margin-top: 7rem;
+		cursor: pointer;
+	}
+
+	.vehicle-card__overlay {
+		position: absolute;
+		inset: 0;
+		z-index: 2;
+	}
+
+	.vehicle-card:focus-within {
+		outline: 2px solid #d99d08;
+		outline-offset: 0.35rem;
 	}
 
 	.vehicle-card--reverse {
@@ -313,6 +327,8 @@ import SiteLayout from '../../layouts/SiteLayout.astro';
 	}
 
 	.vehicle-card__actions {
+		position: relative;
+		z-index: 3;
 		display: flex;
 		align-items: center;
 		gap: 1.25rem;

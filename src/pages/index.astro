@@ -3,8 +3,8 @@ import Layout from '../layouts/Layout.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
 
-const phoneDisplay = '(647) 914-1071';
-const phoneHref = 'tel:+16479141071';
+const phoneDisplay = '(437) 967-5262';
+const phoneHref = 'tel:+14379675262';
 const emailAddress = 'lesterb.limo@gmail.com';
 const ArrowIcon = `<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
 const PhoneIcon = `<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.2 3.5 10 8.1 8.2 10a15.4 15.4 0 0 0 5.8 5.8l1.9-1.8 4.6 2.8-.6 3.1c-.2.9-1 1.6-2 1.6C9.4 21 3 14.6 2.5 6.1c-.1-1 .6-1.8 1.6-2l3.1-.6Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
@@ -144,7 +144,7 @@ const reviews = [
 							<div class="form-actions form-actions--end">
 								<p><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2 4 4.5v4.8c0 3.9 2.5 6.8 6 8.7 3.5-1.9 6-4.8 6-8.7V4.5L10 2Z"/><path d="m7.5 10 1.6 1.6 3.5-3.7"/></svg>Your trip details stay private.</p>
 								<button class="button button--gold button--large" type="button" data-next-step>
-									Get My Quote <Fragment set:html={ArrowIcon} />
+									Next Step <Fragment set:html={ArrowIcon} />
 								</button>
 							</div>
 						</div>
@@ -216,7 +216,7 @@ const reviews = [
 							<ul class="attribute-list">
 								<li>Up to 6 passengers</li><li>Premium leather interior</li><li>Spacious luggage capacity</li><li>Airport & corporate travel</li>
 							</ul>
-							<button class="arrow-link" type="button" data-select-vehicle="Executive SUV">Choose Executive SUV <Fragment set:html={ArrowIcon} /></button>
+							<a class="arrow-link" href="/fleet/executive-suv/">View Executive SUV <Fragment set:html={ArrowIcon} /></a>
 						</div>
 					</article>
 
@@ -231,63 +231,24 @@ const reviews = [
 							<ul class="attribute-list">
 								<li>Front-facing seating</li><li>Premium passenger interior</li><li>High-roof cabin</li><li>Large luggage capacity</li>
 							</ul>
-							<button class="arrow-link" type="button" data-select-vehicle="Executive Sprinter">Choose Executive Sprinter <Fragment set:html={ArrowIcon} /></button>
+							<a class="arrow-link" href="/fleet/executive-sprinter/">View Executive Sprinter <Fragment set:html={ArrowIcon} /></a>
 						</div>
 					</article>
 				</div>
 			</div>
 		</section>
 
-		<section class="services section" id="services" aria-labelledby="services-heading">
-			<div class="section-shell">
-				<div class="section-heading section-heading--center">
-					<p class="eyebrow"><span></span>Tailored to your schedule<span></span></p>
-					<h2 id="services-heading">Transportation for <em>Every Occasion</em></h2>
-					<p>One standard of thoughtful, professional service—wherever the day takes you.</p>
-				</div>
-
-				<div class="services-grid">
-					<article class="service-card">
-						<span class="line-icon"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="m3 18 26-8-2 5-8 4-4 9-3 1v-8l-5 2-4-1v-4Z"/><path d="m11 15-5-5 3-1 7 4"/></svg></span>
-						<h3>Airport Transportation</h3><p>Thoughtful pickup and drop-off service built around your flight and luggage needs.</p><a href="/services/airport-transportation/">Explore service <Fragment set:html={ArrowIcon} /></a>
-					</article>
-					<article class="service-card">
-						<span class="line-icon"><svg viewBox="0 0 32 32" aria-hidden="true"><rect x="4" y="9" width="24" height="17" rx="2"/><path d="M11 9V6h10v3M4 16h24M13 16v3h6v-3"/></svg></span>
-						<h3>Corporate Transportation</h3><p>Dependable executive travel for meetings, roadshows, conferences, and client care.</p><a href="/services/corporate-transportation/">Explore service <Fragment set:html={ArrowIcon} /></a>
-					</article>
-					<article class="service-card">
-						<span class="line-icon"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 29s10-8.8 10-17A10 10 0 1 0 6 12c0 8.2 10 17 10 17Z"/><circle cx="16" cy="12" r="3.5"/></svg></span>
-						<h3>Private Transportation</h3><p>Discreet, door-to-door service for appointments, evenings out, and personal travel.</p><a href="/services/private-transportation/">Explore service <Fragment set:html={ArrowIcon} /></a>
-					</article>
-					<article class="service-card">
-						<span class="line-icon"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="11" cy="12" r="4"/><circle cx="22" cy="12" r="4"/><path d="M3 26c.8-5.2 3.4-8 8-8 2.5 0 4.4.8 5.7 2.3M29 26c-.8-5.2-3.4-8-7-8-2.3 0-4.1.7-5.3 2.3"/></svg></span>
-						<h3>Group Transportation</h3><p>Comfortable, coordinated group movement in a premium front-facing-seat Sprinter.</p><a href="/services/group-transportation/">Explore service <Fragment set:html={ArrowIcon} /></a>
-					</article>
-					<article class="service-card">
-						<span class="line-icon"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M16 27S5 20.6 5 12.6C5 8.7 7.5 6 11 6c2.1 0 4 1.2 5 3 1-1.8 2.9-3 5-3 3.5 0 6 2.7 6 6.6C27 20.6 16 27 16 27Z"/></svg></span>
-						<h3>Weddings & Special Events</h3><p>Polished arrivals and planned transportation for the moments worth remembering.</p><a href="/services/weddings-special-events/">Explore service <Fragment set:html={ArrowIcon} /></a>
-					</article>
-					<article class="service-card">
-						<span class="line-icon"><svg viewBox="0 0 32 32" aria-hidden="true"><circle cx="16" cy="16" r="12"/><path d="M16 9v8l5 3"/></svg></span>
-						<h3>Hourly Chauffeur Service</h3><p>Keep a professional vehicle and chauffeur available as your itinerary evolves.</p><a href="/services/hourly-chauffeur/">Explore service <Fragment set:html={ArrowIcon} /></a>
-					</article>
-				</div>
-				<div class="section-phone-cta">
-					<p><span>Questions about your trip?</span><strong>Speak directly with our transportation team.</strong></p>
-					<a class="button button--gold" href={phoneHref}><Fragment set:html={PhoneIcon} /> Call {phoneDisplay}</a>
-				</div>
-			</div>
-		</section>
-
 		<section class="airport section" id="airport" aria-labelledby="airport-heading">
 			<div class="section-shell airport-grid">
+				<div class="airport__heading">
+					<p class="eyebrow"><span></span>Airport transportation</p>
+					<h2 id="airport-heading">Airport Transportation <em>Made Simple</em></h2>
+				</div>
 				<div class="airport__media">
 					<img src="/images/airport-business-travelers-real.jpg" alt="Two business travelers walking through an airport terminal with luggage" width="1920" height="1280" loading="lazy" />
 					<div class="airport-note"><span>YYZ</span><p>Airport pickup<br /><strong>planned around you</strong></p></div>
 				</div>
 				<div class="airport__content">
-					<p class="eyebrow"><span></span>Airport transportation</p>
-					<h2 id="airport-heading">Airport Transportation <em>Made Simple</em></h2>
 					<p class="section-copy">From a scheduled pickup to the final drop-off, every detail is coordinated for a quieter, more comfortable airport transfer.</p>
 					<ul class="check-grid">
 						<li>Scheduled airport pickups</li><li>Flight-aware service</li><li>Professional chauffeurs</li><li>Meet-and-greet availability</li><li>Executive SUVs</li><li>Executive Sprinter service</li><li>Luggage-friendly vehicles</li><li>Private transportation</li>
@@ -313,6 +274,35 @@ const reviews = [
 						<a class="phone-text-link phone-text-link--light" href={phoneHref}><Fragment set:html={PhoneIcon} /><span>Call our team<strong>{phoneDisplay}</strong></span></a>
 					</div>
 				</div>
+			</div>
+			<div class="section-shell corporate-more" aria-labelledby="more-services-heading">
+				<div class="corporate-more__heading">
+					<p class="eyebrow eyebrow--light"><span></span>More ways to ride</p>
+					<h3 id="more-services-heading">Explore More Services</h3>
+				</div>
+				<div class="corporate-more__grid">
+					<a class="corporate-service" href="/services/private-transportation/">
+						<span class="corporate-service__number">01</span>
+						<span><strong>Private Transportation</strong><small>Discreet, door-to-door travel built around your plans.</small></span>
+						<Fragment set:html={ArrowIcon} />
+					</a>
+					<a class="corporate-service" href="/services/group-transportation/">
+						<span class="corporate-service__number">02</span>
+						<span><strong>Group Transportation</strong><small>Coordinated premium travel for groups of every size.</small></span>
+						<Fragment set:html={ArrowIcon} />
+					</a>
+					<a class="corporate-service" href="/services/weddings-special-events/">
+						<span class="corporate-service__number">03</span>
+						<span><strong>Weddings & Special Events</strong><small>Polished arrivals for moments worth remembering.</small></span>
+						<Fragment set:html={ArrowIcon} />
+					</a>
+					<a class="corporate-service" href="/services/hourly-chauffeur/">
+						<span class="corporate-service__number">04</span>
+						<span><strong>Hourly Chauffeur Service</strong><small>A professional vehicle and chauffeur on your schedule.</small></span>
+						<Fragment set:html={ArrowIcon} />
+					</a>
+				</div>
+				<a class="corporate-more__all" href="/services/">View all services <Fragment set:html={ArrowIcon} /></a>
 			</div>
 		</section>
 
@@ -382,14 +372,6 @@ const reviews = [
 			localToday.setMinutes(localToday.getMinutes() - localToday.getTimezoneOffset());
 			pickupDate.min = localToday.toISOString().split('T')[0];
 		}
-
-		document.querySelectorAll<HTMLButtonElement>('[data-select-vehicle]').forEach((button) => {
-			button.addEventListener('click', () => {
-				const vehicle = form?.querySelector<HTMLSelectElement>('[name="vehicle"]');
-				if (vehicle) vehicle.value = button.dataset.selectVehicle ?? '';
-				document.querySelector('#quote')?.scrollIntoView({ behavior: 'smooth' });
-			});
-		});
 
 		const showStep = (step: 1 | 2) => {
 			if (!firstStep || !secondStep) return;
@@ -535,7 +517,6 @@ const reviews = [
 
 		.button :global(svg),
 		.arrow-link :global(svg),
-		.service-card a :global(svg),
 		.footer-quote :global(svg) {
 			width: 20px;
 			height: 20px;
@@ -640,7 +621,7 @@ const reviews = [
 		}
 
 		.section-heading h2,
-		.airport__content h2,
+		.airport__heading h2,
 		.corporate__content h2,
 		.final-cta h2 {
 			margin-bottom: 22px;
@@ -663,23 +644,6 @@ const reviews = [
 		.section-heading--split > p {
 			max-width: 470px;
 			margin: 0 0 4px;
-			color: var(--slate);
-			font-size: 1.05rem;
-		}
-
-		.section-heading--center {
-			max-width: 790px;
-			margin: 0 auto 58px;
-			text-align: center;
-		}
-
-		.section-heading--center .eyebrow {
-			justify-content: center;
-		}
-
-		.section-heading--center > p:last-child {
-			max-width: 570px;
-			margin: 0 auto;
 			color: var(--slate);
 			font-size: 1.05rem;
 		}
@@ -1195,7 +1159,6 @@ const reviews = [
 		}
 
 		.fleet h2 em,
-		.services h2 em,
 		.airport h2 em,
 		.testimonials h2 em {
 			color: #8a6100;
@@ -1208,6 +1171,7 @@ const reviews = [
 		}
 
 		.fleet-card {
+			position: relative;
 			overflow: hidden;
 			border: 1px solid rgba(23, 24, 21, 0.1);
 			border-radius: 4px;
@@ -1335,129 +1299,23 @@ const reviews = [
 			cursor: pointer;
 		}
 
+		.fleet-card .arrow-link::after {
+			position: absolute;
+			inset: 0;
+			content: '';
+		}
+
+		.fleet-card:focus-within {
+			outline: 2px solid var(--gold-deep);
+			outline-offset: 4px;
+		}
+
 		.arrow-link :global(svg) {
 			transition: transform 180ms ease;
 		}
 
 		.arrow-link:hover :global(svg) {
 			transform: translateX(4px);
-		}
-
-		.services {
-			background: var(--white);
-		}
-
-		.services.section {
-			padding-top: 30px;
-		}
-
-		.services-grid {
-			display: grid;
-			grid-template-columns: repeat(3, minmax(0, 1fr));
-			border-top: 1px solid var(--line);
-			border-left: 1px solid var(--line);
-		}
-
-		.service-card {
-			position: relative;
-			min-height: 310px;
-			padding: 38px 34px 34px;
-			border-right: 1px solid var(--line);
-			border-bottom: 1px solid var(--line);
-			background: var(--white);
-			transition: background-color 180ms ease, transform 180ms ease, box-shadow 180ms ease;
-		}
-
-		.service-card:hover {
-			z-index: 1;
-			background: #fcfaf4;
-			box-shadow: var(--shadow-soft);
-			transform: translateY(-4px);
-		}
-
-		.line-icon {
-			display: grid;
-			place-items: center;
-			width: 52px;
-			height: 52px;
-			margin-bottom: 26px;
-			border: 1px solid rgba(215, 155, 8, 0.38);
-			border-radius: 50%;
-			color: var(--gold-deep);
-		}
-
-		.line-icon svg {
-			width: 27px;
-			height: 27px;
-			fill: none;
-			stroke: currentColor;
-			stroke-width: 1.4;
-			stroke-linecap: round;
-			stroke-linejoin: round;
-		}
-
-		.service-card h3 {
-			margin-bottom: 12px;
-			font-family: var(--font-display);
-			font-size: 1.7rem;
-			font-weight: 400;
-			line-height: 1.2;
-		}
-
-		.service-card p {
-			margin-bottom: 25px;
-			color: var(--slate);
-			font-size: 0.88rem;
-			line-height: 1.7;
-		}
-
-		.service-card a {
-			position: absolute;
-			bottom: 30px;
-			left: 34px;
-			display: inline-flex;
-			align-items: center;
-			gap: 8px;
-			color: #6f540c;
-			font-size: 0.72rem;
-			font-weight: 700;
-			letter-spacing: 0.06em;
-			text-decoration: none;
-			text-transform: uppercase;
-		}
-
-		.section-phone-cta {
-			display: flex;
-			align-items: center;
-			justify-content: space-between;
-			gap: 28px;
-			padding: 24px 28px;
-			margin-top: 28px;
-			background: var(--ink);
-			box-shadow: var(--shadow-soft);
-		}
-
-		.section-phone-cta p,
-		.section-phone-cta p span,
-		.section-phone-cta p strong {
-			display: block;
-			margin: 0;
-		}
-
-		.section-phone-cta p span {
-			margin-bottom: 4px;
-			color: var(--gold);
-			font-size: 0.65rem;
-			font-weight: 700;
-			letter-spacing: 0.11em;
-			text-transform: uppercase;
-		}
-
-		.section-phone-cta p strong {
-			color: var(--white);
-			font-family: var(--font-display);
-			font-size: 1.45rem;
-			font-weight: 400;
 		}
 
 		.airport {
@@ -1471,12 +1329,23 @@ const reviews = [
 		.airport-grid {
 			display: grid;
 			grid-template-columns: minmax(0, 1.06fr) minmax(390px, 0.94fr);
-			align-items: center;
-			gap: clamp(54px, 7vw, 100px);
+			grid-template-areas:
+				'media heading'
+				'media content';
+			align-content: center;
+			column-gap: clamp(54px, 7vw, 100px);
+			row-gap: 0;
+		}
+
+		.airport__heading {
+			grid-area: heading;
+			align-self: end;
 		}
 
 		.airport__media {
 			position: relative;
+			grid-area: media;
+			align-self: center;
 		}
 
 		.airport__media::before {
@@ -1530,8 +1399,13 @@ const reviews = [
 			text-transform: uppercase;
 		}
 
-		.airport__content h2 {
+		.airport__heading h2 {
 			max-width: 560px;
+		}
+
+		.airport__content {
+			grid-area: content;
+			align-self: start;
 		}
 
 		.section-copy {
@@ -1702,6 +1576,120 @@ const reviews = [
 			color: rgba(255, 255, 255, 0.68);
 			font-size: 1.03rem;
 			line-height: 1.82;
+		}
+
+		.corporate-more {
+			position: relative;
+			display: grid;
+			grid-template-columns: minmax(0, 1fr) auto;
+			grid-template-areas:
+				'heading all'
+				'services services';
+			align-items: end;
+			margin-top: 72px;
+			padding-top: 42px;
+			border-top: 1px solid rgba(255, 255, 255, 0.16);
+		}
+
+		.corporate-more__heading {
+			grid-area: heading;
+			margin-bottom: 26px;
+		}
+
+		.corporate-more__heading h3 {
+			margin: 0;
+			color: var(--white);
+			font-family: var(--font-display);
+			font-size: clamp(2rem, 3.5vw, 3rem);
+			font-weight: 400;
+			line-height: 1.08;
+		}
+
+		.corporate-more__all {
+			grid-area: all;
+			justify-self: end;
+			display: inline-flex;
+			align-items: center;
+			gap: 8px;
+			padding-bottom: 4px;
+			margin-bottom: 26px;
+			border-bottom: 1px solid var(--gold);
+			color: var(--gold);
+			font-size: 0.72rem;
+			font-weight: 700;
+			letter-spacing: 0.07em;
+			text-decoration: none;
+			text-transform: uppercase;
+		}
+
+		.corporate-more__all :global(svg),
+		.corporate-service > :global(svg) {
+			width: 20px;
+			height: 20px;
+			flex: 0 0 auto;
+			transition: transform 180ms ease;
+		}
+
+		.corporate-more__all:hover :global(svg),
+		.corporate-service:hover > :global(svg) {
+			transform: translateX(4px);
+		}
+
+		.corporate-more__grid {
+			grid-area: services;
+			display: grid;
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 12px;
+		}
+
+		.corporate-service {
+			display: grid;
+			grid-template-columns: auto minmax(0, 1fr) auto;
+			align-items: center;
+			gap: 18px;
+			min-height: 116px;
+			padding: 22px 24px;
+			border: 1px solid rgba(255, 255, 255, 0.14);
+			background: rgba(255, 255, 255, 0.045);
+			color: var(--white);
+			text-decoration: none;
+			transition: border-color 180ms ease, background-color 180ms ease, transform 180ms ease;
+		}
+
+		.corporate-service:hover {
+			border-color: rgba(247, 184, 23, 0.58);
+			background: rgba(255, 255, 255, 0.085);
+			transform: translateY(-2px);
+		}
+
+		.corporate-service__number {
+			color: var(--gold);
+			font-size: 0.68rem;
+			font-weight: 700;
+			letter-spacing: 0.1em;
+		}
+
+		.corporate-service strong,
+		.corporate-service small {
+			display: block;
+		}
+
+		.corporate-service strong {
+			font-family: var(--font-display);
+			font-size: 1.35rem;
+			font-weight: 400;
+			line-height: 1.2;
+		}
+
+		.corporate-service small {
+			margin-top: 6px;
+			color: rgba(255, 255, 255, 0.58);
+			font-size: 0.76rem;
+			line-height: 1.5;
+		}
+
+		.corporate-service > :global(svg) {
+			color: var(--gold);
 		}
 
 		.testimonials {
@@ -2258,12 +2246,16 @@ const reviews = [
 				gap: 34px;
 			}
 
-			.services-grid {
-				grid-template-columns: repeat(2, minmax(0, 1fr));
+			.airport-grid {
+				grid-template-areas:
+					'media'
+					'heading'
+					'content';
+				gap: 0;
 			}
 
-			.airport-grid {
-				gap: 70px;
+			.airport__heading {
+				margin-top: 70px;
 			}
 
 			.airport__media img {
@@ -2299,10 +2291,6 @@ const reviews = [
 		@media (max-width: 720px) {
 			:global(:root) {
 				--header-height: 74px;
-			}
-
-			:global(body) {
-				padding-bottom: 76px;
 			}
 
 			.section-shell {
@@ -2354,9 +2342,9 @@ const reviews = [
 			.hero__veil {
 				background: linear-gradient(
 					90deg,
-					rgba(0, 0, 0, 0.82) 0%,
-					rgba(0, 0, 0, 0.58) 48%,
-					rgba(0, 0, 0, 0.12) 100%
+					rgba(0, 0, 0, 0.98) 0%,
+					rgba(0, 0, 0, 0.86) 48%,
+					rgba(0, 0, 0, 0.46) 100%
 				);
 			}
 
@@ -2369,20 +2357,6 @@ const reviews = [
 				font-size: clamp(3rem, 14vw, 4.45rem);
 			}
 
-			.section-phone-cta {
-				align-items: stretch;
-				flex-direction: column;
-			}
-
-			.section-phone-cta .button {
-				justify-content: center;
-				width: 100%;
-			}
-
-			.section-phone-cta {
-				padding: 24px 22px;
-			}
-
 			.cta-pair {
 				align-items: stretch;
 				flex-direction: column;
@@ -2393,7 +2367,7 @@ const reviews = [
 			}
 
 			.phone-text-link {
-				justify-content: center;
+				display: none;
 			}
 
 			.quote-section {
@@ -2489,7 +2463,7 @@ const reviews = [
 			}
 
 			.review-summary {
-				justify-self: start;
+				display: none;
 			}
 
 			.testimonials .section-heading--split {
@@ -2507,14 +2481,10 @@ const reviews = [
 			}
 
 			.section-heading h2,
-			.airport__content h2,
+			.airport__heading h2,
 			.corporate__content h2,
 			.final-cta h2 {
 				font-size: clamp(2.45rem, 12vw, 3.5rem);
-			}
-
-			.section-heading--center {
-				margin-bottom: 42px;
 			}
 
 			.fleet-card__body {
@@ -2525,16 +2495,23 @@ const reviews = [
 				grid-template-columns: 1fr;
 			}
 
-			.services-grid {
-				grid-template-columns: 1fr;
-			}
-
-			.service-card {
-				min-height: 288px;
-			}
-
 			.airport-grid {
-				gap: 62px;
+				grid-template-areas:
+					'heading'
+					'media'
+					'content';
+			}
+
+			.airport__heading {
+				margin-top: 0;
+			}
+
+			.airport__media {
+				margin-top: 34px;
+			}
+
+			.airport__content {
+				margin-top: 62px;
 			}
 
 			.airport__media img {
@@ -2549,6 +2526,35 @@ const reviews = [
 
 			.check-grid {
 				grid-template-columns: 1fr;
+			}
+
+			.corporate-more {
+				grid-template-columns: 1fr;
+				grid-template-areas:
+					'heading'
+					'services'
+					'all';
+				align-items: start;
+				margin-top: 52px;
+				padding-top: 34px;
+			}
+
+			.corporate-more__heading {
+				margin-bottom: 26px;
+			}
+
+			.corporate-more__grid {
+				grid-template-columns: 1fr;
+			}
+
+			.corporate-service {
+				min-height: 108px;
+				padding: 20px;
+			}
+
+			.corporate-more__all {
+				justify-self: start;
+				margin: 22px 0 0;
 			}
 
 			.final-cta {
