@@ -1,0 +1,607 @@
+---
+import type { FleetGalleryImage } from '../data/fleet';
+
+interface Props {
+	vehicleName: string;
+	title: string;
+	accent: string;
+	images: FleetGalleryImage[];
+}
+
+const { vehicleName, title, accent, images } = Astro.props;
+const firstImage = images[0];
+---
+
+<section class="vehicle-gallery" data-vehicle-gallery aria-labelledby="interior-gallery-heading">
+	<div class="page-shell">
+		<header class="vehicle-gallery__heading">
+			<div>
+				<p><span></span>Inside the vehicle</p>
+				<h2 id="interior-gallery-heading">{title} <em>{accent}</em></h2>
+			</div>
+			<div class="vehicle-gallery__counter" aria-live="polite">
+				<strong data-gallery-current>01</strong>
+				<span>/</span>
+				<span>{String(images.length).padStart(2, '0')}</span>
+			</div>
+		</header>
+
+		<div class="vehicle-gallery__frame">
+			<button class="vehicle-gallery__expand" type="button" data-gallery-expand aria-label="Expand current interior image">
+				<svg viewBox="0 0 24 24" aria-hidden="true">
+					<path d="M9 4H4v5M15 4h5v5M9 20H4v-5M15 20h5v-5" />
+				</svg>
+				<span>Expand image</span>
+			</button>
+			<div class="vehicle-gallery__viewport">
+				<div class="vehicle-gallery__track" data-gallery-track>
+					{images.map((image, index) => (
+						<figure
+							class="vehicle-gallery__slide"
+							data-gallery-slide
+							aria-label={`${vehicleName} interior image ${index + 1} of ${images.length}`}
+							aria-hidden={index === 0 ? 'false' : 'true'}
+						>
+							<img
+								src={image.src}
+								alt={image.alt}
+								width={image.width}
+								height={image.height}
+								loading={index === 0 ? 'eager' : 'lazy'}
+							/>
+							<figcaption>{image.caption}</figcaption>
+						</figure>
+					))}
+				</div>
+			</div>
+
+			<div class="vehicle-gallery__controls">
+				<button type="button" data-gallery-prev aria-label="Show previous interior image">
+					<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7" /></svg>
+				</button>
+				<div class="vehicle-gallery__dots" aria-label="Choose an interior image">
+					{images.map((image, index) => (
+						<button
+							type="button"
+							data-gallery-dot
+							aria-label={`Show ${image.caption.toLowerCase()}`}
+							aria-current={index === 0 ? 'true' : 'false'}
+						></button>
+					))}
+				</div>
+				<button type="button" data-gallery-next aria-label="Show next interior image">
+					<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg>
+				</button>
+			</div>
+		</div>
+
+		<p class="vehicle-gallery__note">Representative manufacturer imagery. Interior trim and configuration may vary.</p>
+	</div>
+
+	<dialog class="vehicle-gallery__dialog" data-gallery-dialog aria-label={`${vehicleName} expanded interior gallery`}>
+		<div class="vehicle-gallery__dialog-panel">
+			<button class="vehicle-gallery__dialog-close" type="button" data-gallery-close aria-label="Close expanded gallery">
+				<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+			</button>
+			<div class="vehicle-gallery__dialog-media">
+				<img
+					data-gallery-dialog-image
+					src={firstImage.src}
+					alt={firstImage.alt}
+					width={firstImage.width}
+					height={firstImage.height}
+				/>
+			</div>
+			<footer class="vehicle-gallery__dialog-footer">
+				<button type="button" data-dialog-prev aria-label="Show previous expanded interior image">
+					<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m15 5-7 7 7 7" /></svg>
+				</button>
+				<div>
+					<p data-gallery-dialog-caption>{firstImage.caption}</p>
+					<span><strong data-gallery-dialog-current>01</strong> / {String(images.length).padStart(2, '0')}</span>
+				</div>
+				<button type="button" data-dialog-next aria-label="Show next expanded interior image">
+					<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m9 5 7 7-7 7" /></svg>
+				</button>
+			</footer>
+		</div>
+	</dialog>
+</section>
+
+<script>
+	document.querySelectorAll<HTMLElement>('[data-vehicle-gallery]').forEach((gallery) => {
+		if (gallery.dataset.enhanced === 'true') return;
+		gallery.dataset.enhanced = 'true';
+
+		const track = gallery.querySelector<HTMLElement>('[data-gallery-track]');
+		const slides = Array.from(gallery.querySelectorAll<HTMLElement>('[data-gallery-slide]'));
+		const dots = Array.from(gallery.querySelectorAll<HTMLButtonElement>('[data-gallery-dot]'));
+		const currentLabel = gallery.querySelector<HTMLElement>('[data-gallery-current]');
+		const previousButton = gallery.querySelector<HTMLButtonElement>('[data-gallery-prev]');
+		const nextButton = gallery.querySelector<HTMLButtonElement>('[data-gallery-next]');
+		const expandButton = gallery.querySelector<HTMLButtonElement>('[data-gallery-expand]');
+		const dialog = gallery.querySelector<HTMLDialogElement>('[data-gallery-dialog]');
+		const closeButton = gallery.querySelector<HTMLButtonElement>('[data-gallery-close]');
+		const dialogPreviousButton = gallery.querySelector<HTMLButtonElement>('[data-dialog-prev]');
+		const dialogNextButton = gallery.querySelector<HTMLButtonElement>('[data-dialog-next]');
+		const dialogImage = gallery.querySelector<HTMLImageElement>('[data-gallery-dialog-image]');
+		const dialogCaption = gallery.querySelector<HTMLElement>('[data-gallery-dialog-caption]');
+		const dialogCurrentLabel = gallery.querySelector<HTMLElement>('[data-gallery-dialog-current]');
+
+		if (!track || slides.length === 0) return;
+
+		let currentIndex = 0;
+
+		const updateExpandedImage = () => {
+			const activeSlide = slides[currentIndex];
+			const activeImage = activeSlide?.querySelector<HTMLImageElement>('img');
+			const activeCaption = activeSlide?.querySelector<HTMLElement>('figcaption');
+			if (!activeImage || !dialogImage) return;
+
+			dialogImage.src = activeImage.currentSrc || activeImage.src;
+			dialogImage.alt = activeImage.alt;
+			dialogImage.width = activeImage.width;
+			dialogImage.height = activeImage.height;
+			if (dialogCaption) dialogCaption.textContent = activeCaption?.textContent ?? '';
+			if (dialogCurrentLabel) dialogCurrentLabel.textContent = String(currentIndex + 1).padStart(2, '0');
+		};
+
+		const showSlide = (nextIndex: number) => {
+			currentIndex = (nextIndex + slides.length) % slides.length;
+			track.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+			slides.forEach((slide, index) => {
+				slide.setAttribute('aria-hidden', index === currentIndex ? 'false' : 'true');
+			});
+			dots.forEach((dot, index) => {
+				dot.setAttribute('aria-current', index === currentIndex ? 'true' : 'false');
+			});
+			if (currentLabel) currentLabel.textContent = String(currentIndex + 1).padStart(2, '0');
+			updateExpandedImage();
+		};
+
+		previousButton?.addEventListener('click', () => showSlide(currentIndex - 1));
+		nextButton?.addEventListener('click', () => showSlide(currentIndex + 1));
+		dots.forEach((dot, index) => dot.addEventListener('click', () => showSlide(index)));
+		dialogPreviousButton?.addEventListener('click', () => showSlide(currentIndex - 1));
+		dialogNextButton?.addEventListener('click', () => showSlide(currentIndex + 1));
+		expandButton?.addEventListener('click', () => {
+			if (!dialog) return;
+			updateExpandedImage();
+			dialog.showModal();
+		});
+		closeButton?.addEventListener('click', () => dialog?.close());
+		dialog?.addEventListener('click', (event) => {
+			if (event.target === dialog) dialog.close();
+		});
+
+		gallery.addEventListener('keydown', (event) => {
+			if (event.key === 'ArrowLeft') showSlide(currentIndex - 1);
+			if (event.key === 'ArrowRight') showSlide(currentIndex + 1);
+		});
+	});
+</script>
+
+<style>
+	.vehicle-gallery {
+		padding: clamp(4.5rem, 8vw, 7rem) 0;
+		background: #171815;
+		color: #fff;
+	}
+
+	.page-shell {
+		width: min(calc(100% - 3rem), 77.5rem);
+		margin: 0 auto;
+	}
+
+	.vehicle-gallery__heading {
+		display: flex;
+		align-items: end;
+		justify-content: space-between;
+		gap: 2rem;
+		margin-bottom: clamp(2rem, 4vw, 3.25rem);
+	}
+
+	.vehicle-gallery__heading p {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		margin: 0 0 1rem;
+		color: #f7b817;
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.7rem;
+		font-weight: 700;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+	}
+
+	.vehicle-gallery__heading p span {
+		width: 2rem;
+		height: 1px;
+		background: currentColor;
+	}
+
+	.vehicle-gallery h2 {
+		margin: 0;
+		font-family: 'Libre Caslon Display', Georgia, serif;
+		font-size: clamp(2.8rem, 5vw, 4.8rem);
+		font-weight: 400;
+		letter-spacing: -0.05em;
+		line-height: 0.98;
+	}
+
+	.vehicle-gallery h2 em {
+		color: #f7b817;
+		font-style: normal;
+	}
+
+	.vehicle-gallery__counter {
+		display: flex;
+		align-items: baseline;
+		gap: 0.45rem;
+		padding-bottom: 0.4rem;
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.78rem;
+		letter-spacing: 0.12em;
+	}
+
+	.vehicle-gallery__counter strong {
+		color: #f7b817;
+		font-size: 1.1rem;
+	}
+
+	.vehicle-gallery__frame {
+		position: relative;
+	}
+
+	.vehicle-gallery__expand {
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+		z-index: 2;
+		display: inline-flex;
+		align-items: center;
+		gap: 0.55rem;
+		min-height: 2.8rem;
+		padding: 0.65rem 0.85rem;
+		border: 1px solid rgba(255, 255, 255, 0.24);
+		background: rgba(13, 14, 12, 0.86);
+		backdrop-filter: blur(10px);
+		color: #fff;
+		cursor: pointer;
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.66rem;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		transition: border-color 180ms ease, background-color 180ms ease, color 180ms ease;
+	}
+
+	.vehicle-gallery__expand:hover {
+		border-color: #f7b817;
+		background: #f7b817;
+		color: #171815;
+	}
+
+	.vehicle-gallery__expand svg {
+		width: 1.05rem;
+		height: 1.05rem;
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 1.7;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	}
+
+	.vehicle-gallery__viewport {
+		overflow: hidden;
+		border: 1px solid rgba(255, 255, 255, 0.14);
+		background: #0d0e0c;
+		box-shadow: 0 2rem 5rem rgba(0, 0, 0, 0.28);
+	}
+
+	.vehicle-gallery__track {
+		display: flex;
+		transition: transform 480ms cubic-bezier(0.22, 1, 0.36, 1);
+	}
+
+	.vehicle-gallery__slide {
+		position: relative;
+		display: grid;
+		place-items: center;
+		flex: 0 0 100%;
+		min-width: 0;
+		aspect-ratio: 16 / 8.6;
+		padding: clamp(0.75rem, 1.5vw, 1.25rem);
+		margin: 0;
+		background: #0d0e0c;
+	}
+
+	.vehicle-gallery__slide img {
+		display: block;
+		width: auto;
+		height: auto;
+		max-width: 100%;
+		max-height: 100%;
+		object-fit: contain;
+	}
+
+	.vehicle-gallery__slide figcaption {
+		position: absolute;
+		right: 1.25rem;
+		bottom: 1.25rem;
+		padding: 0.7rem 0.9rem;
+		background: rgba(13, 14, 12, 0.88);
+		backdrop-filter: blur(10px);
+		color: rgba(255, 255, 255, 0.9);
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.68rem;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	.vehicle-gallery__controls,
+	.vehicle-gallery__dots {
+		display: flex;
+		align-items: center;
+	}
+
+	.vehicle-gallery__controls {
+		justify-content: center;
+		gap: 1.25rem;
+		margin-top: 1.5rem;
+	}
+
+	.vehicle-gallery__controls > button {
+		display: grid;
+		place-items: center;
+		width: 3rem;
+		height: 3rem;
+		padding: 0;
+		border: 1px solid rgba(255, 255, 255, 0.28);
+		border-radius: 50%;
+		background: transparent;
+		color: #fff;
+		cursor: pointer;
+		transition: border-color 180ms ease, background-color 180ms ease, color 180ms ease;
+	}
+
+	.vehicle-gallery__controls > button:hover {
+		border-color: #f7b817;
+		background: #f7b817;
+		color: #171815;
+	}
+
+	.vehicle-gallery__controls svg {
+		width: 1.15rem;
+		height: 1.15rem;
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 1.7;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	}
+
+	.vehicle-gallery__dots {
+		gap: 0.5rem;
+	}
+
+	.vehicle-gallery__dots button {
+		width: 2rem;
+		height: 0.2rem;
+		padding: 0;
+		border: 0;
+		background: rgba(255, 255, 255, 0.28);
+		cursor: pointer;
+		transition: width 180ms ease, background-color 180ms ease;
+	}
+
+	.vehicle-gallery__dots button[aria-current='true'] {
+		width: 3.25rem;
+		background: #f7b817;
+	}
+
+	.vehicle-gallery__note {
+		margin: 1.1rem 0 0;
+		color: rgba(255, 255, 255, 0.5);
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.68rem;
+		text-align: center;
+	}
+
+	.vehicle-gallery__dialog {
+		inset: 0;
+		width: min(calc(100% - 2rem), 96rem);
+		height: min(calc(100dvh - 2rem), 60rem);
+		max-width: none;
+		max-height: none;
+		padding: 0;
+		margin: auto;
+		overflow: hidden;
+		border: 1px solid rgba(255, 255, 255, 0.18);
+		background: #0d0e0c;
+		box-shadow: 0 2rem 7rem rgba(0, 0, 0, 0.62);
+		color: #fff;
+	}
+
+	.vehicle-gallery__dialog::backdrop {
+		background: rgba(3, 4, 3, 0.88);
+		backdrop-filter: blur(8px);
+	}
+
+	.vehicle-gallery__dialog-panel {
+		display: grid;
+		grid-template-rows: minmax(0, 1fr) auto;
+		height: 100%;
+	}
+
+	.vehicle-gallery__dialog-media {
+		display: grid;
+		place-items: center;
+		min-height: 0;
+		padding: clamp(1rem, 3vw, 2.5rem);
+		overflow: hidden;
+	}
+
+	.vehicle-gallery__dialog-media img {
+		display: block;
+		width: auto;
+		height: auto;
+		max-width: 100%;
+		max-height: 100%;
+		object-fit: contain;
+	}
+
+	.vehicle-gallery__dialog-close {
+		position: absolute;
+		top: 1rem;
+		right: 1rem;
+		z-index: 1;
+		display: grid;
+		place-items: center;
+		width: 3rem;
+		height: 3rem;
+		padding: 0;
+		border: 1px solid rgba(255, 255, 255, 0.28);
+		border-radius: 50%;
+		background: rgba(13, 14, 12, 0.82);
+		color: #fff;
+		cursor: pointer;
+	}
+
+	.vehicle-gallery__dialog-close svg,
+	.vehicle-gallery__dialog-footer svg {
+		width: 1.2rem;
+		height: 1.2rem;
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 1.7;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	}
+
+	.vehicle-gallery__dialog-footer {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr) auto;
+		align-items: center;
+		gap: 1rem;
+		min-height: 5.5rem;
+		padding: 0.85rem clamp(1rem, 3vw, 2rem);
+		border-top: 1px solid rgba(255, 255, 255, 0.14);
+		background: #171815;
+	}
+
+	.vehicle-gallery__dialog-footer > button {
+		display: grid;
+		place-items: center;
+		width: 2.9rem;
+		height: 2.9rem;
+		padding: 0;
+		border: 1px solid rgba(255, 255, 255, 0.25);
+		border-radius: 50%;
+		background: transparent;
+		color: #fff;
+		cursor: pointer;
+	}
+
+	.vehicle-gallery__dialog-footer > div {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 1rem;
+		min-width: 0;
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+	}
+
+	.vehicle-gallery__dialog-footer p {
+		margin: 0;
+		overflow: hidden;
+		font-size: 0.72rem;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-overflow: ellipsis;
+		text-transform: uppercase;
+		white-space: nowrap;
+	}
+
+	.vehicle-gallery__dialog-footer span {
+		flex: 0 0 auto;
+		color: rgba(255, 255, 255, 0.58);
+		font-size: 0.72rem;
+		letter-spacing: 0.08em;
+	}
+
+	.vehicle-gallery__dialog-footer strong {
+		color: #f7b817;
+	}
+
+	.vehicle-gallery__dialog button:hover {
+		border-color: #f7b817;
+		background: #f7b817;
+		color: #171815;
+	}
+
+	.vehicle-gallery button:focus-visible {
+		outline: 2px solid #f7b817;
+		outline-offset: 3px;
+	}
+
+	@media (max-width: 38rem) {
+		.page-shell {
+			width: min(calc(100% - 2rem), 77.5rem);
+		}
+
+		.vehicle-gallery__heading {
+			align-items: start;
+			flex-direction: column;
+			gap: 1rem;
+		}
+
+		.vehicle-gallery__counter {
+			padding-bottom: 0;
+		}
+
+		.vehicle-gallery__slide {
+			aspect-ratio: 4 / 3;
+		}
+
+		.vehicle-gallery__slide figcaption {
+			right: 0.75rem;
+			bottom: 0.75rem;
+			left: 0.75rem;
+			text-align: center;
+		}
+
+		.vehicle-gallery__expand span {
+			display: none;
+		}
+
+		.vehicle-gallery__expand {
+			width: 2.8rem;
+			padding: 0;
+			justify-content: center;
+		}
+
+		.vehicle-gallery__dialog {
+			width: calc(100% - 1rem);
+			height: calc(100dvh - 1rem);
+		}
+
+		.vehicle-gallery__dialog-footer > div {
+			align-items: start;
+			flex-direction: column;
+			gap: 0.25rem;
+		}
+
+		.vehicle-gallery__dialog-footer p {
+			max-width: 11rem;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.vehicle-gallery__track {
+			transition: none;
+		}
+	}
+</style>

@@ -1,0 +1,205 @@
+---
+import PageCta from '../components/PageCta.astro';
+import PageHero from '../components/PageHero.astro';
+import SiteLayout from '../layouts/SiteLayout.astro';
+---
+
+<SiteLayout
+	title="Page Not Found | Lester Pearson Limousine"
+	description="The requested page could not be found. Return to Lester Pearson Limousine's main website or continue to services, fleet, contact, or quote pages."
+	image="/images/hero-cadillac-escalade-road.webp"
+	imageAlt="Black Cadillac Escalade driving along a tree-lined road"
+	noindex
+>
+	<PageHero
+		eyebrow="404 — Page not found"
+		title="This Road Ends"
+		accent="Here"
+		description="The page may have moved, or the address may be incomplete. Choose a destination below to get back on course."
+		image="/images/hero-cadillac-escalade-road.webp"
+		imageAlt="Black Cadillac Escalade driving along a tree-lined road"
+		compact
+	/>
+
+	<section class="not-found" aria-labelledby="next-stop-heading">
+		<div class="not-found__shell">
+			<div class="not-found__heading">
+				<p>Choose your next stop</p>
+				<h2 id="next-stop-heading">Where Would You Like to Go?</h2>
+			</div>
+
+			<nav class="not-found__links" aria-label="Page not found options">
+				<a href="/">
+					<span>01</span>
+					<strong>Home</strong>
+					<small>Return to the main page</small>
+					<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4" /></svg>
+				</a>
+				<a href="/services/">
+					<span>02</span>
+					<strong>Services</strong>
+					<small>Explore transportation options</small>
+					<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4" /></svg>
+				</a>
+				<a href="/fleet/">
+					<span>03</span>
+					<strong>Fleet</strong>
+					<small>Compare available vehicle types</small>
+					<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4" /></svg>
+				</a>
+				<a href="/contact/">
+					<span>04</span>
+					<strong>Contact</strong>
+					<small>Call, email, or ask a question</small>
+					<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4" /></svg>
+				</a>
+			</nav>
+		</div>
+	</section>
+
+	<PageCta
+		eyebrow="Planning transportation?"
+		title="Your Quote Form Is"
+		accent="One Click Away."
+		description="Share your itinerary and vehicle preference to prepare a quote request in your email app."
+		primaryHref="/quote/"
+		primaryLabel="Request a Quote"
+	/>
+</SiteLayout>
+
+<style>
+	.not-found {
+		padding: clamp(4.5rem, 8vw, 7rem) 0;
+		background: #f8f6f0;
+	}
+
+	.not-found__shell {
+		width: min(calc(100% - 3rem), 77.5rem);
+		margin: 0 auto;
+	}
+
+	.not-found__heading {
+		display: grid;
+		grid-template-columns: minmax(12rem, 0.35fr) minmax(0, 1fr);
+		align-items: start;
+		gap: 2rem;
+		margin-bottom: clamp(2.5rem, 5vw, 4rem);
+	}
+
+	.not-found__heading p {
+		margin: 0.65rem 0 0;
+		color: #7c5900;
+		font-size: 0.7rem;
+		font-weight: 700;
+		letter-spacing: 0.15em;
+		text-transform: uppercase;
+	}
+
+	.not-found__heading h2 {
+		margin: 0;
+		font-family: var(--font-display, Georgia, serif);
+		font-size: clamp(2.65rem, 5vw, 4.6rem);
+		font-weight: 400;
+		letter-spacing: -0.045em;
+		line-height: 1.04;
+	}
+
+	.not-found__links {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		border-top: 1px solid rgba(23, 24, 21, 0.14);
+		border-left: 1px solid rgba(23, 24, 21, 0.14);
+	}
+
+	.not-found__links a {
+		position: relative;
+		display: grid;
+		grid-template-columns: auto 1fr auto;
+		grid-template-areas:
+			'number title icon'
+			'. description icon';
+		align-items: center;
+		gap: 0.25rem 1.25rem;
+		min-height: 10.5rem;
+		padding: clamp(1.5rem, 4vw, 2.6rem);
+		border-right: 1px solid rgba(23, 24, 21, 0.14);
+		border-bottom: 1px solid rgba(23, 24, 21, 0.14);
+		background: #fff;
+		color: #171815;
+		text-decoration: none;
+		transition: background-color 180ms ease, color 180ms ease;
+	}
+
+	.not-found__links a:hover {
+		background: #20211e;
+		color: #fff;
+	}
+
+	.not-found__links a > span {
+		grid-area: number;
+		align-self: start;
+		color: #8a6200;
+		font-size: 0.68rem;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+	}
+
+	.not-found__links strong {
+		grid-area: title;
+		font-family: var(--font-display, Georgia, serif);
+		font-size: clamp(1.8rem, 3vw, 2.5rem);
+		font-weight: 400;
+		line-height: 1.1;
+	}
+
+	.not-found__links small {
+		grid-area: description;
+		color: #65675f;
+		font-size: 0.78rem;
+	}
+
+	.not-found__links a:hover small {
+		color: rgba(255, 255, 255, 0.62);
+	}
+
+	.not-found__links svg {
+		grid-area: icon;
+		width: 1.4rem;
+		height: 1.4rem;
+		fill: none;
+		stroke: currentColor;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		stroke-width: 1.6;
+		transition: transform 180ms ease;
+	}
+
+	.not-found__links a:hover svg {
+		transform: translateX(0.35rem);
+	}
+
+	@media (max-width: 48rem) {
+		.not-found__heading,
+		.not-found__links {
+			grid-template-columns: 1fr;
+		}
+
+		.not-found__heading {
+			gap: 0.75rem;
+		}
+	}
+
+	@media (max-width: 38rem) {
+		.not-found {
+			padding: 4rem 0;
+		}
+
+		.not-found__shell {
+			width: min(calc(100% - 2rem), 77.5rem);
+		}
+
+		.not-found__links a {
+			min-height: 9rem;
+		}
+	}
+</style>

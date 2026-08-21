@@ -1,0 +1,304 @@
+---
+import PageCta from '../components/PageCta.astro';
+import PageHero from '../components/PageHero.astro';
+import SiteLayout from '../layouts/SiteLayout.astro';
+---
+
+<SiteLayout
+	title="About Lester Pearson Limousine | Executive Transportation"
+	description="Learn about Lester Pearson Limousine's approach to airport, corporate, private, and group transportation across the Greater Toronto Area and beyond."
+	image="/images/hero-black-suv-real.jpg"
+	imageAlt="Black executive SUV on a quiet road"
+>
+	<PageHero
+		eyebrow="About Lester Pearson Limousine"
+		title="Transportation Planned Around"
+		accent="Your Day"
+		description="Airport transfers, business travel, private rides, and group transportation organized around the details of your trip."
+		image="/images/hero-black-suv-real.jpg"
+		imageAlt="Black executive SUV on a quiet road"
+		compact
+	/>
+
+	<section class="about-intro" aria-labelledby="about-intro-heading">
+		<div class="about-shell about-intro__grid">
+			<div class="about-intro__heading">
+				<p class="eyebrow">Our approach</p>
+				<h2 id="about-intro-heading">A Better Ride Starts With <em>Better Planning.</em></h2>
+			</div>
+			<div class="about-intro__copy">
+				<p class="lead">
+					Lester Pearson Limousine provides private transportation for airport, corporate, personal, and group trips across the Greater Toronto Area and beyond.
+				</p>
+				<p>
+					Every trip has different timing, passenger, luggage, and vehicle needs. Our quote process is built to collect those details before the ride so the transportation request can be considered as a complete itinerary—not just a pickup time.
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<section class="principles" aria-labelledby="principles-heading">
+		<div class="about-shell">
+			<div class="section-heading">
+				<p class="eyebrow">What guides the experience</p>
+				<h2 id="principles-heading">The Details That Make Transportation <em>Feel Easier.</em></h2>
+			</div>
+
+			<div class="principles__grid">
+				<article>
+					<span>01</span>
+					<h3>Trip-first planning</h3>
+					<p>Pickup and drop-off locations, timing, passenger count, luggage, and special requests all help shape the right transportation plan.</p>
+				</article>
+				<article>
+					<span>02</span>
+					<h3>Vehicle options with purpose</h3>
+					<p>Full-size executive SUVs serve private and smaller-group travel, while an executive Sprinter supports larger parties and additional luggage.</p>
+				</article>
+				<article>
+					<span>03</span>
+					<h3>Direct communication</h3>
+					<p>Questions can be handled by phone or email, and quote requests can include the trip information needed for a useful conversation.</p>
+				</article>
+			</div>
+		</div>
+	</section>
+
+	<section class="service-fit" aria-labelledby="service-fit-heading">
+		<div class="about-shell service-fit__grid">
+			<div class="service-fit__copy">
+				<p class="eyebrow">Where the service fits</p>
+				<h2 id="service-fit-heading">One Transportation Partner for <em>Different Kinds of Days.</em></h2>
+				<p>
+					From a single airport transfer to a coordinated group itinerary, choose the service that best matches the trip you are planning.
+				</p>
+				<a href="/services/">Explore all services <span aria-hidden="true">→</span></a>
+			</div>
+
+			<ul class="service-fit__list">
+				<li><a href="/services/airport-transportation/"><span>Airport Transportation</span><small>Pickup and drop-off planning around your flight and luggage.</small></a></li>
+				<li><a href="/services/corporate-transportation/"><span>Corporate Transportation</span><small>Executive travel for meetings, events, and business itineraries.</small></a></li>
+				<li><a href="/services/private-transportation/"><span>Private Transportation</span><small>Door-to-door transportation for personal plans and appointments.</small></a></li>
+				<li><a href="/services/group-transportation/"><span>Group Transportation</span><small>Coordinated travel using an executive Sprinter.</small></a></li>
+			</ul>
+		</div>
+	</section>
+
+	<PageCta
+		eyebrow="Start with the details"
+		title="Tell Us Where You Need to Go."
+		accent="We'll Take It From There."
+		description="Share your itinerary, passenger count, and vehicle preference to begin planning your transportation."
+		primaryHref="/quote/"
+		primaryLabel="Request a Quote"
+	/>
+</SiteLayout>
+
+<style>
+	.about-shell {
+		width: min(calc(100% - 3rem), 77.5rem);
+		margin: 0 auto;
+	}
+
+	.about-intro,
+	.principles,
+	.service-fit {
+		padding: clamp(4.5rem, 8vw, 7rem) 0;
+	}
+
+	.about-intro {
+		background: #f8f6f0;
+	}
+
+	.about-intro__grid {
+		display: grid;
+		grid-template-columns: minmax(18rem, 0.85fr) minmax(0, 1fr);
+		gap: clamp(3rem, 8vw, 7rem);
+	}
+
+	.eyebrow {
+		margin: 0 0 1rem;
+		color: #7c5900;
+		font-size: 0.7rem;
+		font-weight: 700;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+	}
+
+	h2 {
+		margin: 0;
+		font-family: var(--font-display, Georgia, serif);
+		font-size: clamp(2.7rem, 5vw, 4.8rem);
+		font-weight: 400;
+		letter-spacing: -0.045em;
+		line-height: 1.03;
+		text-wrap: balance;
+	}
+
+	h2 em {
+		color: #9b7005;
+		font-style: normal;
+	}
+
+	.about-intro__copy p {
+		margin: 0;
+		color: #5f625e;
+		line-height: 1.85;
+	}
+
+	.about-intro__copy .lead {
+		margin-bottom: 1.5rem;
+		color: #272824;
+		font-family: var(--font-display, Georgia, serif);
+		font-size: clamp(1.45rem, 2.7vw, 2rem);
+		line-height: 1.5;
+	}
+
+	.principles {
+		background: #fff;
+	}
+
+	.section-heading {
+		max-width: 50rem;
+		margin-bottom: clamp(2.75rem, 6vw, 4.5rem);
+	}
+
+	.principles__grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		border-top: 1px solid rgba(23, 24, 21, 0.14);
+		border-left: 1px solid rgba(23, 24, 21, 0.14);
+	}
+
+	.principles article {
+		min-height: 20rem;
+		padding: clamp(2rem, 4vw, 3rem);
+		border-right: 1px solid rgba(23, 24, 21, 0.14);
+		border-bottom: 1px solid rgba(23, 24, 21, 0.14);
+	}
+
+	.principles article > span {
+		display: block;
+		margin-bottom: 4rem;
+		color: #9b7005;
+		font-size: 0.7rem;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+	}
+
+	.principles h3 {
+		margin: 0 0 1rem;
+		font-family: var(--font-display, Georgia, serif);
+		font-size: clamp(1.7rem, 2.8vw, 2.25rem);
+		font-weight: 400;
+		line-height: 1.15;
+	}
+
+	.principles article p,
+	.service-fit__copy > p:not(.eyebrow) {
+		margin: 0;
+		color: #62645e;
+		font-size: 0.92rem;
+		line-height: 1.8;
+	}
+
+	.service-fit {
+		background: #20211e;
+		color: #fff;
+	}
+
+	.service-fit__grid {
+		display: grid;
+		grid-template-columns: minmax(0, 0.8fr) minmax(27rem, 1fr);
+		align-items: start;
+		gap: clamp(3rem, 8vw, 7rem);
+	}
+
+	.service-fit h2 {
+		margin-bottom: 1.5rem;
+	}
+
+	.service-fit__copy > p:not(.eyebrow) {
+		color: rgba(255, 255, 255, 0.68);
+	}
+
+	.service-fit__copy > a {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.65rem;
+		margin-top: 2rem;
+		color: #f7b817;
+		font-size: 0.75rem;
+		font-weight: 700;
+		letter-spacing: 0.09em;
+		text-decoration: none;
+		text-transform: uppercase;
+	}
+
+	.service-fit__list {
+		padding: 0;
+		margin: 0;
+		border-top: 1px solid rgba(255, 255, 255, 0.16);
+		list-style: none;
+	}
+
+	.service-fit__list li {
+		border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+	}
+
+	.service-fit__list a {
+		display: grid;
+		gap: 0.35rem;
+		padding: 1.5rem 0;
+		color: inherit;
+		text-decoration: none;
+		transition: padding-left 180ms ease, color 180ms ease;
+	}
+
+	.service-fit__list a:hover {
+		padding-left: 0.75rem;
+		color: #f7b817;
+	}
+
+	.service-fit__list span {
+		font-family: var(--font-display, Georgia, serif);
+		font-size: 1.65rem;
+	}
+
+	.service-fit__list small {
+		color: rgba(255, 255, 255, 0.58);
+		font-size: 0.78rem;
+		line-height: 1.55;
+	}
+
+	@media (max-width: 58rem) {
+		.about-intro__grid,
+		.service-fit__grid {
+			grid-template-columns: 1fr;
+		}
+
+		.principles__grid {
+			grid-template-columns: 1fr;
+		}
+
+		.principles article {
+			min-height: 0;
+		}
+
+		.principles article > span {
+			margin-bottom: 2.5rem;
+		}
+	}
+
+	@media (max-width: 38rem) {
+		.about-shell {
+			width: min(calc(100% - 2rem), 77.5rem);
+		}
+
+		.about-intro,
+		.principles,
+		.service-fit {
+			padding: 4rem 0;
+		}
+	}
+</style>

@@ -1,0 +1,246 @@
+---
+import PageCta from '../components/PageCta.astro';
+import PageHero from '../components/PageHero.astro';
+import { SITE } from '../config/site';
+import SiteLayout from '../layouts/SiteLayout.astro';
+
+const questions = [
+	{
+		question: 'How do I request a transportation quote?',
+		answer:
+			'Complete the quote form with your itinerary and contact details. The website will prepare a draft addressed to Lester Pearson Limousine in your email app. Review the draft and send it from there.',
+	},
+	{
+		question: 'What details should I include?',
+		answer:
+			'Include the pickup and drop-off locations, date, time, passenger count, service type, and vehicle preference. Flight information, luggage, child-seat needs, accessibility needs, return details, and other requests can be added in the notes.',
+	},
+	{
+		question: 'Which vehicle should I choose?',
+		answer:
+			'The Executive SUV accommodates up to 6 passengers. The Executive Sprinter is listed for 12–14 passengers. Luggage and itinerary details can affect the best fit, so choose “Recommend for Me” when you would like help selecting a vehicle.',
+	},
+	{
+		question: 'Which transportation services are available?',
+		answer:
+			'The site includes airport, corporate, private, group, wedding and special-event, and hourly chauffeur transportation. Each service page explains the type of trip it is designed to support.',
+	},
+	{
+		question: 'Does submitting the form confirm a reservation?',
+		answer:
+			'No. The form prepares an email draft; it does not create or confirm a reservation. Pricing, availability, vehicle assignment, timing, and the final trip details must be confirmed directly with Lester Pearson Limousine.',
+	},
+	{
+		question: 'How will I receive pricing and availability?',
+		answer:
+			'After you send the prepared quote email, Lester Pearson Limousine can respond directly using the contact information you provide. The website does not display live pricing or availability.',
+	},
+	{
+		question: 'What area do you serve?',
+		answer: `${SITE.name} lists its service area as ${SITE.serviceArea}. Share the exact pickup and drop-off locations so coverage can be confirmed for your trip.`,
+	},
+	{
+		question: 'Can I discuss a special request or an existing trip?',
+		answer: `Yes. Add the request to your quote notes, call ${SITE.phoneDisplay}, or use the contact page. Any requested accommodation should be confirmed directly before the trip.`,
+	},
+] as const;
+---
+
+<SiteLayout
+	title="Transportation FAQ | Lester Pearson Limousine"
+	description="Answers to common questions about requesting a quote, vehicle capacity, transportation services, service area, and contacting Lester Pearson Limousine."
+	image="/images/hero-cadillac-escalade-road.webp"
+	imageAlt="Black Cadillac Escalade traveling along a tree-lined road"
+>
+	<PageHero
+		eyebrow="Frequently asked questions"
+		title="Helpful Details Before"
+		accent="You Book"
+		description="Start with the answers below, then share your itinerary so availability, pricing, and trip details can be confirmed directly."
+		image="/images/hero-cadillac-escalade-road.webp"
+		imageAlt="Black Cadillac Escalade traveling along a tree-lined road"
+		compact
+	/>
+
+	<section class="faq" aria-labelledby="faq-heading">
+		<div class="faq__shell">
+			<div class="faq__intro">
+				<p>Planning your ride</p>
+				<h2 id="faq-heading">Answers for a Smoother <em>First Conversation.</em></h2>
+				<p class="faq__note">
+					Need an answer about a specific itinerary? <a href="/contact/">Contact us</a> or call
+					<a href={SITE.phoneHref}>{SITE.phoneDisplay}</a>.
+				</p>
+			</div>
+
+			<div class="faq__list">
+				{questions.map((item, index) => (
+					<details>
+						<summary>
+							<span>{String(index + 1).padStart(2, '0')}</span>
+							<strong>{item.question}</strong>
+							<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h12M10 4v12" /></svg>
+						</summary>
+						<p>{item.answer}</p>
+					</details>
+				))}
+			</div>
+		</div>
+	</section>
+
+	<PageCta
+		eyebrow="Ready to plan?"
+		title="Share the Details of"
+		accent="Your Trip."
+		description="Prepare a quote request with your schedule, locations, passenger count, and preferred vehicle."
+		primaryHref="/quote/"
+		primaryLabel="Request a Quote"
+	/>
+</SiteLayout>
+
+<style>
+	.faq {
+		padding: clamp(4.5rem, 8vw, 7rem) 0;
+		background: #f8f6f0;
+	}
+
+	.faq__shell {
+		display: grid;
+		grid-template-columns: minmax(16rem, 0.58fr) minmax(0, 1.42fr);
+		gap: clamp(3rem, 8vw, 7rem);
+		width: min(calc(100% - 3rem), 77.5rem);
+		margin: 0 auto;
+	}
+
+	.faq__intro > p:first-child {
+		margin: 0 0 1rem;
+		color: #7c5900;
+		font-size: 0.7rem;
+		font-weight: 700;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+	}
+
+	.faq__intro h2 {
+		margin: 0;
+		font-family: var(--font-display, Georgia, serif);
+		font-size: clamp(2.65rem, 5vw, 4.7rem);
+		font-weight: 400;
+		letter-spacing: -0.045em;
+		line-height: 1.03;
+		text-wrap: balance;
+	}
+
+	.faq__intro h2 em {
+		color: #9b7005;
+		font-style: normal;
+	}
+
+	.faq__note {
+		margin: 1.6rem 0 0;
+		color: #62645e;
+		font-size: 0.9rem;
+		line-height: 1.75;
+	}
+
+	.faq__note a {
+		color: #684c06;
+		font-weight: 700;
+		text-underline-offset: 0.2rem;
+	}
+
+	.faq__list {
+		border-top: 1px solid rgba(23, 24, 21, 0.16);
+	}
+
+	.faq__list details {
+		border-bottom: 1px solid rgba(23, 24, 21, 0.16);
+	}
+
+	.faq__list summary {
+		display: grid;
+		grid-template-columns: auto minmax(0, 1fr) auto;
+		align-items: center;
+		gap: 1.25rem;
+		padding: 1.55rem 0;
+		color: #171815;
+		cursor: pointer;
+		list-style: none;
+	}
+
+	.faq__list summary::-webkit-details-marker {
+		display: none;
+	}
+
+	.faq__list summary > span {
+		color: #8a6200;
+		font-size: 0.65rem;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+	}
+
+	.faq__list summary strong {
+		font-family: var(--font-display, Georgia, serif);
+		font-size: clamp(1.35rem, 2.4vw, 1.8rem);
+		font-weight: 400;
+		line-height: 1.25;
+	}
+
+	.faq__list summary svg {
+		width: 1.15rem;
+		height: 1.15rem;
+		fill: none;
+		stroke: currentColor;
+		stroke-linecap: round;
+		stroke-width: 1.4;
+		transition: transform 180ms ease;
+	}
+
+	.faq__list details[open] summary svg {
+		transform: rotate(45deg);
+	}
+
+	.faq__list details > p {
+		max-width: 44rem;
+		padding: 0 2.4rem 1.7rem 2.7rem;
+		margin: 0;
+		color: #5f625e;
+		font-size: 0.94rem;
+		line-height: 1.8;
+	}
+
+	@media (max-width: 58rem) {
+		.faq__shell {
+			grid-template-columns: 1fr;
+		}
+
+		.faq__intro {
+			max-width: 46rem;
+		}
+	}
+
+	@media (max-width: 38rem) {
+		.faq {
+			padding: 4rem 0;
+		}
+
+		.faq__shell {
+			width: min(calc(100% - 2rem), 77.5rem);
+		}
+
+		.faq__list summary {
+			gap: 0.8rem;
+		}
+
+		.faq__list details > p {
+			padding-left: 0;
+			padding-right: 0;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.faq__list summary svg {
+			transition: none;
+		}
+	}
+</style>

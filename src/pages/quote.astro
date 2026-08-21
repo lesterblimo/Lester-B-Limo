@@ -1,0 +1,247 @@
+---
+import LeadForm from '../components/LeadForm.astro';
+import PageHero from '../components/PageHero.astro';
+import { SITE } from '../config/site';
+import SiteLayout from '../layouts/SiteLayout.astro';
+---
+
+<SiteLayout
+	title="Request a Transportation Quote | Lester Pearson Limousine"
+	description="Prepare an email quote request for airport, corporate, private, or group transportation with Lester Pearson Limousine."
+	image="/images/hero-airport-escalade.jpg"
+	imageAlt="Black executive SUV outside an airport terminal at night"
+>
+	<PageHero
+		eyebrow="Request a quote"
+		title="Where Can We"
+		accent="Take You?"
+		description="Enter your trip details to prepare a draft in your email app. Nothing is sent by this website—you review and send the email yourself."
+		image="/images/hero-airport-escalade.jpg"
+		imageAlt="Black executive SUV outside an airport terminal at night"
+		compact
+	/>
+
+	<section class="quote-process" aria-labelledby="quote-process-heading">
+		<div class="quote-shell">
+			<div class="quote-process__heading">
+				<p>Before you begin</p>
+				<h2 id="quote-process-heading">A Simple Way to Share the <em>Right Details.</em></h2>
+			</div>
+			<ol class="quote-process__steps">
+				<li>
+					<span>01</span>
+					<div><strong>Describe the trip</strong><p>Add the locations, schedule, passenger count, service, and vehicle preference.</p></div>
+				</li>
+				<li>
+					<span>02</span>
+					<div><strong>Open your draft</strong><p>The form prepares a new message in the email app configured on your device.</p></div>
+				</li>
+				<li>
+					<span>03</span>
+					<div><strong>Review and send</strong><p>Check the information, make any edits you need, and choose Send from your email app.</p></div>
+				</li>
+			</ol>
+		</div>
+	</section>
+
+	<section class="quote-form-section" aria-label="Transportation quote form">
+		<div class="quote-shell">
+			<LeadForm mode="quote" />
+		</div>
+	</section>
+
+	<section class="quote-call" aria-labelledby="quote-call-heading">
+		<div class="quote-shell quote-call__inner">
+			<div>
+				<p>Prefer to speak with us?</p>
+				<h2 id="quote-call-heading">Discuss Your Trip by Phone.</h2>
+			</div>
+			<a href={SITE.phoneHref} aria-label={`Call Lester Pearson Limousine at ${SITE.phoneDisplay}`}>
+				<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.2 3.5 10 8.1 8.2 10a15.4 15.4 0 0 0 5.8 5.8l1.9-1.8 4.6 2.8-.6 3.1c-.2.9-1 1.6-2 1.6C9.4 21 3 14.6 2.5 6.1c-.1-1 .6-1.8 1.6-2l3.1-.6Z" /></svg>
+				Call {SITE.phoneDisplay}
+			</a>
+		</div>
+	</section>
+</SiteLayout>
+
+<style>
+	.quote-shell {
+		width: min(calc(100% - 3rem), 77.5rem);
+		margin: 0 auto;
+	}
+
+	.quote-process {
+		padding: clamp(4rem, 7vw, 6rem) 0;
+		background: #fff;
+	}
+
+	.quote-process__heading {
+		display: grid;
+		grid-template-columns: minmax(10rem, 0.35fr) minmax(0, 1fr);
+		align-items: start;
+		gap: 2rem;
+		padding-bottom: clamp(2.5rem, 5vw, 4rem);
+	}
+
+	.quote-process__heading > p {
+		margin: 0.7rem 0 0;
+		color: #7c5900;
+		font-size: 0.7rem;
+		font-weight: 700;
+		letter-spacing: 0.15em;
+		text-transform: uppercase;
+	}
+
+	.quote-process__heading h2 {
+		max-width: 52rem;
+		margin: 0;
+		font-family: var(--font-display, Georgia, serif);
+		font-size: clamp(2.65rem, 5vw, 4.6rem);
+		font-weight: 400;
+		letter-spacing: -0.045em;
+		line-height: 1.04;
+		text-wrap: balance;
+	}
+
+	.quote-process__heading h2 em {
+		color: #9b7005;
+		font-style: normal;
+	}
+
+	.quote-process__steps {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		padding: 0;
+		margin: 0;
+		border-top: 1px solid rgba(23, 24, 21, 0.14);
+		border-left: 1px solid rgba(23, 24, 21, 0.14);
+		list-style: none;
+	}
+
+	.quote-process__steps li {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: 1.25rem;
+		padding: clamp(1.6rem, 3vw, 2.35rem);
+		border-right: 1px solid rgba(23, 24, 21, 0.14);
+		border-bottom: 1px solid rgba(23, 24, 21, 0.14);
+	}
+
+	.quote-process__steps li > span {
+		color: #9b7005;
+		font-size: 0.68rem;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+	}
+
+	.quote-process__steps strong {
+		display: block;
+		margin-bottom: 0.65rem;
+		font-family: var(--font-display, Georgia, serif);
+		font-size: 1.45rem;
+		font-weight: 400;
+		line-height: 1.2;
+	}
+
+	.quote-process__steps p {
+		margin: 0;
+		color: #62645e;
+		font-size: 0.82rem;
+		line-height: 1.7;
+	}
+
+	.quote-form-section {
+		padding: clamp(4.5rem, 8vw, 7rem) 0;
+		background: #f0ede5;
+	}
+
+	.quote-call {
+		background: #1d1e1b;
+		color: #fff;
+	}
+
+	.quote-call__inner {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 2.5rem;
+		padding-top: clamp(3rem, 6vw, 4.75rem);
+		padding-bottom: clamp(3rem, 6vw, 4.75rem);
+	}
+
+	.quote-call__inner > div > p {
+		margin: 0 0 0.55rem;
+		color: #f7b817;
+		font-size: 0.68rem;
+		font-weight: 700;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+	}
+
+	.quote-call h2 {
+		margin: 0;
+		font-family: var(--font-display, Georgia, serif);
+		font-size: clamp(2.25rem, 4vw, 3.8rem);
+		font-weight: 400;
+		line-height: 1.08;
+	}
+
+	.quote-call a {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.75rem;
+		min-height: 3.75rem;
+		padding: 0.9rem 1.5rem;
+		border: 1px solid #f7b817;
+		background: #f7b817;
+		color: #171815;
+		font-size: 0.76rem;
+		font-weight: 700;
+		letter-spacing: 0.07em;
+		text-decoration: none;
+		text-transform: uppercase;
+		white-space: nowrap;
+	}
+
+	.quote-call svg {
+		width: 1.25rem;
+		height: 1.25rem;
+		fill: none;
+		stroke: currentColor;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		stroke-width: 1.6;
+	}
+
+	@media (max-width: 52rem) {
+		.quote-process__heading {
+			grid-template-columns: 1fr;
+			gap: 0.75rem;
+		}
+
+		.quote-process__steps {
+			grid-template-columns: 1fr;
+		}
+
+		.quote-call__inner {
+			align-items: flex-start;
+			flex-direction: column;
+		}
+	}
+
+	@media (max-width: 38rem) {
+		.quote-shell {
+			width: min(calc(100% - 2rem), 77.5rem);
+		}
+
+		.quote-process,
+		.quote-form-section {
+			padding: 4rem 0;
+		}
+
+		.quote-call a {
+			width: 100%;
+		}
+	}
+</style>

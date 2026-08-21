@@ -1,0 +1,513 @@
+---
+import PageCta from '../../components/PageCta.astro';
+import PageHero from '../../components/PageHero.astro';
+import { services, type Service } from '../../data/services';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+
+export function getStaticPaths() {
+	return services.map((service) => ({
+		params: { slug: service.slug },
+		props: { service },
+	}));
+}
+
+interface Props {
+	service: Service;
+}
+
+const { service } = Astro.props;
+const serviceIndex = services.findIndex((item) => item.slug === service.slug);
+const relatedServices = [
+	services[(serviceIndex + 1) % services.length],
+	services[(serviceIndex + 2) % services.length],
+];
+---
+
+<SiteLayout title={service.seoTitle} description={service.seoDescription}>
+	<Fragment>
+		<PageHero
+			eyebrow={service.eyebrow}
+			title={service.heroTitle}
+			accent={service.heroAccent}
+			description={service.heroDescription}
+			image={service.image}
+			imageAlt={service.imageAlt}
+			compact
+		/>
+
+		<nav class="breadcrumbs" aria-label="Breadcrumb">
+			<ol class="page-shell">
+				<li><a href="/">Home</a></li>
+				<li><a href="/services/">Services</a></li>
+				<li aria-current="page">{service.name}</li>
+			</ol>
+		</nav>
+
+		<section class="service-overview" aria-labelledby="service-overview-heading">
+			<div class="page-shell service-overview__grid">
+				<div class="service-overview__heading">
+					<p class="eyebrow"><span></span>{service.name}</p>
+					<h2 id="service-overview-heading">{service.introTitle}</h2>
+				</div>
+				<div class="service-overview__copy">
+					{service.intro.map((paragraph) => <p>{paragraph}</p>)}
+					<a class="text-link" href={service.quoteHref}>
+						Request this service
+						<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4" /></svg>
+					</a>
+				</div>
+			</div>
+		</section>
+
+		<section class="service-features" aria-labelledby="service-features-heading">
+			<div class="page-shell">
+				<div class="section-heading">
+					<p class="eyebrow eyebrow--light"><span></span>Service details</p>
+					<h2 id="service-features-heading">Thoughtful details for a <em>better ride.</em></h2>
+				</div>
+				<div class="feature-grid">
+					{service.features.map((feature, index) => (
+						<article>
+							<span>{String(index + 1).padStart(2, '0')}</span>
+							<h3>{feature.title}</h3>
+							<p>{feature.description}</p>
+						</article>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<section class="service-fit" aria-labelledby="service-fit-heading">
+			<div class="page-shell service-fit__grid">
+				<div>
+					<p class="eyebrow"><span></span>Designed around the trip</p>
+					<h2 id="service-fit-heading">A considered fit for</h2>
+				</div>
+				<ul>
+					{service.useCases.map((useCase) => (
+						<li><span aria-hidden="true">✓</span>{useCase}</li>
+					))}
+				</ul>
+			</div>
+		</section>
+
+		<section class="related" aria-labelledby="related-heading">
+			<div class="page-shell">
+				<div class="related__heading">
+					<div>
+						<p class="eyebrow"><span></span>Continue exploring</p>
+						<h2 id="related-heading">Other transportation services</h2>
+					</div>
+					<a href="/services/">View all services</a>
+				</div>
+				<div class="related__grid">
+					{relatedServices.map((relatedService) => (
+						<a class="related-card" href={`/services/${relatedService.slug}/`}>
+							<span>{relatedService.eyebrow}</span>
+							<h3>{relatedService.name}</h3>
+							<p>{relatedService.cardDescription}</p>
+							<strong>Explore service <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4" /></svg></strong>
+						</a>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<PageCta
+			eyebrow={service.eyebrow}
+			title="Ready to plan"
+			accent="your ride?"
+			description="Share the trip details and the transportation team can help arrange the service and vehicle that fit."
+			primaryHref={service.quoteHref}
+			primaryLabel="Request a Quote"
+		/>
+	</Fragment>
+</SiteLayout>
+
+<style>
+	.page-shell {
+		width: min(calc(100% - 3rem), 77.5rem);
+		margin: 0 auto;
+	}
+
+	.breadcrumbs {
+		border-bottom: 1px solid rgba(23, 24, 21, 0.12);
+		background: #f8f6f0;
+	}
+
+	.breadcrumbs ol {
+		display: flex;
+		align-items: center;
+		gap: 0.7rem;
+		min-height: 3.6rem;
+		padding: 0;
+		list-style: none;
+	}
+
+	.breadcrumbs li {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.7rem;
+		color: #777a75;
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.72rem;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+	}
+
+	.breadcrumbs li + li::before {
+		content: '/';
+		color: #d29a08;
+	}
+
+	.breadcrumbs a {
+		color: #343632;
+		text-decoration: none;
+	}
+
+	.service-overview,
+	.service-fit,
+	.related {
+		background: #f8f6f0;
+		color: #171815;
+	}
+
+	.service-overview {
+		padding: clamp(4.75rem, 9vw, 8rem) 0;
+	}
+
+	.service-overview__grid {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(19rem, 0.75fr);
+		gap: clamp(3rem, 9vw, 8rem);
+	}
+
+	.eyebrow {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		margin: 0 0 1.2rem;
+		color: #9a6b00;
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.7rem;
+		font-weight: 700;
+		letter-spacing: 0.18em;
+		line-height: 1.3;
+		text-transform: uppercase;
+	}
+
+	.eyebrow span {
+		width: 2rem;
+		height: 1px;
+		background: #d99d08;
+	}
+
+	.eyebrow--light {
+		color: #f7b817;
+	}
+
+	.service-overview h2,
+	.section-heading h2,
+	.service-fit h2,
+	.related h2 {
+		margin: 0;
+		font-family: 'Libre Caslon Display', Georgia, serif;
+		font-size: clamp(2.55rem, 5vw, 4.65rem);
+		font-weight: 400;
+		letter-spacing: -0.045em;
+		line-height: 1;
+		text-wrap: balance;
+	}
+
+	.service-overview__copy p {
+		margin: 0;
+		color: #5f625e;
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+		font-size: 1rem;
+		line-height: 1.85;
+	}
+
+	.service-overview__copy p + p {
+		margin-top: 1rem;
+	}
+
+	.text-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.65rem;
+		margin-top: 2rem;
+		padding-bottom: 0.35rem;
+		border-bottom: 1px solid #d99d08;
+		color: #171815;
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.72rem;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		text-decoration: none;
+		text-transform: uppercase;
+	}
+
+	.text-link svg,
+	.related-card svg {
+		width: 1.1rem;
+		height: 1.1rem;
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 1.6;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	}
+
+	.service-features {
+		padding: clamp(5rem, 9vw, 8rem) 0;
+		background: #171815;
+		color: #fff;
+	}
+
+	.section-heading {
+		display: grid;
+		grid-template-columns: 0.65fr 1.35fr;
+		align-items: end;
+		gap: 2rem;
+		margin-bottom: clamp(3rem, 6vw, 5rem);
+	}
+
+	.section-heading .eyebrow {
+		margin-bottom: 0.5rem;
+	}
+
+	.section-heading h2 em {
+		color: #f7b817;
+		font-style: normal;
+	}
+
+	.feature-grid {
+		display: grid;
+		grid-template-columns: repeat(4, minmax(0, 1fr));
+		border-top: 1px solid rgba(255, 255, 255, 0.16);
+		border-left: 1px solid rgba(255, 255, 255, 0.16);
+	}
+
+	.feature-grid article {
+		min-height: 19rem;
+		padding: clamp(1.75rem, 3vw, 2.75rem);
+		border-right: 1px solid rgba(255, 255, 255, 0.16);
+		border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+	}
+
+	.feature-grid article > span {
+		display: block;
+		margin-bottom: 4.5rem;
+		color: #f7b817;
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.7rem;
+		font-weight: 700;
+		letter-spacing: 0.14em;
+	}
+
+	.feature-grid h3 {
+		margin: 0;
+		font-family: 'Libre Caslon Display', Georgia, serif;
+		font-size: clamp(1.55rem, 2.5vw, 2.2rem);
+		font-weight: 400;
+		line-height: 1.08;
+	}
+
+	.feature-grid p {
+		margin: 1rem 0 0;
+		color: rgba(255, 255, 255, 0.64);
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.88rem;
+		line-height: 1.7;
+	}
+
+	.service-fit {
+		padding: clamp(4.5rem, 8vw, 7rem) 0;
+	}
+
+	.service-fit__grid {
+		display: grid;
+		grid-template-columns: 0.8fr 1.2fr;
+		align-items: start;
+		gap: clamp(3rem, 9vw, 8rem);
+	}
+
+	.service-fit ul {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 0;
+		margin: 0;
+		padding: 0;
+		border-top: 1px solid rgba(23, 24, 21, 0.14);
+		list-style: none;
+	}
+
+	.service-fit li {
+		display: flex;
+		align-items: center;
+		gap: 0.8rem;
+		min-height: 4.5rem;
+		padding: 0.9rem 0;
+		border-bottom: 1px solid rgba(23, 24, 21, 0.14);
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.9rem;
+		font-weight: 600;
+	}
+
+	.service-fit li:nth-child(odd) {
+		padding-right: 1rem;
+	}
+
+	.service-fit li:nth-child(even) {
+		padding-left: 1rem;
+	}
+
+	.service-fit li span {
+		display: grid;
+		place-items: center;
+		width: 1.65rem;
+		height: 1.65rem;
+		flex: 0 0 auto;
+		border-radius: 50%;
+		background: #f7b817;
+		font-size: 0.72rem;
+	}
+
+	.related {
+		padding: 0 0 clamp(5rem, 9vw, 8rem);
+	}
+
+	.related__heading {
+		display: flex;
+		align-items: end;
+		justify-content: space-between;
+		gap: 2rem;
+		margin-bottom: 2.5rem;
+	}
+
+	.related__heading > a {
+		padding-bottom: 0.25rem;
+		border-bottom: 1px solid #d99d08;
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.7rem;
+		font-weight: 700;
+		letter-spacing: 0.11em;
+		text-decoration: none;
+		text-transform: uppercase;
+	}
+
+	.related__grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 1rem;
+	}
+
+	.related-card {
+		display: flex;
+		flex-direction: column;
+		min-height: 19rem;
+		padding: clamp(1.75rem, 4vw, 3rem);
+		border: 1px solid rgba(23, 24, 21, 0.13);
+		background: #fff;
+		color: #171815;
+		text-decoration: none;
+		transition: transform 180ms ease, box-shadow 180ms ease;
+	}
+
+	.related-card > span {
+		color: #9a6b00;
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.66rem;
+		font-weight: 700;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+	}
+
+	.related-card h3 {
+		margin: 2rem 0 0;
+		font-family: 'Libre Caslon Display', Georgia, serif;
+		font-size: clamp(1.8rem, 3vw, 2.7rem);
+		font-weight: 400;
+		line-height: 1.05;
+	}
+
+	.related-card p {
+		max-width: 31rem;
+		margin: 0.9rem 0 2rem;
+		color: #5f625e;
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.9rem;
+		line-height: 1.7;
+	}
+
+	.related-card strong {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.6rem;
+		margin-top: auto;
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.68rem;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+	}
+
+	.related-card:hover {
+		transform: translateY(-0.3rem);
+		box-shadow: 0 1.5rem 4rem rgba(23, 24, 21, 0.1);
+	}
+
+	@media (max-width: 64rem) {
+		.feature-grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+
+		.feature-grid article {
+			min-height: 16rem;
+		}
+	}
+
+	@media (max-width: 50rem) {
+		.service-overview__grid,
+		.section-heading,
+		.service-fit__grid {
+			grid-template-columns: 1fr;
+			gap: 2rem;
+		}
+
+		.related__heading {
+			align-items: start;
+			flex-direction: column;
+		}
+	}
+
+	@media (max-width: 38rem) {
+		.page-shell {
+			width: min(calc(100% - 2rem), 77.5rem);
+		}
+
+		.breadcrumbs ol {
+			overflow-x: auto;
+			white-space: nowrap;
+		}
+
+		.feature-grid,
+		.service-fit ul,
+		.related__grid {
+			grid-template-columns: 1fr;
+		}
+
+		.feature-grid article {
+			min-height: 14rem;
+		}
+
+		.feature-grid article > span {
+			margin-bottom: 3rem;
+		}
+
+		.service-fit li:nth-child(odd),
+		.service-fit li:nth-child(even) {
+			padding-right: 0;
+			padding-left: 0;
+		}
+	}
+</style>

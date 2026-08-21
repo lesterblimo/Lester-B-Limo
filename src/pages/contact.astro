@@ -1,0 +1,253 @@
+---
+import LeadForm from '../components/LeadForm.astro';
+import PageCta from '../components/PageCta.astro';
+import PageHero from '../components/PageHero.astro';
+import { SITE } from '../config/site';
+import SiteLayout from '../layouts/SiteLayout.astro';
+---
+
+<SiteLayout
+	title="Contact Lester Pearson Limousine | Toronto Transportation"
+	description="Contact Lester Pearson Limousine by phone or email for airport, corporate, private, and group transportation questions in the Greater Toronto Area and beyond."
+	image="/images/airport-chauffeur.jpg"
+	imageAlt="Chauffeur standing beside a black executive SUV at an airport terminal"
+>
+	<PageHero
+		eyebrow="Contact"
+		title="Let's Talk About"
+		accent="Your Transportation"
+		description="Call, email, or open a prepared email draft with your question. For trip pricing and availability, use the quote page to share your itinerary."
+		image="/images/airport-chauffeur.jpg"
+		imageAlt="Chauffeur standing beside a black executive SUV at an airport terminal"
+		compact
+	/>
+
+	<section class="contact-section" aria-labelledby="contact-options-heading">
+		<div class="contact-shell contact-grid">
+			<aside class="contact-panel">
+				<p class="contact-panel__eyebrow">Direct contact</p>
+				<h2 id="contact-options-heading">Choose the Way That Works for You.</h2>
+				<p class="contact-panel__intro">
+					Reach out directly for general questions, an existing trip, or help deciding which transportation service fits your plans.
+				</p>
+
+				<dl class="contact-list">
+					<div>
+						<dt>
+							<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7.2 3.5 10 8.1 8.2 10a15.4 15.4 0 0 0 5.8 5.8l1.9-1.8 4.6 2.8-.6 3.1c-.2.9-1 1.6-2 1.6C9.4 21 3 14.6 2.5 6.1c-.1-1 .6-1.8 1.6-2l3.1-.6Z" /></svg>
+							Phone
+						</dt>
+						<dd><a href={SITE.phoneHref}>{SITE.phoneDisplay}</a></dd>
+					</div>
+					<div>
+						<dt>
+							<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="1" /><path d="m4 7 8 6 8-6" /></svg>
+							Email
+						</dt>
+						<dd><a href={`mailto:${SITE.email}`}>{SITE.email}</a></dd>
+					</div>
+					<div>
+						<dt>
+							<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.1 7-12a7 7 0 1 0-14 0c0 5.9 7 12 7 12Z" /><circle cx="12" cy="9" r="2.5" /></svg>
+							Service area
+						</dt>
+						<dd>{SITE.serviceArea}</dd>
+					</div>
+				</dl>
+
+				<div class="quote-note">
+					<p><strong>Looking for a trip quote?</strong> Include your date, time, locations, passenger count, and preferred vehicle on the dedicated quote form.</p>
+					<a href="/quote/">Go to quote form <span aria-hidden="true">→</span></a>
+				</div>
+			</aside>
+
+			<div class="contact-form-wrap">
+				<LeadForm mode="contact" />
+			</div>
+		</div>
+	</section>
+
+	<PageCta
+		eyebrow="Planning a ride?"
+		title="Share Your Trip Details"
+		accent="In One Place."
+		description="Use the quote form to prepare an email with the itinerary, passenger, and vehicle details needed to start the conversation."
+		primaryHref="/quote/"
+		primaryLabel="Open Quote Form"
+	/>
+</SiteLayout>
+
+<style>
+	.contact-section {
+		padding: clamp(4.5rem, 8vw, 7rem) 0;
+		background: #f8f6f0;
+	}
+
+	.contact-shell {
+		width: min(calc(100% - 3rem), 77.5rem);
+		margin: 0 auto;
+	}
+
+	.contact-grid {
+		display: grid;
+		grid-template-columns: minmax(18rem, 0.62fr) minmax(0, 1.38fr);
+		align-items: start;
+		gap: clamp(2.5rem, 5vw, 5rem);
+	}
+
+	.contact-panel {
+		position: sticky;
+		top: calc(var(--header-height, 84px) + 2rem);
+		padding: clamp(2rem, 4vw, 3.25rem);
+		background: #1d1e1b;
+		color: #fff;
+	}
+
+	.contact-panel__eyebrow {
+		margin: 0 0 1rem;
+		color: #f7b817;
+		font-size: 0.7rem;
+		font-weight: 700;
+		letter-spacing: 0.16em;
+		text-transform: uppercase;
+	}
+
+	.contact-panel h2 {
+		margin: 0 0 1.3rem;
+		font-family: var(--font-display, Georgia, serif);
+		font-size: clamp(2.25rem, 4vw, 3.6rem);
+		font-weight: 400;
+		letter-spacing: -0.04em;
+		line-height: 1.06;
+	}
+
+	.contact-panel__intro {
+		margin: 0;
+		color: rgba(255, 255, 255, 0.65);
+		font-size: 0.9rem;
+		line-height: 1.75;
+	}
+
+	.contact-list {
+		display: grid;
+		gap: 0;
+		padding: 0;
+		margin: 2.25rem 0 0;
+		border-top: 1px solid rgba(255, 255, 255, 0.15);
+	}
+
+	.contact-list > div {
+		padding: 1.25rem 0;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+	}
+
+	.contact-list dt {
+		display: flex;
+		align-items: center;
+		gap: 0.6rem;
+		margin-bottom: 0.45rem;
+		color: #f7b817;
+		font-size: 0.65rem;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+	}
+
+	.contact-list svg {
+		width: 1.15rem;
+		height: 1.15rem;
+		fill: none;
+		stroke: currentColor;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		stroke-width: 1.5;
+	}
+
+	.contact-list dd {
+		margin: 0;
+		color: rgba(255, 255, 255, 0.8);
+		font-size: 0.9rem;
+		overflow-wrap: anywhere;
+	}
+
+	.contact-list a {
+		color: inherit;
+		text-decoration-color: rgba(247, 184, 23, 0.55);
+		text-underline-offset: 0.25rem;
+	}
+
+	.quote-note {
+		padding-top: 2rem;
+	}
+
+	.quote-note p {
+		margin: 0;
+		color: rgba(255, 255, 255, 0.62);
+		font-size: 0.78rem;
+		line-height: 1.65;
+	}
+
+	.quote-note strong {
+		display: block;
+		margin-bottom: 0.35rem;
+		color: #fff;
+	}
+
+	.quote-note a {
+		display: inline-flex;
+		gap: 0.5rem;
+		margin-top: 1rem;
+		color: #f7b817;
+		font-size: 0.7rem;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-decoration: none;
+		text-transform: uppercase;
+	}
+
+	.contact-form-wrap {
+		min-width: 0;
+	}
+
+	@media (max-width: 62rem) {
+		.contact-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.contact-panel {
+			position: static;
+		}
+
+		.contact-list {
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			border-left: 1px solid rgba(255, 255, 255, 0.15);
+		}
+
+		.contact-list > div {
+			padding: 1.25rem;
+			border-right: 1px solid rgba(255, 255, 255, 0.15);
+		}
+	}
+
+	@media (max-width: 46rem) {
+		.contact-list {
+			grid-template-columns: 1fr;
+			border-left: 0;
+		}
+
+		.contact-list > div {
+			padding-inline: 0;
+			border-right: 0;
+		}
+	}
+
+	@media (max-width: 38rem) {
+		.contact-section {
+			padding: 4rem 0;
+		}
+
+		.contact-shell {
+			width: min(calc(100% - 2rem), 77.5rem);
+		}
+	}
+</style>

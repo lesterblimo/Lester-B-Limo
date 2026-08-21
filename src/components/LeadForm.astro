@@ -1,0 +1,511 @@
+---
+import { SITE } from '../config/site';
+
+interface Props {
+	mode: 'quote' | 'contact';
+}
+
+const { mode } = Astro.props;
+const isQuote = mode === 'quote';
+const formId = `${mode}-lead-form`;
+const titleId = `${formId}-title`;
+const disclosureId = `${formId}-disclosure`;
+const statusId = `${formId}-status`;
+---
+
+<section class:list={['lead-form', { 'lead-form--contact': !isQuote }]} aria-labelledby={titleId}>
+	<div class="lead-form__heading">
+		<p class="lead-form__eyebrow">{isQuote ? 'Plan your transportation' : 'Send an inquiry'}</p>
+		<h2 id={titleId}>{isQuote ? 'Tell Us About Your Trip' : 'How Can We Help?'}</h2>
+		<p>
+			{isQuote
+				? 'Share the trip details you have now. You can add flight information, accessibility needs, or other requests in the notes.'
+				: 'Use this form for general questions. For trip pricing and availability, the quote form will collect the details needed for a more useful reply.'}
+		</p>
+	</div>
+
+	<form
+		class="lead-form__form"
+		id={formId}
+		data-lead-form
+		data-mode={mode}
+		data-recipient={SITE.email}
+		action={`mailto:${SITE.email}`}
+		method="post"
+		enctype="text/plain"
+		aria-describedby={disclosureId}
+	>
+		<div class="lead-form__grid">
+			<label class="field">
+				<span>Name <span aria-hidden="true">*</span></span>
+				<input name="name" type="text" autocomplete="name" maxlength="100" required />
+			</label>
+
+			<label class="field">
+				<span>Email <span aria-hidden="true">*</span></span>
+				<input name="email" type="email" autocomplete="email" maxlength="160" required />
+			</label>
+
+			<label class="field">
+				<span>Phone {isQuote && <span aria-hidden="true">*</span>}</span>
+				<input name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="40" required={isQuote} />
+			</label>
+
+			{isQuote ? (
+				<>
+					<label class="field">
+						<span>Service <span aria-hidden="true">*</span></span>
+						<select name="service" required data-prefill-service>
+							<option value="">Choose a service</option>
+							<option>Airport Transportation</option>
+							<option>Corporate Transportation</option>
+							<option>Private Transportation</option>
+							<option>Group Transportation</option>
+							<option>Weddings & Special Events</option>
+							<option>Hourly Chauffeur Service</option>
+						</select>
+					</label>
+
+					<label class="field">
+						<span>Trip Type <span aria-hidden="true">*</span></span>
+						<select name="tripType" required>
+							<option value="">Choose a trip type</option>
+							<option>One Way</option>
+							<option>Round Trip</option>
+							<option>Hourly Service</option>
+						</select>
+					</label>
+
+					<label class="field">
+						<span>Vehicle Preference <span aria-hidden="true">*</span></span>
+						<select name="vehicle" required data-prefill-vehicle>
+							<option value="">Choose a vehicle</option>
+							<option>Executive SUV</option>
+							<option>Executive Sprinter</option>
+							<option>Recommend for Me</option>
+						</select>
+					</label>
+
+					<label class="field field--wide">
+						<span>Pickup Location <span aria-hidden="true">*</span></span>
+						<input name="pickup" type="text" autocomplete="street-address" maxlength="180" placeholder="Address, airport, or hotel" required />
+					</label>
+
+					<label class="field field--wide">
+						<span>Drop-off Location <span aria-hidden="true">*</span></span>
+						<input name="dropoff" type="text" maxlength="180" placeholder="Where are you headed?" required />
+					</label>
+
+					<label class="field">
+						<span>Pickup Date <span aria-hidden="true">*</span></span>
+						<input name="pickupDate" type="date" required data-pickup-date />
+					</label>
+
+					<label class="field">
+						<span>Pickup Time <span aria-hidden="true">*</span></span>
+						<input name="pickupTime" type="time" required />
+					</label>
+
+					<label class="field">
+						<span>Passengers <span aria-hidden="true">*</span></span>
+						<input name="passengers" type="number" inputmode="numeric" min="1" max="14" required />
+					</label>
+				</>
+			) : (
+				<label class="field">
+					<span>Topic <span aria-hidden="true">*</span></span>
+					<select name="topic" required>
+						<option value="">Choose a topic</option>
+						<option>General Question</option>
+						<option>Existing Trip</option>
+						<option>Corporate Transportation</option>
+						<option>Group or Event Transportation</option>
+						<option>Website Feedback</option>
+					</select>
+				</label>
+			)}
+
+			<label class="field field--full">
+				<span>{isQuote ? 'Additional Details' : 'Message'} {!isQuote && <span aria-hidden="true">*</span>}</span>
+				<textarea
+					name={isQuote ? 'notes' : 'message'}
+					rows="6"
+					maxlength="1000"
+					placeholder={isQuote ? 'Flight number, return details, luggage, child seats, accessibility needs, or anything else we should know' : 'How can we help?'}
+					required={!isQuote}
+				></textarea>
+			</label>
+		</div>
+
+		<div class="lead-form__footer">
+			<div class="lead-form__notice" id={disclosureId}>
+				<svg viewBox="0 0 24 24" aria-hidden="true">
+					<path d="M12 3 4.5 6v5.2c0 4.6 2.9 8 7.5 9.8 4.6-1.8 7.5-5.2 7.5-9.8V6L12 3Z" />
+					<path d="m9 12 2 2 4-4" />
+				</svg>
+				<p>
+					<strong>This website does not send or store these details.</strong>
+					The button opens a prefilled draft in your email app. Review the draft and choose Send there.
+				</p>
+			</div>
+
+			<div class="lead-form__actions">
+				<button class="lead-form__submit" type="submit">
+					Open Email Draft
+					<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4" /></svg>
+				</button>
+				<p>or email <a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
+			</div>
+		</div>
+
+		<p class="lead-form__status" id={statusId} data-lead-form-status role="status" tabindex="-1" hidden>
+			Your email app should open with a draft. Review it and choose Send to deliver your message.
+		</p>
+	</form>
+</section>
+
+<script>
+	const fieldLabels: Record<string, string> = {
+		name: 'Name',
+		email: 'Email',
+		phone: 'Phone',
+		service: 'Service',
+		tripType: 'Trip type',
+		vehicle: 'Vehicle preference',
+		pickup: 'Pickup location',
+		dropoff: 'Drop-off location',
+		pickupDate: 'Pickup date',
+		pickupTime: 'Pickup time',
+		passengers: 'Passengers',
+		topic: 'Topic',
+		notes: 'Additional details',
+		message: 'Message',
+	};
+
+	const normalizeOption = (value: string) => value.trim().toLowerCase().replace(/[^a-z0-9]+/g, '');
+
+	const prefillSelect = (select: HTMLSelectElement | null, rawValue: string | null, aliases: Record<string, string>) => {
+		if (!select || !rawValue) return;
+		const normalizedRaw = normalizeOption(rawValue);
+		const target = aliases[normalizedRaw] ?? rawValue;
+		const normalizedTarget = normalizeOption(target);
+		const option = Array.from(select.options).find((item) => {
+			const normalizedOption = normalizeOption(item.value);
+			return normalizedOption === normalizedTarget || normalizedOption.includes(normalizedTarget);
+		});
+		if (option) select.value = option.value;
+	};
+
+	document.querySelectorAll<HTMLFormElement>('[data-lead-form]').forEach((form) => {
+		if (form.dataset.enhanced === 'true') return;
+		form.dataset.enhanced = 'true';
+
+		const pickupDate = form.querySelector<HTMLInputElement>('[data-pickup-date]');
+		if (pickupDate) {
+			const localToday = new Date();
+			localToday.setMinutes(localToday.getMinutes() - localToday.getTimezoneOffset());
+			pickupDate.min = localToday.toISOString().split('T')[0] ?? '';
+		}
+
+		if (form.dataset.mode === 'quote') {
+			const params = new URLSearchParams(window.location.search);
+			prefillSelect(form.querySelector('[data-prefill-vehicle]'), params.get('vehicle'), {
+				suv: 'Executive SUV',
+				executivesuv: 'Executive SUV',
+				cadillacescalade: 'Executive SUV',
+				chevroletsuburban: 'Executive SUV',
+				sprinter: 'Executive Sprinter',
+				executivesprinter: 'Executive Sprinter',
+				mercedessprinter: 'Executive Sprinter',
+				recommend: 'Recommend for Me',
+			});
+			prefillSelect(form.querySelector('[data-prefill-service]'), params.get('service'), {
+				airport: 'Airport Transportation',
+				airporttransportation: 'Airport Transportation',
+				corporate: 'Corporate Transportation',
+				corporatetransportation: 'Corporate Transportation',
+				private: 'Private Transportation',
+				privatetransportation: 'Private Transportation',
+				group: 'Group Transportation',
+				grouptransportation: 'Group Transportation',
+				wedding: 'Weddings & Special Events',
+				weddings: 'Weddings & Special Events',
+				weddingsspecialevents: 'Weddings & Special Events',
+				hourly: 'Hourly Chauffeur Service',
+				hourlychauffeur: 'Hourly Chauffeur Service',
+				hourlychauffeurservice: 'Hourly Chauffeur Service',
+			});
+		}
+
+		form.addEventListener('submit', (event) => {
+			event.preventDefault();
+			if (!form.reportValidity()) return;
+
+			const values = new FormData(form);
+			const mode = form.dataset.mode === 'quote' ? 'quote' : 'contact';
+			const name = String(values.get('name') ?? '').trim();
+			const topic = String(values.get(mode === 'quote' ? 'service' : 'topic') ?? '').trim();
+			const recipient = form.dataset.recipient ?? '';
+			const subject = mode === 'quote'
+				? `Quote request${name ? ` — ${name}` : ''}`
+				: `${topic || 'Website inquiry'}${name ? ` — ${name}` : ''}`;
+			const introduction = mode === 'quote'
+				? 'Hello Lester Pearson Limousine,\n\nI would like to request a transportation quote.'
+				: 'Hello Lester Pearson Limousine,\n\nI have a question.';
+			const details = Array.from(values.entries())
+				.map(([key, rawValue]) => [key, String(rawValue).trim()] as const)
+				.filter(([, value]) => value.length > 0)
+				.map(([key, value]) => `${fieldLabels[key] ?? key}: ${value}`);
+			const body = `${introduction}\n\n${details.join('\n')}\n\nThank you.`;
+			const mailto = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+			const status = form.querySelector<HTMLElement>('[data-lead-form-status]');
+			if (status) {
+				status.hidden = false;
+				status.focus();
+			}
+			window.setTimeout(() => window.location.assign(mailto), 80);
+		});
+	});
+</script>
+
+<style>
+	.lead-form {
+		padding: clamp(30px, 4vw, 54px);
+		border-top: 3px solid var(--gold, #f7b817);
+		background: var(--white, #fff);
+		box-shadow: 0 24px 70px rgba(22, 23, 20, 0.12);
+	}
+
+	.lead-form__heading {
+		max-width: 750px;
+		margin-bottom: 34px;
+	}
+
+	.lead-form__eyebrow {
+		margin: 0 0 12px;
+		color: #795704;
+		font-size: 0.72rem;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+	}
+
+	.lead-form__heading h2 {
+		margin: 0 0 12px;
+		color: var(--ink, #171815);
+		font-family: var(--font-display, Georgia, serif);
+		font-size: clamp(2.35rem, 5vw, 4rem);
+		font-weight: 400;
+		line-height: 1.05;
+	}
+
+	.lead-form__heading > p:last-child {
+		max-width: 690px;
+		margin: 0;
+		color: var(--slate, #5f625e);
+		line-height: 1.75;
+	}
+
+	.lead-form__grid {
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		gap: 22px;
+	}
+
+	.field {
+		display: grid;
+		gap: 8px;
+	}
+
+	.field--wide,
+	.field--full {
+		grid-column: 1 / -1;
+	}
+
+	.field > span {
+		color: #353631;
+		font-size: 0.72rem;
+		font-weight: 700;
+		letter-spacing: 0.055em;
+		text-transform: uppercase;
+	}
+
+	.field > span > span {
+		color: #936900;
+	}
+
+	.field input,
+	.field select,
+	.field textarea {
+		width: 100%;
+		border: 1px solid #cbc9c1;
+		border-radius: 0;
+		background: #fbfaf6;
+		color: var(--ink, #171815);
+		transition: border-color 160ms ease, background-color 160ms ease, box-shadow 160ms ease;
+	}
+
+	.field input,
+	.field select {
+		height: 56px;
+		padding: 0 16px;
+	}
+
+	.field textarea {
+		min-height: 150px;
+		padding: 15px 16px;
+		resize: vertical;
+	}
+
+	.field input::placeholder,
+	.field textarea::placeholder {
+		color: #777970;
+	}
+
+	.field input:focus,
+	.field select:focus,
+	.field textarea:focus {
+		border-color: #9b7005;
+		background: var(--white, #fff);
+		box-shadow: 0 0 0 3px rgba(247, 184, 23, 0.2);
+		outline: none;
+	}
+
+	.lead-form__footer {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 28px;
+		padding-top: 28px;
+		margin-top: 30px;
+		border-top: 1px solid rgba(23, 24, 21, 0.12);
+	}
+
+	.lead-form__notice {
+		display: flex;
+		align-items: flex-start;
+		gap: 13px;
+		max-width: 610px;
+	}
+
+	.lead-form__notice svg {
+		flex: 0 0 25px;
+		width: 25px;
+		height: 25px;
+		color: #8a6200;
+		fill: none;
+		stroke: currentColor;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		stroke-width: 1.5;
+	}
+
+	.lead-form__notice p,
+	.lead-form__actions p,
+	.lead-form__status {
+		margin: 0;
+		color: #666860;
+		font-size: 0.78rem;
+		line-height: 1.55;
+	}
+
+	.lead-form__notice strong {
+		display: block;
+		margin-bottom: 3px;
+		color: var(--ink, #171815);
+	}
+
+	.lead-form__actions {
+		display: grid;
+		justify-items: end;
+		gap: 9px;
+		flex: 0 0 auto;
+	}
+
+	.lead-form__submit {
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		gap: 12px;
+		min-height: 54px;
+		padding: 0 24px;
+		border: 1px solid var(--gold, #f7b817);
+		border-radius: 0;
+		background: var(--gold, #f7b817);
+		color: var(--ink, #171815);
+		font-size: 0.74rem;
+		font-weight: 700;
+		letter-spacing: 0.07em;
+		text-transform: uppercase;
+		cursor: pointer;
+		transition: background-color 160ms ease, border-color 160ms ease, transform 160ms ease;
+	}
+
+	.lead-form__submit:hover {
+		border-color: var(--gold-bright, #ffc62d);
+		background: var(--gold-bright, #ffc62d);
+		transform: translateY(-2px);
+	}
+
+	.lead-form__submit svg {
+		width: 19px;
+		height: 19px;
+		fill: none;
+		stroke: currentColor;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		stroke-width: 1.7;
+	}
+
+	.lead-form__actions a,
+	.lead-form__status a {
+		color: #6f5000;
+		font-weight: 700;
+	}
+
+	.lead-form__status {
+		padding: 14px 16px;
+		margin-top: 20px;
+		border-left: 3px solid var(--gold, #f7b817);
+		background: #f8f3e5;
+		color: #373832;
+	}
+
+	@media (max-width: 760px) {
+		.lead-form {
+			padding: 28px 20px;
+		}
+
+		.lead-form__grid {
+			grid-template-columns: 1fr;
+		}
+
+		.field--wide,
+		.field--full {
+			grid-column: auto;
+		}
+
+		.lead-form__footer {
+			align-items: stretch;
+			flex-direction: column;
+		}
+
+		.lead-form__actions {
+			justify-items: stretch;
+		}
+
+		.lead-form__submit {
+			width: 100%;
+		}
+
+		.lead-form__actions p {
+			text-align: center;
+		}
+	}
+
+	@media (prefers-reduced-motion: reduce) {
+		.lead-form__submit {
+			transition: none;
+		}
+	}
+</style>

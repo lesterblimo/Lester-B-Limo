@@ -1,0 +1,163 @@
+export type FleetSlug = 'executive-suv' | 'executive-sprinter';
+
+export interface FleetGalleryImage {
+	src: string;
+	alt: string;
+	caption: string;
+	width: number;
+	height: number;
+}
+
+export interface FleetVehicle {
+	slug: FleetSlug;
+	name: string;
+	eyebrow: string;
+	heroTitle: string;
+	heroAccent: string;
+	heroDescription: string;
+	seoTitle: string;
+	seoDescription: string;
+	image: string;
+	imageAlt: string;
+	imageWidth: number;
+	imageHeight: number;
+	gallery: FleetGalleryImage[];
+	capacity: string;
+	capacityShort: string;
+	description: string;
+	introTitle: string;
+	intro: string[];
+	attributes: string[];
+	useCases: string[];
+	quoteHref: string;
+}
+
+export const fleet: FleetVehicle[] = [
+	{
+		slug: 'executive-suv',
+		name: 'Full-Size Executive SUV',
+		eyebrow: 'Our fleet',
+		heroTitle: 'Full-Size',
+		heroAccent: 'Executive SUV',
+		heroDescription:
+			'Comfort, privacy, luggage capacity, and professional transportation for up to six passengers.',
+		seoTitle: 'Full-Size Executive SUV | Lester Pearson Limousine',
+		seoDescription:
+			'Explore full-size executive SUV transportation for up to six passengers, airport transfers, corporate travel, and private service.',
+		image: '/images/fleet-chevrolet-suburban-2025.avif',
+		imageAlt: 'Black Chevrolet Suburban full-size executive SUV',
+		imageWidth: 768,
+		imageHeight: 450,
+		// Temporary representative imagery from Chevrolet's 2025 Suburban gallery:
+		// https://www.chevrolet.com/suvs/suburban
+		gallery: [
+			{
+				src: '/images/fleet/gallery/suv-interior-front-cabin.webp',
+				alt: 'Representative Chevrolet Suburban front cabin with brown leather seating and dashboard displays',
+				caption: 'Front cabin and passenger comfort',
+				width: 1268,
+				height: 634,
+			},
+			{
+				src: '/images/fleet/gallery/suv-interior-cockpit.webp',
+				alt: 'Representative Chevrolet Suburban steering wheel, driver display, and infotainment screen',
+				caption: 'Driver display and infotainment',
+				width: 1268,
+				height: 634,
+			},
+			{
+				src: '/images/fleet/gallery/suv-interior-dashboard.webp',
+				alt: 'Representative wide view of a Chevrolet Suburban dashboard and front controls',
+				caption: 'Dashboard and controls',
+				width: 1268,
+				height: 634,
+			},
+			{
+				src: '/images/fleet/gallery/suv-interior-passenger-seating.webp',
+				alt: 'Representative Chevrolet Suburban rear passenger seating in brown leather',
+				caption: 'Rear passenger seating',
+				width: 1268,
+				height: 634,
+			},
+		],
+		capacity: 'Up to 6 passengers',
+		capacityShort: '6 passengers',
+		description:
+			'Premium full-size SUVs offering comfort, privacy, luggage capacity, and professional transportation for airport transfers, corporate travel, and private service.',
+		introTitle: 'Private space for executive travel',
+		intro: [
+			'The Full-Size Executive SUV is a comfortable private option for airport transfers, business schedules, and personal transportation.',
+			'Its passenger space, leather interior, and luggage capacity support trips for groups of up to six passengers.',
+		],
+		attributes: [
+			'Up to 6 passengers',
+			'Premium leather interior',
+			'Spacious luggage capacity',
+			'Airport and corporate travel',
+		],
+		useCases: ['Airport transfers', 'Corporate travel', 'Private transportation'],
+		quoteHref: '/quote/?vehicle=executive-suv',
+	},
+	{
+		slug: 'executive-sprinter',
+		name: 'Executive Sprinter',
+		eyebrow: 'Our fleet',
+		heroTitle: 'Executive',
+		heroAccent: 'Sprinter',
+		heroDescription:
+			'Premium group transportation with a high-roof cabin and seating for 12–14 passengers.',
+		seoTitle: 'Executive Sprinter | Lester Pearson Limousine',
+		seoDescription:
+			'Explore Executive Sprinter group transportation with front-facing seating, a high-roof cabin, luggage capacity, and room for 12–14 passengers.',
+		image: '/images/fleet-mercedes-sprinter-black.webp',
+		imageAlt: 'Black Mercedes-Benz Sprinter passenger van',
+		imageWidth: 1219,
+		imageHeight: 889,
+		// Temporary representative imagery from official Mercedes-Benz Sprinter Tourer pages:
+		// https://www.mercedes-benz.it/vans/models/sprinter/tourer/overview.html
+		gallery: [
+			{
+				src: '/images/fleet/gallery/sprinter-interior-seating-detail.webp',
+				alt: 'Representative Mercedes-Benz Sprinter passenger seats with armrests and seatbelts',
+				caption: 'Flexible passenger seating',
+				width: 1280,
+				height: 960,
+			},
+			{
+				src: '/images/fleet/gallery/sprinter-interior-passenger-cabin.webp',
+				alt: 'Representative Mercedes-Benz Sprinter front-facing passenger cabin',
+				caption: 'Spacious front-facing cabin',
+				width: 1599,
+				height: 900,
+			},
+			{
+				src: '/images/fleet/gallery/sprinter-interior-rear-cabin.webp',
+				alt: 'Representative Mercedes-Benz Sprinter multi-row passenger seating layout',
+				caption: 'Multi-row passenger layout',
+				width: 1600,
+				height: 900,
+			},
+		],
+		capacity: '12–14 passengers',
+		capacityShort: '12–14 passengers',
+		description:
+			'Premium group transportation with spacious front-facing seating, generous luggage capacity, and a comfortable high-roof cabin.',
+		introTitle: 'One comfortable ride for the group',
+		intro: [
+			'The Executive Sprinter keeps groups together in a passenger-focused interior with front-facing seating.',
+			'Its high-roof cabin and large luggage capacity support comfortable transportation for 12–14 passengers.',
+		],
+		attributes: [
+			'12–14 passengers',
+			'Front-facing seating',
+			'Premium passenger interior',
+			'High-roof cabin',
+			'Large luggage capacity',
+		],
+		useCases: ['Group transportation', 'Airport transportation', 'Conferences and corporate events'],
+		quoteHref: '/quote/?vehicle=executive-sprinter',
+	},
+];
+
+export const getFleetVehicleBySlug = (slug: string | undefined) =>
+	fleet.find((vehicle) => vehicle.slug === slug);

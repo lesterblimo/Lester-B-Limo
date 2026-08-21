@@ -1,0 +1,256 @@
+---
+import PageCta from '../../components/PageCta.astro';
+import PageHero from '../../components/PageHero.astro';
+import { services } from '../../data/services';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+---
+
+<SiteLayout
+	title="Chauffeur & Transportation Services | Lester Pearson Limousine"
+	description="Explore airport, corporate, private, group, wedding, event, and hourly chauffeur transportation from Lester Pearson Limousine."
+>
+	<Fragment>
+		<PageHero
+			eyebrow="Transportation services"
+			title="Transportation for"
+			accent="Every Occasion"
+			description="One standard of thoughtful, professional service—wherever the day takes you."
+			image="/images/hero-cadillac-escalade-road.webp"
+			imageAlt="Black executive SUV traveling along a tree-lined road"
+			compact
+		/>
+
+		<section class="services-intro" aria-labelledby="services-intro-heading">
+			<div class="page-shell services-intro__grid">
+				<div>
+					<p class="eyebrow"><span></span>Tailored to your schedule</p>
+					<h2 id="services-intro-heading">A service for the way <em>you need to travel.</em></h2>
+				</div>
+				<p>
+					From an airport pickup or executive meeting to a private evening or group event,
+					choose the transportation service that best fits the trip.
+				</p>
+			</div>
+		</section>
+
+		<section class="service-directory" aria-label="Transportation services">
+			<div class="page-shell service-grid">
+				{services.map((service, index) => (
+					<article class="service-card">
+						<a href={`/services/${service.slug}/`} aria-label={`Explore ${service.name}`}>
+							<div class="service-card__top">
+								<span class="service-card__number">{String(index + 1).padStart(2, '0')}</span>
+								<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4" /></svg>
+							</div>
+							<h2>{service.name}</h2>
+							<p>{service.cardDescription}</p>
+							<span class="service-card__link">Explore service</span>
+						</a>
+					</article>
+				))}
+			</div>
+		</section>
+
+		<PageCta
+			title="Not sure which service"
+			accent="fits your trip?"
+			description="Tell us where you are going, how many passengers are traveling, and what the day looks like."
+			primaryHref="/quote/"
+			primaryLabel="Plan Your Ride"
+		/>
+	</Fragment>
+</SiteLayout>
+
+<style>
+	.page-shell {
+		width: min(calc(100% - 3rem), 77.5rem);
+		margin: 0 auto;
+	}
+
+	.services-intro {
+		padding: clamp(4.5rem, 8vw, 7rem) 0;
+		background: #f8f6f0;
+		color: #171815;
+	}
+
+	.services-intro__grid {
+		display: grid;
+		grid-template-columns: minmax(0, 1.3fr) minmax(18rem, 0.7fr);
+		align-items: end;
+		gap: clamp(2rem, 7vw, 6rem);
+	}
+
+	.eyebrow {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		margin: 0 0 1.2rem;
+		color: #9a6b00;
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.7rem;
+		font-weight: 700;
+		letter-spacing: 0.18em;
+		line-height: 1.3;
+		text-transform: uppercase;
+	}
+
+	.eyebrow span {
+		width: 2rem;
+		height: 1px;
+		background: #d99d08;
+	}
+
+	.services-intro h2 {
+		max-width: 47rem;
+		margin: 0;
+		font-family: 'Libre Caslon Display', Georgia, serif;
+		font-size: clamp(2.7rem, 5.4vw, 5rem);
+		font-weight: 400;
+		letter-spacing: -0.045em;
+		line-height: 1;
+		text-wrap: balance;
+	}
+
+	.services-intro h2 em {
+		color: #9a6b00;
+		font-style: normal;
+	}
+
+	.services-intro__grid > p {
+		margin: 0 0 0.4rem;
+		color: #5f625e;
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+		font-size: 1.02rem;
+		line-height: 1.8;
+	}
+
+	.service-directory {
+		padding: 0 0 clamp(5rem, 9vw, 8rem);
+		background: #f8f6f0;
+	}
+
+	.service-grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		border-top: 1px solid rgba(23, 24, 21, 0.15);
+		border-left: 1px solid rgba(23, 24, 21, 0.15);
+	}
+
+	.service-card {
+		min-width: 0;
+		background: #fff;
+		border-right: 1px solid rgba(23, 24, 21, 0.15);
+		border-bottom: 1px solid rgba(23, 24, 21, 0.15);
+	}
+
+	.service-card a {
+		display: flex;
+		flex-direction: column;
+		min-height: 24rem;
+		padding: clamp(2rem, 3vw, 3rem);
+		color: #171815;
+		text-decoration: none;
+		transition: background-color 200ms ease, color 200ms ease;
+	}
+
+	.service-card__top {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		margin-bottom: clamp(3.5rem, 7vw, 6.5rem);
+	}
+
+	.service-card__number {
+		color: #9a6b00;
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.72rem;
+		font-weight: 700;
+		letter-spacing: 0.16em;
+	}
+
+	.service-card svg {
+		width: 1.25rem;
+		height: 1.25rem;
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 1.5;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		transition: transform 200ms ease;
+	}
+
+	.service-card h2 {
+		margin: 0;
+		font-family: 'Libre Caslon Display', Georgia, serif;
+		font-size: clamp(1.75rem, 2.7vw, 2.4rem);
+		font-weight: 400;
+		letter-spacing: -0.035em;
+		line-height: 1.1;
+	}
+
+	.service-card p {
+		margin: 1rem 0 2rem;
+		color: #5f625e;
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.92rem;
+		line-height: 1.75;
+		transition: color 200ms ease;
+	}
+
+	.service-card__link {
+		margin-top: auto;
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.7rem;
+		font-weight: 700;
+		letter-spacing: 0.13em;
+		text-transform: uppercase;
+	}
+
+	.service-card a:hover {
+		background: #171815;
+		color: #fff;
+	}
+
+	.service-card a:hover p,
+	.service-card a:hover .service-card__number {
+		color: rgba(255, 255, 255, 0.68);
+	}
+
+	.service-card a:hover svg {
+		transform: translateX(0.25rem);
+	}
+
+	@media (max-width: 60rem) {
+		.services-intro__grid {
+			grid-template-columns: 1fr;
+			align-items: start;
+			gap: 1.75rem;
+		}
+
+		.services-intro__grid > p {
+			max-width: 40rem;
+		}
+
+		.service-grid {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+		}
+	}
+
+	@media (max-width: 38rem) {
+		.page-shell {
+			width: min(calc(100% - 2rem), 77.5rem);
+		}
+
+		.service-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.service-card a {
+			min-height: 20rem;
+		}
+
+		.service-card__top {
+			margin-bottom: 3.5rem;
+		}
+	}
+</style>

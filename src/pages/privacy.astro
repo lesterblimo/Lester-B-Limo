@@ -1,0 +1,46 @@
+---
+import LegalPage from '../components/LegalPage.astro';
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { SITE } from '../config/site';
+---
+
+<SiteLayout
+	title={`Privacy Policy | ${SITE.name}`}
+	description={`How ${SITE.name} handles information provided through this website and direct communications.`}
+	headerVariant="solid"
+>
+	<LegalPage
+		eyebrow="Website information"
+		title="Privacy Policy"
+		intro="This notice explains how information is handled when you use this website or contact Lester Pearson Limousine about transportation service."
+	>
+		<section>
+			<h2>Information you choose to provide</h2>
+			<p>You may provide contact details, pickup and destination information, travel dates, passenger details, vehicle preferences, and other trip notes when requesting information by email or phone.</p>
+		</section>
+
+		<section>
+			<h2>How website forms work</h2>
+			<p>The quote and contact forms prepare a message in your email application. This website does not itself transmit or store the form details. Information is sent only if you choose to send the prepared email, after which it is handled through the email services used by you and Lester Pearson Limousine.</p>
+		</section>
+
+		<section>
+			<h2>How information may be used</h2>
+			<ul>
+				<li>To respond to questions and quote requests.</li>
+				<li>To understand and coordinate the transportation being requested.</li>
+				<li>To maintain necessary correspondence about the request or service.</li>
+			</ul>
+		</section>
+
+		<section>
+			<h2>Service providers and website data</h2>
+			<p>Email, telephone, and website-hosting providers may process technical or communication data as part of delivering their services. This version of the website does not include advertising trackers or analytics scripts.</p>
+		</section>
+
+		<section>
+			<h2>Your questions</h2>
+			<p>For privacy questions or requests concerning information you have sent, contact <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
+		</section>
+	</LegalPage>
+</SiteLayout>

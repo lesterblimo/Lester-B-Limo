@@ -1,0 +1,321 @@
+---
+import { FOOTER_NAVIGATION, SITE } from '../config/site';
+
+interface Props {
+	showMobileCallBar?: boolean;
+}
+
+const { showMobileCallBar = true } = Astro.props;
+---
+
+<footer class="site-footer">
+	<div class="footer-shell">
+		<div class="footer-top">
+			<div class="footer-brand">
+				<a class="footer-logo" href="/" aria-label={`${SITE.name} home`}>
+					<img src={SITE.logo} alt={SITE.name} width="720" height="240" loading="lazy" />
+				</a>
+				<p>Premium airport, corporate, private, and group transportation with a fleet built for comfort.</p>
+				<a class="footer-quote" href="/quote/">
+					Request a quote
+					<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4"></path></svg>
+				</a>
+			</div>
+
+			{FOOTER_NAVIGATION.map((group) => (
+				<nav class="footer-column" aria-label={`${group.label} links`}>
+					<h2>{group.label}</h2>
+					<ul>
+						{group.links.map((link) => <li><a href={link.href}>{link.label}</a></li>)}
+					</ul>
+				</nav>
+			))}
+
+			<div class="footer-column footer-contact">
+				<h2>Contact</h2>
+				<dl>
+					<div><dt>Phone</dt><dd><a href={SITE.phoneHref}>{SITE.phoneDisplay}</a></dd></div>
+					<div><dt>Email</dt><dd><a href={`mailto:${SITE.email}`}>{SITE.email}</a></dd></div>
+					<div><dt>Service area</dt><dd>{SITE.serviceArea}</dd></div>
+				</dl>
+			</div>
+		</div>
+
+		<div class="footer-bottom">
+			<p>&copy; {new Date().getFullYear()} {SITE.name}. All rights reserved.</p>
+			<nav aria-label="Helpful and legal links">
+				<a href="/faq/">FAQ</a>
+				<a href="/privacy/">Privacy Policy</a>
+				<a href="/terms/">Terms</a>
+			</nav>
+		</div>
+	</div>
+</footer>
+
+{showMobileCallBar && (
+	<a class="mobile-call-bar" href={SITE.phoneHref} aria-label={`Call ${SITE.name} at ${SITE.phoneDisplay}`} data-mobile-call-bar>
+		<svg viewBox="0 0 24 24" aria-hidden="true">
+			<path d="M7.2 3.5 10 8.1 8.2 10a15.4 15.4 0 0 0 5.8 5.8l1.9-1.8 4.6 2.8-.6 3.1c-.2.9-1 1.6-2 1.6C9.4 21 3 14.6 2.5 6.1c-.1-1 .6-1.8 1.6-2l3.1-.6Z"></path>
+		</svg>
+		<span>Call for service<strong>{SITE.phoneDisplay}</strong></span>
+	</a>
+)}
+
+<style>
+	.site-footer {
+		padding: 86px 0 0;
+		background: #151613;
+		color: var(--white);
+	}
+
+	.footer-shell {
+		width: min(calc(100% - 48px), var(--max-width));
+		margin-inline: auto;
+	}
+
+	.footer-top {
+		display: grid;
+		grid-template-columns: 1.35fr 0.7fr 0.9fr 1fr;
+		gap: 54px;
+		padding-bottom: 64px;
+	}
+
+	.footer-brand {
+		max-width: 330px;
+	}
+
+	.footer-logo {
+		display: block;
+		width: 240px;
+		height: 80px;
+		margin-bottom: 25px;
+	}
+
+	.footer-logo img {
+		width: 100%;
+		height: 100%;
+		object-fit: contain;
+		object-position: left center;
+	}
+
+	.footer-brand > p {
+		margin: 0 0 20px;
+		color: rgba(255, 255, 255, 0.55);
+		font-size: 0.86rem;
+		line-height: 1.75;
+	}
+
+	.footer-quote {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		color: var(--gold);
+		font-size: 0.72rem;
+		font-weight: 700;
+		letter-spacing: 0.07em;
+		text-decoration: none;
+		text-transform: uppercase;
+	}
+
+	.footer-quote svg {
+		width: 20px;
+		height: 20px;
+		fill: none;
+		stroke: currentColor;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+		stroke-width: 1.7;
+		transition: transform 180ms ease;
+	}
+
+	.footer-quote:hover svg {
+		transform: translateX(4px);
+	}
+
+	.footer-column h2 {
+		padding-bottom: 14px;
+		margin: 0 0 22px;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+		font-family: var(--font-body);
+		font-size: 0.72rem;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		text-transform: uppercase;
+	}
+
+	.footer-column ul {
+		padding: 0;
+		margin: 0;
+		list-style: none;
+	}
+
+	.footer-column li + li {
+		margin-top: 11px;
+	}
+
+	.footer-column a,
+	.footer-contact dd {
+		color: rgba(255, 255, 255, 0.58);
+		font-size: 0.78rem;
+		text-decoration: none;
+		transition: color 160ms ease;
+	}
+
+	.footer-column a:hover,
+	.footer-bottom a:hover {
+		color: var(--gold);
+	}
+
+	.footer-contact a {
+		color: inherit;
+	}
+
+	.footer-contact dl,
+	.footer-contact dd {
+		margin: 0;
+	}
+
+	.footer-contact dl {
+		display: grid;
+		gap: 17px;
+	}
+
+	.footer-contact dt {
+		margin-bottom: 3px;
+		color: var(--gold);
+		font-size: 0.64rem;
+		font-weight: 700;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+	}
+
+	.footer-bottom {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 30px;
+		min-height: 72px;
+		border-top: 1px solid rgba(255, 255, 255, 0.1);
+		color: rgba(255, 255, 255, 0.65);
+		font-size: 0.68rem;
+	}
+
+	.footer-bottom p {
+		margin: 0;
+	}
+
+	.footer-bottom nav {
+		display: flex;
+		gap: 24px;
+	}
+
+	.footer-bottom a {
+		color: inherit;
+		text-decoration: none;
+		transition: color 160ms ease;
+	}
+
+	.mobile-call-bar {
+		display: none;
+	}
+
+	@media (max-width: 960px) {
+		.footer-top {
+			grid-template-columns: 1.25fr repeat(2, 0.9fr);
+		}
+
+		.footer-contact {
+			grid-column: 2 / -1;
+		}
+	}
+
+	@media (max-width: 720px) {
+		:global(body.has-mobile-call-bar) {
+			padding-bottom: 76px;
+		}
+
+		.site-footer {
+			padding-top: 68px;
+		}
+
+		.footer-shell {
+			width: min(calc(100% - 32px), var(--max-width));
+		}
+
+		.footer-top {
+			grid-template-columns: repeat(2, minmax(0, 1fr));
+			gap: 42px 30px;
+		}
+
+		.footer-brand,
+		.footer-contact {
+			grid-column: 1 / -1;
+		}
+
+		.footer-bottom {
+			align-items: flex-start;
+			flex-direction: column;
+			justify-content: center;
+			gap: 8px;
+			padding-block: 20px;
+		}
+
+		.mobile-call-bar {
+			position: fixed;
+			right: 12px;
+			bottom: 10px;
+			left: 12px;
+			z-index: 80;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			gap: 11px;
+			min-height: 58px;
+			border: 1px solid rgba(255, 255, 255, 0.24);
+			border-radius: 4px;
+			background: var(--gold);
+			box-shadow: 0 14px 42px rgba(0, 0, 0, 0.32);
+			color: var(--ink);
+			text-decoration: none;
+		}
+
+		.mobile-call-bar svg {
+			width: 24px;
+			height: 24px;
+			fill: none;
+			stroke: currentColor;
+			stroke-linecap: round;
+			stroke-linejoin: round;
+			stroke-width: 1.6;
+		}
+
+		.mobile-call-bar span,
+		.mobile-call-bar strong {
+			display: block;
+		}
+
+		.mobile-call-bar span {
+			font-size: 0.58rem;
+			font-weight: 700;
+			letter-spacing: 0.09em;
+			text-transform: uppercase;
+		}
+
+		.mobile-call-bar strong {
+			margin-top: 2px;
+			font-size: 0.9rem;
+			letter-spacing: 0.025em;
+		}
+	}
+
+	@media (max-width: 430px) {
+		.footer-top {
+			grid-template-columns: 1fr;
+		}
+
+		.footer-brand,
+		.footer-contact {
+			grid-column: auto;
+		}
+	}
+</style>

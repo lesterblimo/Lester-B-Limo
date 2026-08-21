@@ -1,0 +1,83 @@
+---
+import SiteFooter from '../components/SiteFooter.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import Layout from './Layout.astro';
+
+interface Props {
+	title?: string;
+	description?: string;
+	image?: string;
+	imageAlt?: string;
+	noindex?: boolean;
+	ogType?: 'website' | 'article';
+	headerVariant?: 'overlay' | 'solid';
+	mainClass?: string;
+	bodyClass?: string;
+	showMobileCallBar?: boolean;
+}
+
+const {
+	title,
+	description,
+	image,
+	imageAlt,
+	noindex = false,
+	ogType = 'website',
+	headerVariant = 'overlay',
+	mainClass,
+	bodyClass,
+	showMobileCallBar = true,
+} = Astro.props;
+
+const resolvedBodyClass = [bodyClass, showMobileCallBar && 'has-mobile-call-bar'].filter(Boolean).join(' ') || undefined;
+---
+
+<Layout
+	{title}
+	{description}
+	{image}
+	{imageAlt}
+	{noindex}
+	{ogType}
+	bodyClass={resolvedBodyClass}
+>
+	<slot name="head" slot="head" />
+	<a class="skip-link" href="#main-content">Skip to main content</a>
+	<SiteHeader variant={headerVariant} />
+	<main
+		id="main-content"
+		class:list={[mainClass, { 'site-main--solid-header': headerVariant === 'solid' }]}
+	>
+		<slot />
+	</main>
+	<SiteFooter {showMobileCallBar} />
+</Layout>
+
+<style>
+	.skip-link {
+		position: fixed;
+		top: 10px;
+		left: 12px;
+		z-index: 100;
+		padding: 10px 16px;
+		border-radius: 4px;
+		background: var(--gold);
+		color: var(--ink);
+		font-weight: 700;
+		text-decoration: none;
+		transform: translateY(-160%);
+		transition: transform 180ms ease;
+	}
+
+	.skip-link:focus {
+		transform: translateY(0);
+	}
+
+	main {
+		min-height: 50vh;
+	}
+
+	.site-main--solid-header {
+		padding-top: var(--header-height);
+	}
+</style>

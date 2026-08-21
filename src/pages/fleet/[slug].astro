@@ -1,0 +1,481 @@
+---
+import PageCta from '../../components/PageCta.astro';
+import VehicleGallery from '../../components/VehicleGallery.astro';
+import { fleet, type FleetVehicle } from '../../data/fleet';
+import SiteLayout from '../../layouts/SiteLayout.astro';
+
+export function getStaticPaths() {
+	return fleet.map((vehicle) => ({
+		params: { slug: vehicle.slug },
+		props: { vehicle },
+	}));
+}
+
+interface Props {
+	vehicle: FleetVehicle;
+}
+
+const { vehicle } = Astro.props;
+const otherVehicle = fleet.find((item) => item.slug !== vehicle.slug)!;
+---
+
+<SiteLayout title={vehicle.seoTitle} description={vehicle.seoDescription} headerVariant="solid">
+	<Fragment>
+		<nav class="breadcrumbs" aria-label="Breadcrumb">
+			<ol class="page-shell">
+				<li><a href="/">Home</a></li>
+				<li><a href="/fleet/">Fleet</a></li>
+				<li aria-current="page">{vehicle.name}</li>
+			</ol>
+		</nav>
+
+		<VehicleGallery
+			vehicleName={vehicle.name}
+			title={vehicle.heroTitle}
+			accent={vehicle.heroAccent}
+			images={vehicle.gallery}
+		/>
+
+		<section class="vehicle-overview" aria-labelledby="vehicle-overview-heading">
+			<div class="page-shell vehicle-overview__grid">
+				<div class="vehicle-overview__copy">
+					<p class="eyebrow"><span></span>{vehicle.capacity}</p>
+					<h2 id="vehicle-overview-heading">{vehicle.introTitle}</h2>
+					{vehicle.intro.map((paragraph) => <p>{paragraph}</p>)}
+					<a class="quote-link" href={vehicle.quoteHref}>
+						Choose this vehicle
+						<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4" /></svg>
+					</a>
+				</div>
+				<aside class="vehicle-specs" aria-label={`${vehicle.name} details`}>
+					<p>Passenger capacity<strong>{vehicle.capacity}</strong></p>
+					<ul>
+						{vehicle.attributes.map((attribute) => <li><span aria-hidden="true">✓</span>{attribute}</li>)}
+					</ul>
+				</aside>
+			</div>
+		</section>
+
+		<section class="vehicle-use" aria-labelledby="vehicle-use-heading">
+			<div class="page-shell vehicle-use__grid">
+				<div>
+					<p class="eyebrow eyebrow--light"><span></span>Designed around the trip</p>
+					<h2 id="vehicle-use-heading">Well suited to</h2>
+				</div>
+				<div class="use-grid">
+					{vehicle.useCases.map((useCase, index) => (
+						<article>
+							<span>{String(index + 1).padStart(2, '0')}</span>
+							<h3>{useCase}</h3>
+						</article>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<section class="other-vehicle" aria-labelledby="other-vehicle-heading">
+			<div class="page-shell other-vehicle__heading">
+				<div>
+					<p class="eyebrow"><span></span>Compare the fleet</p>
+					<h2 id="other-vehicle-heading">Explore another option</h2>
+				</div>
+				<a href="/fleet/">View all vehicles</a>
+			</div>
+			<a class="page-shell other-vehicle__card" href={`/fleet/${otherVehicle.slug}/`}>
+				<div class="other-vehicle__media">
+					<img
+						src={otherVehicle.image}
+						alt={otherVehicle.imageAlt}
+						width={otherVehicle.imageWidth}
+						height={otherVehicle.imageHeight}
+						loading="lazy"
+					/>
+				</div>
+				<div class="other-vehicle__copy">
+					<span>{otherVehicle.capacity}</span>
+					<h3>{otherVehicle.name}</h3>
+					<p>{otherVehicle.description}</p>
+					<strong>Explore vehicle <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4" /></svg></strong>
+				</div>
+			</a>
+		</section>
+
+		<PageCta
+			eyebrow={vehicle.name}
+			title="Choose the"
+			accent={vehicle.name}
+			description="Share the passenger count, luggage needs, and trip details to request this vehicle."
+			primaryHref={vehicle.quoteHref}
+			primaryLabel="Request This Vehicle"
+		/>
+	</Fragment>
+</SiteLayout>
+
+<style>
+	.page-shell {
+		width: min(calc(100% - 3rem), 77.5rem);
+		margin: 0 auto;
+	}
+
+	.breadcrumbs {
+		border-bottom: 1px solid rgba(23, 24, 21, 0.12);
+		background: #f8f6f0;
+	}
+
+	.breadcrumbs ol {
+		display: flex;
+		align-items: center;
+		gap: 0.7rem;
+		min-height: 3.6rem;
+		padding: 0;
+		list-style: none;
+	}
+
+	.breadcrumbs li {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.7rem;
+		color: #777a75;
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.72rem;
+		letter-spacing: 0.06em;
+		text-transform: uppercase;
+	}
+
+	.breadcrumbs li + li::before {
+		content: '/';
+		color: #d29a08;
+	}
+
+	.breadcrumbs a {
+		color: #343632;
+		text-decoration: none;
+	}
+
+	.vehicle-overview,
+	.other-vehicle {
+		background: #f8f6f0;
+		color: #171815;
+	}
+
+	.vehicle-overview {
+		padding: clamp(4.75rem, 9vw, 8rem) 0;
+	}
+
+	.vehicle-overview__grid {
+		display: grid;
+		grid-template-columns: minmax(0, 1.05fr) minmax(20rem, 0.75fr);
+		align-items: start;
+		gap: clamp(3rem, 10vw, 9rem);
+	}
+
+	.eyebrow {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		margin: 0 0 1.2rem;
+		color: #9a6b00;
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.7rem;
+		font-weight: 700;
+		letter-spacing: 0.18em;
+		line-height: 1.3;
+		text-transform: uppercase;
+	}
+
+	.eyebrow span {
+		width: 2rem;
+		height: 1px;
+		background: #d99d08;
+	}
+
+	.eyebrow--light {
+		color: #f7b817;
+	}
+
+	.vehicle-overview h2,
+	.vehicle-use h2,
+	.other-vehicle h2 {
+		max-width: 46rem;
+		margin: 0;
+		font-family: 'Libre Caslon Display', Georgia, serif;
+		font-size: clamp(2.65rem, 5vw, 4.8rem);
+		font-weight: 400;
+		letter-spacing: -0.045em;
+		line-height: 1;
+		text-wrap: balance;
+	}
+
+	.vehicle-overview__copy > p:not(.eyebrow) {
+		max-width: 42rem;
+		margin: 1.4rem 0 0;
+		color: #5f625e;
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+		font-size: 1rem;
+		line-height: 1.85;
+	}
+
+	.vehicle-overview__copy > p + p:not(.eyebrow) {
+		margin-top: 0.8rem;
+	}
+
+	.quote-link {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.65rem;
+		margin-top: 2rem;
+		padding-bottom: 0.35rem;
+		border-bottom: 1px solid #d99d08;
+		color: #171815;
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.72rem;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+		text-decoration: none;
+		text-transform: uppercase;
+	}
+
+	.quote-link svg,
+	.other-vehicle__copy svg {
+		width: 1.1rem;
+		height: 1.1rem;
+		fill: none;
+		stroke: currentColor;
+		stroke-width: 1.6;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	}
+
+	.vehicle-specs {
+		padding: clamp(2rem, 4vw, 3rem);
+		border-top: 0.25rem solid #f7b817;
+		background: #fff;
+		box-shadow: 0 1.5rem 4rem rgba(23, 24, 21, 0.09);
+	}
+
+	.vehicle-specs > p {
+		margin: 0 0 1.75rem;
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.66rem;
+		font-weight: 700;
+		letter-spacing: 0.14em;
+		text-transform: uppercase;
+	}
+
+	.vehicle-specs > p strong {
+		display: block;
+		margin-top: 0.4rem;
+		font-family: 'Libre Caslon Display', Georgia, serif;
+		font-size: clamp(1.8rem, 3vw, 2.6rem);
+		font-weight: 400;
+		letter-spacing: -0.03em;
+		line-height: 1.1;
+		text-transform: none;
+	}
+
+	.vehicle-specs ul {
+		margin: 0;
+		padding: 0;
+		border-top: 1px solid rgba(23, 24, 21, 0.13);
+		list-style: none;
+	}
+
+	.vehicle-specs li {
+		display: flex;
+		align-items: center;
+		gap: 0.75rem;
+		min-height: 3.4rem;
+		border-bottom: 1px solid rgba(23, 24, 21, 0.13);
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.83rem;
+	}
+
+	.vehicle-specs li span {
+		color: #a97400;
+		font-weight: 700;
+	}
+
+	.vehicle-use {
+		padding: clamp(5rem, 9vw, 8rem) 0;
+		background: #171815;
+		color: #fff;
+	}
+
+	.vehicle-use__grid {
+		display: grid;
+		grid-template-columns: minmax(0, 0.72fr) minmax(30rem, 1.28fr);
+		align-items: start;
+		gap: clamp(3rem, 9vw, 8rem);
+	}
+
+	.use-grid {
+		display: grid;
+		grid-template-columns: repeat(3, minmax(0, 1fr));
+		border-top: 1px solid rgba(255, 255, 255, 0.16);
+		border-left: 1px solid rgba(255, 255, 255, 0.16);
+	}
+
+	.use-grid article {
+		min-height: 16rem;
+		padding: clamp(1.5rem, 3vw, 2.5rem);
+		border-right: 1px solid rgba(255, 255, 255, 0.16);
+		border-bottom: 1px solid rgba(255, 255, 255, 0.16);
+	}
+
+	.use-grid span {
+		display: block;
+		margin-bottom: 4.5rem;
+		color: #f7b817;
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.7rem;
+		font-weight: 700;
+		letter-spacing: 0.14em;
+	}
+
+	.use-grid h3 {
+		margin: 0;
+		font-family: 'Libre Caslon Display', Georgia, serif;
+		font-size: clamp(1.45rem, 2.4vw, 2.1rem);
+		font-weight: 400;
+		line-height: 1.08;
+	}
+
+	.other-vehicle {
+		padding: clamp(5rem, 9vw, 8rem) 0;
+	}
+
+	.other-vehicle__heading {
+		display: flex;
+		align-items: end;
+		justify-content: space-between;
+		gap: 2rem;
+		margin-bottom: 2.5rem;
+	}
+
+	.other-vehicle__heading > a {
+		padding-bottom: 0.25rem;
+		border-bottom: 1px solid #d99d08;
+		color: #171815;
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.7rem;
+		font-weight: 700;
+		letter-spacing: 0.1em;
+		text-decoration: none;
+		text-transform: uppercase;
+	}
+
+	.other-vehicle__card {
+		display: grid;
+		grid-template-columns: minmax(0, 1.15fr) minmax(20rem, 0.85fr);
+		padding: 0;
+		background: #fff;
+		color: #171815;
+		box-shadow: 0 1.5rem 4rem rgba(23, 24, 21, 0.09);
+		text-decoration: none;
+	}
+
+	.other-vehicle__media {
+		min-height: 28rem;
+		overflow: hidden;
+		background: #e9e6df;
+	}
+
+	.other-vehicle__media img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 400ms ease;
+	}
+
+	.other-vehicle__card:hover img {
+		transform: scale(1.025);
+	}
+
+	.other-vehicle__copy {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		padding: clamp(2.25rem, 5vw, 4.75rem);
+	}
+
+	.other-vehicle__copy > span {
+		color: #9a6b00;
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.68rem;
+		font-weight: 700;
+		letter-spacing: 0.13em;
+		text-transform: uppercase;
+	}
+
+	.other-vehicle__copy h3 {
+		margin: 1.25rem 0 0;
+		font-family: 'Libre Caslon Display', Georgia, serif;
+		font-size: clamp(2.1rem, 4vw, 3.6rem);
+		font-weight: 400;
+		letter-spacing: -0.04em;
+		line-height: 1;
+	}
+
+	.other-vehicle__copy p {
+		margin: 1rem 0 2rem;
+		color: #5f625e;
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.9rem;
+		line-height: 1.75;
+	}
+
+	.other-vehicle__copy strong {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.6rem;
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.68rem;
+		letter-spacing: 0.1em;
+		text-transform: uppercase;
+	}
+
+	@media (max-width: 62rem) {
+		.vehicle-use__grid {
+			grid-template-columns: 1fr;
+		}
+	}
+
+	@media (max-width: 50rem) {
+		.vehicle-overview__grid,
+		.other-vehicle__card {
+			grid-template-columns: 1fr;
+		}
+
+		.other-vehicle__heading {
+			align-items: start;
+			flex-direction: column;
+		}
+	}
+
+	@media (max-width: 38rem) {
+		.page-shell {
+			width: min(calc(100% - 2rem), 77.5rem);
+		}
+
+		.breadcrumbs ol {
+			overflow-x: auto;
+			white-space: nowrap;
+		}
+
+		.use-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.use-grid article {
+			min-height: 12rem;
+		}
+
+		.use-grid span {
+			margin-bottom: 3rem;
+		}
+
+		.other-vehicle__media {
+			min-height: 20rem;
+		}
+	}
+</style>

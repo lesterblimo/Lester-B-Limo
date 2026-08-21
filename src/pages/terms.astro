@@ -1,0 +1,42 @@
+---
+import LegalPage from '../components/LegalPage.astro';
+import SiteLayout from '../layouts/SiteLayout.astro';
+import { SITE } from '../config/site';
+---
+
+<SiteLayout
+	title={`Website Terms | ${SITE.name}`}
+	description={`Website terms for visitors using the ${SITE.name} website and its contact tools.`}
+	headerVariant="solid"
+>
+	<LegalPage
+		eyebrow="Website information"
+		title="Website Terms"
+		intro="These terms apply to the use of this website. Reservation-specific details should be confirmed directly with Lester Pearson Limousine."
+	>
+		<section>
+			<h2>Website purpose</h2>
+			<p>This website provides general information about transportation services and offers ways to contact Lester Pearson Limousine. Website content is informational and may be updated as services or site content change.</p>
+		</section>
+
+		<section>
+			<h2>Quote requests and reservations</h2>
+			<p>Sending a quote request or other message does not by itself confirm a reservation. Trip details, vehicle selection, pricing, and service arrangements should be confirmed directly before relying on a transportation booking.</p>
+		</section>
+
+		<section>
+			<h2>Information you provide</h2>
+			<p>Please provide accurate contact and trip information. Do not include sensitive information that is not needed to discuss the transportation request.</p>
+		</section>
+
+		<section>
+			<h2>Website availability</h2>
+			<p>Reasonable efforts are made to keep website information available and useful, but uninterrupted access is not guaranteed. For time-sensitive transportation questions, call <a href={SITE.phoneHref}>{SITE.phoneDisplay}</a>.</p>
+		</section>
+
+		<section>
+			<h2>Contact</h2>
+			<p>Questions about these website terms can be sent to <a href={`mailto:${SITE.email}`}>{SITE.email}</a>.</p>
+		</section>
+	</LegalPage>
+</SiteLayout>
