@@ -1,0 +1,209 @@
+---
+import PageCta from '../components/PageCta.astro';
+import PageHero from '../components/PageHero.astro';
+import { SITE } from '../config/site';
+import SiteLayout from '../layouts/SiteLayout.astro';
+---
+
+<SiteLayout
+	title={`Thank You | ${SITE.name}`}
+	description="Your request has been received by Lester Pearson Limousine. A reply will follow using the contact details provided."
+	image="/images/hero-cadillac-escalade-road.webp"
+	imageAlt="Black Cadillac Escalade driving along a tree-lined road"
+	noindex
+>
+	<PageHero
+		eyebrow="Request received"
+		title="Thank You for"
+		accent="Reaching Out"
+		description="Your details have been sent to Lester Pearson Limousine. A reply will follow using the contact information you provided."
+		image="/images/hero-cadillac-escalade-road.webp"
+		imageAlt="Black Cadillac Escalade driving along a tree-lined road"
+		compact
+	/>
+
+	<section class="confirmation" aria-labelledby="confirmation-heading">
+		<div class="confirmation__shell">
+			<div class="confirmation__heading">
+				<p>What happens next</p>
+				<h2 id="confirmation-heading">Your Request Is With Us.</h2>
+			</div>
+
+			<ol class="confirmation__steps">
+				<li>
+					<span>01</span>
+					<div>
+						<strong>We review the details</strong>
+						<p>The itinerary, passenger count, and vehicle preference are checked against availability.</p>
+					</div>
+				</li>
+				<li>
+					<span>02</span>
+					<div>
+						<strong>We reply directly</strong>
+						<p>A response is sent to the email address or phone number you provided.</p>
+					</div>
+				</li>
+				<li>
+					<span>03</span>
+					<div>
+						<strong>Nothing is booked yet</strong>
+						<p>Pricing, availability, and the final trip details are confirmed with you before any reservation is made.</p>
+					</div>
+				</li>
+			</ol>
+
+			<div class="confirmation__contact">
+				<p>Need to reach us sooner?</p>
+				<div>
+					<a class="confirmation__phone" href={SITE.phoneHref}>Call {SITE.phoneDisplay}</a>
+					<a class="confirmation__email" href={`mailto:${SITE.email}`}>{SITE.email}</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<PageCta
+		eyebrow="While you are here"
+		title="Explore the"
+		accent="Fleet"
+		description="Compare the Executive SUV, Executive Sedan, and Executive Sprinter to see which vehicle fits your next trip."
+		primaryHref="/fleet/"
+		primaryLabel="View the Fleet"
+	/>
+</SiteLayout>
+
+<style>
+	.confirmation {
+		padding: clamp(4.5rem, 8vw, 7rem) 0;
+		background: #f8f6f0;
+		color: #171815;
+	}
+
+	.confirmation__shell {
+		width: min(calc(100% - 3rem), 77.5rem);
+		margin: 0 auto;
+	}
+
+	.confirmation__heading > p {
+		margin: 0 0 1.1rem;
+		color: #9a6b00;
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.7rem;
+		font-weight: 700;
+		letter-spacing: 0.18em;
+		text-transform: uppercase;
+	}
+
+	.confirmation__heading h2 {
+		max-width: 44rem;
+		margin: 0 0 clamp(2.5rem, 5vw, 3.5rem);
+		font-family: 'Libre Caslon Display', Georgia, serif;
+		font-size: clamp(2.3rem, 4.5vw, 3.8rem);
+		font-weight: 400;
+		letter-spacing: -0.045em;
+		line-height: 1.02;
+	}
+
+	.confirmation__steps {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+		gap: 0;
+		padding: 0;
+		margin: 0;
+		border-top: 1px solid rgba(23, 24, 21, 0.14);
+		border-left: 1px solid rgba(23, 24, 21, 0.14);
+		list-style: none;
+	}
+
+	.confirmation__steps li {
+		display: flex;
+		gap: 1.1rem;
+		padding: clamp(1.5rem, 3vw, 2.25rem);
+		border-right: 1px solid rgba(23, 24, 21, 0.14);
+		border-bottom: 1px solid rgba(23, 24, 21, 0.14);
+		background: #fff;
+	}
+
+	.confirmation__steps span {
+		color: #b27b00;
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.72rem;
+		font-weight: 700;
+		letter-spacing: 0.12em;
+	}
+
+	.confirmation__steps strong {
+		display: block;
+		margin-bottom: 0.5rem;
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.95rem;
+	}
+
+	.confirmation__steps p {
+		margin: 0;
+		color: #5f625e;
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.86rem;
+		line-height: 1.7;
+	}
+
+	.confirmation__contact {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		gap: 1.5rem;
+		padding: clamp(1.5rem, 3vw, 2.25rem);
+		margin-top: clamp(2.5rem, 5vw, 3.5rem);
+		background: #171815;
+		color: #fff;
+	}
+
+	.confirmation__contact > p {
+		margin: 0;
+		font-family: 'Libre Caslon Display', Georgia, serif;
+		font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+	}
+
+	.confirmation__contact > div {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		gap: 1.5rem;
+	}
+
+	.confirmation__contact a {
+		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+		font-size: 0.72rem;
+		font-weight: 700;
+		letter-spacing: 0.1em;
+		text-decoration: none;
+		text-transform: uppercase;
+	}
+
+	.confirmation__phone {
+		padding: 0.85rem 1.4rem;
+		background: #f7b817;
+		color: #171815;
+		transition: background-color 180ms ease;
+	}
+
+	.confirmation__phone:hover {
+		background: #d99d08;
+	}
+
+	.confirmation__email {
+		padding-bottom: 0.25rem;
+		border-bottom: 1px solid #f7b817;
+		color: #fff;
+		text-transform: none;
+		letter-spacing: 0.02em;
+	}
+
+	@media (max-width: 38rem) {
+		.confirmation__shell {
+			width: min(calc(100% - 2rem), 77.5rem);
+		}
+	}
+</style>

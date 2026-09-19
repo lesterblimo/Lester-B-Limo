@@ -85,7 +85,22 @@ const reviews = [
 							<li data-step-marker="2"><span>2</span><small>Contact</small></li>
 						</ol>
 					</div>
-					<form class="quote-form" id="quote-form" data-quote-form data-email={emailAddress} novalidate>
+					<form
+						class="quote-form"
+						id="quote-form"
+						data-quote-form
+						data-email={emailAddress}
+						name="home-quote"
+						method="POST"
+						action="/thank-you/"
+						data-netlify="true"
+						data-netlify-honeypot="bot-field"
+						novalidate
+					>
+						<input type="hidden" name="form-name" value="home-quote" />
+						<p class="botfield" aria-hidden="true">
+							<label>Leave this field empty<input name="bot-field" type="text" tabindex="-1" autocomplete="off" /></label>
+						</p>
 						<div class="form-panel" data-form-step="1">
 							<div class="form-grid">
 								<label class="field">
@@ -134,8 +149,8 @@ const reviews = [
 									<span>Vehicle Preference</span>
 									<select name="vehicle" required>
 										<option value="">Select vehicle</option>
-										<option>Executive Sedan</option>
 										<option>Executive SUV</option>
+										<option>Executive Sedan</option>
 										<option>Executive Sprinter</option>
 										<option>Recommend for Me</option>
 									</select>
@@ -183,14 +198,12 @@ const reviews = [
 									Back to trip details
 								</button>
 								<div class="submit-wrap">
-									<button class="button button--gold button--large" type="submit">Submit Quote Request <Fragment set:html={ArrowIcon} /></button>
-									<small>Submitting opens your email app.</small>
+									<button class="button button--gold button--large" type="submit" data-quote-submit><span data-quote-submit-label>Submit Quote Request</span> <Fragment set:html={ArrowIcon} /></button>
+									<small>We reply using the contact details you provide.</small>
 								</div>
 							</div>
 						</div>
-						<p class="form-status" data-form-status role="status" tabindex="-1" hidden>
-							Your email app should open with your quote details. If it does not, email us directly at {emailAddress}.
-						</p>
+						<p class="form-status" data-form-status role="status" tabindex="-1" hidden></p>
 					</form>
 				</div>
 			</div>
@@ -208,21 +221,6 @@ const reviews = [
 				<div class="fleet-grid">
 					<article class="fleet-card">
 						<div class="fleet-card__media">
-							<img src="/images/fleet-chrysler-300-sedan.webp" alt="Black Chrysler 300 executive sedan" width="1600" height="904" loading="lazy" />
-							<span class="capacity-badge"><strong>4</strong> passengers</span>
-						</div>
-						<div class="fleet-card__body">
-							<h3>Executive Sedan</h3>
-							<p>A refined executive sedan offering a quiet ride, leather seating, and professional transportation for airport transfers, corporate travel, and private service.</p>
-							<ul class="attribute-list">
-								<li>Up to 4 passengers</li><li>Premium leather interior</li><li>Quiet, private cabin</li><li>Airport &amp; corporate travel</li>
-							</ul>
-							<a class="arrow-link" href="/fleet/executive-sedan/">View Executive Sedan <Fragment set:html={ArrowIcon} /></a>
-						</div>
-					</article>
-
-					<article class="fleet-card">
-						<div class="fleet-card__media">
 							<img src="/images/fleet-chevrolet-suburban-2025.avif" alt="Black 2025 Chevrolet Suburban" width="768" height="450" loading="lazy" />
 							<span class="capacity-badge"><strong>6</strong> passengers</span>
 						</div>
@@ -233,6 +231,21 @@ const reviews = [
 								<li>Up to 6 passengers</li><li>Premium leather interior</li><li>Spacious luggage capacity</li><li>Airport & corporate travel</li>
 							</ul>
 							<a class="arrow-link" href="/fleet/executive-suv/">View Executive SUV <Fragment set:html={ArrowIcon} /></a>
+						</div>
+					</article>
+
+					<article class="fleet-card">
+						<div class="fleet-card__media">
+							<img src="/images/fleet-chrysler-300-sedan.webp" alt="Black Chrysler 300 executive sedan" width="1600" height="904" loading="lazy" />
+							<span class="capacity-badge"><strong>4</strong> passengers</span>
+						</div>
+						<div class="fleet-card__body">
+							<h3>Executive Sedan</h3>
+							<p>A refined executive sedan offering a quiet ride, leather seating, and professional transportation for airport transfers, corporate travel, and private service.</p>
+							<ul class="attribute-list">
+								<li>Up to 4 passengers</li><li>Premium leather interior</li><li>Quiet, private cabin</li><li>Airport &amp; corporate travel</li>
+							</ul>
+							<a class="arrow-link" href="/fleet/executive-sedan/">View Executive Sedan <Fragment set:html={ArrowIcon} /></a>
 						</div>
 					</article>
 
@@ -418,24 +431,51 @@ const reviews = [
 			nextButton?.focus();
 		});
 
-		form?.addEventListener('submit', (event) => {
+		const quoteSubmit = document.querySelector<HTMLButtonElement>('[data-quote-submit]');
+		const quoteSubmitLabel = document.querySelector<HTMLElement>('[data-quote-submit-label]');
+		const quoteSubmitDefault = quoteSubmitLabel?.textContent ?? 'Submit Quote Request';
+
+		const setQuoteStatus = (state: 'sending' | 'sent' | 'error', message: string) => {
+			if (!status) return;
+			status.hidden = false;
+			status.dataset.state = state;
+			status.textContent = message;
+		};
+
+		form?.addEventListener('submit', async (event) => {
 			event.preventDefault();
 			if (!form.checkValidity()) {
 				form.reportValidity();
 				return;
 			}
-			if (status) {
-				status.hidden = false;
-				status.focus();
-			}
 
-			const email = form.dataset.email;
-			if (!email) return;
-			const details = Array.from(new FormData(form).entries())
-				.filter(([, value]) => String(value).trim())
-				.map(([key, value]) => `${key.replace(/([A-Z])/g, ' $1').replace(/^./, (letter) => letter.toUpperCase())}: ${value}`)
-				.join('\n');
-			window.location.href = `mailto:${email}?subject=${encodeURIComponent('Transportation quote request')}&body=${encodeURIComponent(details)}`;
+			const body = new URLSearchParams();
+			new FormData(form).forEach((value, key) => {
+				body.append(key, typeof value === 'string' ? value : value.name);
+			});
+
+			if (quoteSubmit) quoteSubmit.disabled = true;
+			if (quoteSubmitLabel) quoteSubmitLabel.textContent = 'Sending…';
+			setQuoteStatus('sending', 'Sending your quote request…');
+
+			try {
+				const response = await fetch(form.action, {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+					body: body.toString(),
+				});
+				if (!response.ok) throw new Error(`Request failed with status ${response.status}`);
+				form.reset();
+				showStep(1);
+				setQuoteStatus('sent', 'Thank you — your quote request was sent. We will reply using the contact details you provided.');
+				status?.focus();
+			} catch {
+				setQuoteStatus('error', `Your request could not be sent. Please try again, or email us directly at ${form.dataset.email ?? ''}.`);
+				status?.focus();
+			} finally {
+				if (quoteSubmit) quoteSubmit.disabled = false;
+				if (quoteSubmitLabel) quoteSubmitLabel.textContent = quoteSubmitDefault;
+			}
 		});
 
 		const reviewCarousel = document.querySelector<HTMLElement>('[data-review-carousel]');
@@ -1156,6 +1196,18 @@ const reviews = [
 			font-size: 0.7rem;
 		}
 
+		.botfield {
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			margin: -1px;
+			padding: 0;
+			border: 0;
+			overflow: hidden;
+			clip-path: inset(50%);
+			white-space: nowrap;
+		}
+
 		.form-status {
 			padding: 14px 18px;
 			margin: 24px 0 0;
@@ -1163,6 +1215,18 @@ const reviews = [
 			background: #fff8df;
 			color: #56430e;
 			font-size: 0.88rem;
+		}
+
+		.form-status[data-state='sent'] {
+			border-left-color: #2f7a4f;
+			background: #eef6f0;
+			color: #24503a;
+		}
+
+		.form-status[data-state='error'] {
+			border-left-color: #a8362c;
+			background: #faeeec;
+			color: #6f2721;
 		}
 
 		.fleet {

@@ -7,6 +7,7 @@ interface Props {
 
 const { mode } = Astro.props;
 const isQuote = mode === 'quote';
+const formName = isQuote ? 'quote' : 'contact';
 const formId = `${mode}-lead-form`;
 const titleId = `${formId}-title`;
 const disclosureId = `${formId}-disclosure`;
@@ -30,11 +31,18 @@ const statusId = `${formId}-status`;
 		data-lead-form
 		data-mode={mode}
 		data-recipient={SITE.email}
-		action={`mailto:${SITE.email}`}
-		method="post"
-		enctype="text/plain"
+		name={formName}
+		method="POST"
+		action="/thank-you/"
+		data-netlify="true"
+		data-netlify-honeypot="bot-field"
 		aria-describedby={disclosureId}
 	>
+		<input type="hidden" name="form-name" value={formName} />
+		<p class="lead-form__botfield" aria-hidden="true">
+			<label>Leave this field empty<input name="bot-field" type="text" tabindex="-1" autocomplete="off" /></label>
+		</p>
+
 		<div class="lead-form__grid">
 			<label class="field">
 				<span>Name <span aria-hidden="true">*</span></span>
@@ -80,8 +88,8 @@ const statusId = `${formId}-status`;
 						<span>Vehicle Preference <span aria-hidden="true">*</span></span>
 						<select name="vehicle" required data-prefill-vehicle>
 							<option value="">Choose a vehicle</option>
-							<option>Executive Sedan</option>
 							<option>Executive SUV</option>
+							<option>Executive Sedan</option>
 							<option>Executive Sprinter</option>
 							<option>Recommend for Me</option>
 						</select>
@@ -145,44 +153,25 @@ const statusId = `${formId}-status`;
 					<path d="m9 12 2 2 4-4" />
 				</svg>
 				<p>
-					<strong>This website does not send or store these details.</strong>
-					The button opens a prefilled draft in your email app. Review the draft and choose Send there.
+					<strong>Your details are sent directly to Lester Pearson Limousine.</strong>
+					They are used only to answer your {isQuote ? 'quote request' : 'question'} and are never sold or shared for advertising.
 				</p>
 			</div>
 
 			<div class="lead-form__actions">
-				<button class="lead-form__submit" type="submit">
-					Open Email Draft
+				<button class="lead-form__submit" type="submit" data-lead-form-submit>
+					<span data-lead-form-submit-label>{isQuote ? 'Send Quote Request' : 'Send Message'}</span>
 					<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M4 10h11m-4-4 4 4-4 4" /></svg>
 				</button>
 				<p>or email <a href={`mailto:${SITE.email}`}>{SITE.email}</a></p>
 			</div>
 		</div>
 
-		<p class="lead-form__status" id={statusId} data-lead-form-status role="status" tabindex="-1" hidden>
-			Your email app should open with a draft. Review it and choose Send to deliver your message.
-		</p>
+		<p class="lead-form__status" id={statusId} data-lead-form-status role="status" tabindex="-1" hidden></p>
 	</form>
 </section>
 
 <script>
-	const fieldLabels: Record<string, string> = {
-		name: 'Name',
-		email: 'Email',
-		phone: 'Phone',
-		service: 'Service',
-		tripType: 'Trip type',
-		vehicle: 'Vehicle preference',
-		pickup: 'Pickup location',
-		dropoff: 'Drop-off location',
-		pickupDate: 'Pickup date',
-		pickupTime: 'Pickup time',
-		passengers: 'Passengers',
-		topic: 'Topic',
-		notes: 'Additional details',
-		message: 'Message',
-	};
-
 	const normalizeOption = (value: string) => value.trim().toLowerCase().replace(/[^a-z0-9]+/g, '');
 
 	const prefillSelect = (select: HTMLSelectElement | null, rawValue: string | null, aliases: Record<string, string>) => {
@@ -211,13 +200,13 @@ const statusId = `${formId}-status`;
 		if (form.dataset.mode === 'quote') {
 			const params = new URLSearchParams(window.location.search);
 			prefillSelect(form.querySelector('[data-prefill-vehicle]'), params.get('vehicle'), {
-				sedan: 'Executive Sedan',
-				executivesedan: 'Executive Sedan',
-				chrysler300: 'Executive Sedan',
 				suv: 'Executive SUV',
 				executivesuv: 'Executive SUV',
 				cadillacescalade: 'Executive SUV',
 				chevroletsuburban: 'Executive SUV',
+				sedan: 'Executive Sedan',
+				executivesedan: 'Executive Sedan',
+				chrysler300: 'Executive Sedan',
 				sprinter: 'Executive Sprinter',
 				executivesprinter: 'Executive Sprinter',
 				mercedessprinter: 'Executive Sprinter',
@@ -241,33 +230,49 @@ const statusId = `${formId}-status`;
 			});
 		}
 
-		form.addEventListener('submit', (event) => {
+		const status = form.querySelector<HTMLElement>('[data-lead-form-status]');
+		const submitButton = form.querySelector<HTMLButtonElement>('[data-lead-form-submit]');
+		const submitLabel = form.querySelector<HTMLElement>('[data-lead-form-submit-label]');
+		const defaultLabel = submitLabel?.textContent ?? 'Send';
+		const recipient = form.dataset.recipient ?? '';
+
+		const setStatus = (state: 'sending' | 'sent' | 'error', message: string) => {
+			if (!status) return;
+			status.hidden = false;
+			status.dataset.state = state;
+			status.textContent = message;
+		};
+
+		form.addEventListener('submit', async (event) => {
 			event.preventDefault();
 			if (!form.reportValidity()) return;
 
-			const values = new FormData(form);
-			const mode = form.dataset.mode === 'quote' ? 'quote' : 'contact';
-			const name = String(values.get('name') ?? '').trim();
-			const topic = String(values.get(mode === 'quote' ? 'service' : 'topic') ?? '').trim();
-			const recipient = form.dataset.recipient ?? '';
-			const subject = mode === 'quote'
-				? `Quote request${name ? ` — ${name}` : ''}`
-				: `${topic || 'Website inquiry'}${name ? ` — ${name}` : ''}`;
-			const introduction = mode === 'quote'
-				? 'Hello Lester Pearson Limousine,\n\nI would like to request a transportation quote.'
-				: 'Hello Lester Pearson Limousine,\n\nI have a question.';
-			const details = Array.from(values.entries())
-				.map(([key, rawValue]) => [key, String(rawValue).trim()] as const)
-				.filter(([, value]) => value.length > 0)
-				.map(([key, value]) => `${fieldLabels[key] ?? key}: ${value}`);
-			const body = `${introduction}\n\n${details.join('\n')}\n\nThank you.`;
-			const mailto = `mailto:${recipient}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-			const status = form.querySelector<HTMLElement>('[data-lead-form-status]');
-			if (status) {
-				status.hidden = false;
-				status.focus();
+			const body = new URLSearchParams();
+			new FormData(form).forEach((value, key) => {
+				body.append(key, typeof value === 'string' ? value : value.name);
+			});
+
+			if (submitButton) submitButton.disabled = true;
+			if (submitLabel) submitLabel.textContent = 'Sending…';
+			setStatus('sending', 'Sending your details…');
+
+			try {
+				const response = await fetch(form.action, {
+					method: 'POST',
+					headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+					body: body.toString(),
+				});
+				if (!response.ok) throw new Error(`Request failed with status ${response.status}`);
+				form.reset();
+				setStatus('sent', 'Thank you — your details were sent. We will reply using the contact information you provided.');
+				status?.focus();
+			} catch {
+				setStatus('error', `Your message could not be sent. Please try again, or email us directly at ${recipient}.`);
+				status?.focus();
+			} finally {
+				if (submitButton) submitButton.disabled = false;
+				if (submitLabel) submitLabel.textContent = defaultLabel;
 			}
-			window.setTimeout(() => window.location.assign(mailto), 80);
 		});
 	});
 </script>
@@ -467,12 +472,34 @@ const statusId = `${formId}-status`;
 		font-weight: 700;
 	}
 
+	.lead-form__botfield {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		margin: -1px;
+		padding: 0;
+		border: 0;
+		overflow: hidden;
+		clip-path: inset(50%);
+		white-space: nowrap;
+	}
+
 	.lead-form__status {
 		padding: 14px 16px;
 		margin-top: 20px;
 		border-left: 3px solid var(--gold, #f7b817);
 		background: #f8f3e5;
 		color: #373832;
+	}
+
+	.lead-form__status[data-state='sent'] {
+		border-left-color: #2f7a4f;
+		background: #eef6f0;
+	}
+
+	.lead-form__status[data-state='error'] {
+		border-left-color: #a8362c;
+		background: #faeeec;
 	}
 
 	@media (max-width: 760px) {

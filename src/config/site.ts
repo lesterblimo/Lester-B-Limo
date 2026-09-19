@@ -40,8 +40,8 @@ export const FOOTER_NAVIGATION = [
 	{
 		label: 'Fleet',
 		links: [
-			{ label: 'Executive Sedan', href: '/fleet/executive-sedan/' },
 			{ label: 'Executive SUVs', href: '/fleet/executive-suv/' },
+			{ label: 'Executive Sedan', href: '/fleet/executive-sedan/' },
 			{ label: 'Executive Sprinter', href: '/fleet/executive-sprinter/' },
 		],
 	},
