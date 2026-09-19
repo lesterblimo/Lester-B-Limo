@@ -49,7 +49,7 @@ export const services: Service[] = [
 		introTitle: 'A quieter way to navigate airport travel',
 		intro: [
 			'From a scheduled pickup to the final drop-off, each part of the airport transfer is coordinated around the trip.',
-			'Executive SUVs and Executive Sprinter service provide options for private travelers, groups, and their luggage.',
+			'Executive Sedans, Executive SUVs, and Executive Sprinter service provide options for private travelers, groups, and their luggage.',
 		],
 		features: [
 			{
@@ -218,7 +218,7 @@ export const services: Service[] = [
 		introTitle: 'Transportation planned with the occasion',
 		intro: [
 			'Wedding and special-event transportation brings the arrival into the wider plan for the day.',
-			'Private executive SUVs and the Executive Sprinter offer options for personal and group transportation.',
+			'Private executive sedans, executive SUVs, and the Executive Sprinter offer options for personal and group transportation.',
 		],
 		features: [
 			{

@@ -80,6 +80,7 @@ const statusId = `${formId}-status`;
 						<span>Vehicle Preference <span aria-hidden="true">*</span></span>
 						<select name="vehicle" required data-prefill-vehicle>
 							<option value="">Choose a vehicle</option>
+							<option>Executive Sedan</option>
 							<option>Executive SUV</option>
 							<option>Executive Sprinter</option>
 							<option>Recommend for Me</option>
@@ -210,6 +211,9 @@ const statusId = `${formId}-status`;
 		if (form.dataset.mode === 'quote') {
 			const params = new URLSearchParams(window.location.search);
 			prefillSelect(form.querySelector('[data-prefill-vehicle]'), params.get('vehicle'), {
+				sedan: 'Executive Sedan',
+				executivesedan: 'Executive Sedan',
+				chrysler300: 'Executive Sedan',
 				suv: 'Executive SUV',
 				executivesuv: 'Executive SUV',
 				cadillacescalade: 'Executive SUV',

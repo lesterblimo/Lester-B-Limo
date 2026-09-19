@@ -134,6 +134,7 @@ const reviews = [
 									<span>Vehicle Preference</span>
 									<select name="vehicle" required>
 										<option value="">Select vehicle</option>
+										<option>Executive Sedan</option>
 										<option>Executive SUV</option>
 										<option>Executive Sprinter</option>
 										<option>Recommend for Me</option>
@@ -205,6 +206,21 @@ const reviews = [
 				</div>
 
 				<div class="fleet-grid">
+					<article class="fleet-card">
+						<div class="fleet-card__media">
+							<img src="/images/fleet-chrysler-300-sedan.webp" alt="Black Chrysler 300 executive sedan" width="1600" height="904" loading="lazy" />
+							<span class="capacity-badge"><strong>4</strong> passengers</span>
+						</div>
+						<div class="fleet-card__body">
+							<h3>Executive Sedan</h3>
+							<p>A refined executive sedan offering a quiet ride, leather seating, and professional transportation for airport transfers, corporate travel, and private service.</p>
+							<ul class="attribute-list">
+								<li>Up to 4 passengers</li><li>Premium leather interior</li><li>Quiet, private cabin</li><li>Airport &amp; corporate travel</li>
+							</ul>
+							<a class="arrow-link" href="/fleet/executive-sedan/">View Executive Sedan <Fragment set:html={ArrowIcon} /></a>
+						</div>
+					</article>
+
 					<article class="fleet-card">
 						<div class="fleet-card__media">
 							<img src="/images/fleet-chevrolet-suburban-2025.avif" alt="Black 2025 Chevrolet Suburban" width="768" height="450" loading="lazy" />
@@ -1166,7 +1182,7 @@ const reviews = [
 
 		.fleet-grid {
 			display: grid;
-			grid-template-columns: repeat(2, minmax(0, 1fr));
+			grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
 			gap: 28px;
 		}
 

@@ -1,4 +1,4 @@
-export type FleetSlug = 'executive-suv' | 'executive-sprinter';
+export type FleetSlug = 'executive-sedan' | 'executive-suv' | 'executive-sprinter';
 
 export interface FleetGalleryImage {
 	src: string;
@@ -33,6 +33,55 @@ export interface FleetVehicle {
 }
 
 export const fleet: FleetVehicle[] = [
+	{
+		slug: 'executive-sedan',
+		name: 'Executive Sedan',
+		eyebrow: 'Our fleet',
+		heroTitle: 'Executive',
+		heroAccent: 'Sedan',
+		heroDescription:
+			'A quiet, private sedan for airport transfers, business travel, and personal service for up to four passengers.',
+		seoTitle: 'Executive Sedan | Lester Pearson Limousine',
+		seoDescription:
+			'Explore executive sedan transportation for up to four passengers, airport transfers, corporate travel, and private service.',
+		image: '/images/fleet-chrysler-300-sedan.webp',
+		imageAlt: 'Black Chrysler 300 executive sedan',
+		imageWidth: 1600,
+		imageHeight: 904,
+		gallery: [
+			{
+				src: '/images/fleet/gallery/sedan-interior-dashboard.webp',
+				alt: 'Executive sedan front cabin with leather seating, steering wheel, and centre touchscreen',
+				caption: 'Front cabin and controls',
+				width: 768,
+				height: 500,
+			},
+			{
+				src: '/images/fleet/gallery/sedan-interior-rear-seats.webp',
+				alt: 'Executive sedan rear bench with stitched black leather seating',
+				caption: 'Rear passenger seating',
+				width: 1200,
+				height: 800,
+			},
+		],
+		capacity: 'Up to 4 passengers',
+		capacityShort: '4 passengers',
+		description:
+			'A refined executive sedan offering a quiet ride, leather seating, and professional transportation for airport transfers, corporate travel, and private service.',
+		introTitle: 'A quieter way to travel',
+		intro: [
+			'The Executive Sedan is a discreet, comfortable option for airport transfers, business schedules, and personal transportation.',
+			'Its leather interior and quiet cabin suit trips for up to four passengers travelling with carry-on and standard luggage.',
+		],
+		attributes: [
+			'Up to 4 passengers',
+			'Premium leather interior',
+			'Quiet, private cabin',
+			'Airport and corporate travel',
+		],
+		useCases: ['Airport transfers', 'Corporate travel', 'Private transportation'],
+		quoteHref: '/quote/?vehicle=executive-sedan',
+	},
 	{
 		slug: 'executive-suv',
 		name: 'Full-Size Executive SUV',

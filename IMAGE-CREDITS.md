@@ -9,6 +9,9 @@ This file records where the website imagery came from. It is an inventory, not a
 - `public/images/fleet/gallery/suv-interior-dashboard-2026.avif` — supplied by the site owner as `2026_Chevrolet_Tahoe_Interior_2.avif`.
 - `public/images/fleet/gallery/suv-interior-captain-seats.webp` — supplied by the site owner as `e0d9051f8cdcce09be9644d8876ddfa4x.jpg` and optimized for web delivery.
 - `public/images/fleet/gallery/suv-interior-three-row-cabin.webp` — supplied by the site owner as `0a10c333127a9d4ac0af0e893d6c8c5b.jpg` and optimized for web delivery.
+- `public/images/fleet-chrysler-300-sedan.webp` — supplied by the site owner as `Chrysler-300-sedan.webp` and optimized for web delivery.
+- `public/images/fleet/gallery/sedan-interior-dashboard.webp` — supplied by the site owner as `Chrysler_300_interior.jpg` and optimized for web delivery.
+- `public/images/fleet/gallery/sedan-interior-rear-seats.webp` — supplied by the site owner as `Chrysler-300-interior-rear.jpg` and optimized for web delivery.
 - `public/images/fleet-mercedes-sprinter-black.png` — supplied by the site owner as `ChatGPT Image Aug 20, 2026, 02_59_25 AM.png`. The website serves the optimized `fleet-mercedes-sprinter-black.webp` derivative.
 - `public/images/lesterblimo-logo.png` and `public/images/lesterblimo-logo-white.png` — supplied brand assets. The website serves the optimized `lesterblimo-logo-white.webp` derivative.
 

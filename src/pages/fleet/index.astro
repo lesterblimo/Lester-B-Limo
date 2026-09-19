@@ -5,8 +5,8 @@ import SiteLayout from '../../layouts/SiteLayout.astro';
 ---
 
 <SiteLayout
-	title="Executive SUV & Sprinter Fleet | Lester Pearson Limousine"
-	description="Explore Lester Pearson Limousine's Full-Size Executive SUV and Executive Sprinter for private, airport, corporate, and group transportation."
+	title="Executive Sedan, SUV & Sprinter Fleet | Lester Pearson Limousine"
+	description="Explore Lester Pearson Limousine's Executive Sedan, Full-Size Executive SUV, and Executive Sprinter for private, airport, corporate, and group transportation."
 	headerVariant="solid"
 >
 	<Fragment>
@@ -63,6 +63,11 @@ import SiteLayout from '../../layouts/SiteLayout.astro';
 					<h2 id="fleet-fit-heading">The right amount of <em>room and comfort.</em></h2>
 				</div>
 				<div class="fleet-fit__options">
+					<article>
+						<span>Up to 4</span>
+						<h3>Executive Sedan</h3>
+						<p>A quiet, private sedan for airport transfers, business travel, and personal service.</p>
+					</article>
 					<article>
 						<span>Up to 6</span>
 						<h3>Executive SUV</h3>
@@ -401,7 +406,7 @@ import SiteLayout from '../../layouts/SiteLayout.astro';
 
 	.fleet-fit__options {
 		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
+		grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr));
 		border-top: 1px solid rgba(255, 255, 255, 0.16);
 		border-left: 1px solid rgba(255, 255, 255, 0.16);
 	}
@@ -415,7 +420,7 @@ import SiteLayout from '../../layouts/SiteLayout.astro';
 
 	.fleet-fit__options span {
 		display: block;
-		margin-bottom: 4.5rem;
+		margin-bottom: 3.25rem;
 		color: #f7b817;
 		font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
 		font-size: 0.72rem;
