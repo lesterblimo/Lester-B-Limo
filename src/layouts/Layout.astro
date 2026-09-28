@@ -32,6 +32,20 @@ const socialImage = image && Astro.site ? new URL(image, Astro.site).toString() 
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
+		{SITE.googleAdsId && (
+			<Fragment>
+				<link rel="preconnect" href="https://www.googletagmanager.com" />
+				{/* Google tag (gtag.js) */}
+				<script is:inline async src={`https://www.googletagmanager.com/gtag/js?id=${SITE.googleAdsId}`}></script>
+				<script
+					is:inline
+					set:html={`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${SITE.googleAdsId}');`}
+				/>
+			</Fragment>
+		)}
 		<meta name="description" content={description} />
 		{noindex && <meta name="robots" content="noindex, nofollow" />}
 		<meta name="theme-color" content="#171815" />

@@ -20,6 +20,8 @@ export const SITE = {
 	email: 'lesterb.limo@gmail.com',
 	serviceArea: 'Greater Toronto Area and beyond',
 	logo: '/images/lesterblimo-logo-white.webp',
+	// Google Ads conversion tracking (gtag.js). Empty string disables the tag.
+	googleAdsId: 'AW-16511033199',
 } as const;
 
 // Lowercase alias keeps page/component imports concise while SITE remains
