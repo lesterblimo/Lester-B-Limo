@@ -87,7 +87,7 @@ export const fleet: FleetVehicle[] = [
 			'Airport and corporate travel',
 		],
 		useCases: ['Airport transfers', 'Corporate travel', 'Private transportation'],
-		quoteHref: '/quote/?vehicle=executive-suv',
+		quoteHref: '/reserve/?vehicle=executive-suv',
 	},
 	{
 		slug: 'executive-sedan',
@@ -136,7 +136,7 @@ export const fleet: FleetVehicle[] = [
 			'Airport and corporate travel',
 		],
 		useCases: ['Airport transfers', 'Corporate travel', 'Private transportation'],
-		quoteHref: '/quote/?vehicle=executive-sedan',
+		quoteHref: '/reserve/?vehicle=executive-sedan',
 	},
 	{
 		slug: 'executive-sprinter',
@@ -195,7 +195,7 @@ export const fleet: FleetVehicle[] = [
 			'Large luggage capacity',
 		],
 		useCases: ['Group transportation', 'Airport transportation', 'Conferences and corporate events'],
-		quoteHref: '/quote/?vehicle=executive-sprinter',
+		quoteHref: '/reserve/?vehicle=executive-sprinter',
 	},
 ];
 

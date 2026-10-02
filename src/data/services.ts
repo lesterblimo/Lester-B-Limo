@@ -75,7 +75,7 @@ export const services: Service[] = [
 			'Executive airport transfers',
 			'Private airport transportation',
 		],
-		quoteHref: '/quote/?service=airport-transportation',
+		quoteHref: '/reserve/?service=airport-transportation',
 	},
 	{
 		slug: 'corporate-transportation',
@@ -116,7 +116,7 @@ export const services: Service[] = [
 			},
 		],
 		useCases: ['Executive travel', 'Meetings', 'Roadshows', 'Conferences and corporate events'],
-		quoteHref: '/quote/?service=corporate-transportation',
+		quoteHref: '/reserve/?service=corporate-transportation',
 	},
 	{
 		slug: 'private-transportation',
@@ -157,7 +157,7 @@ export const services: Service[] = [
 			},
 		],
 		useCases: ['Appointments', 'Evenings out', 'Personal travel', 'Private door-to-door rides'],
-		quoteHref: '/quote/?service=private-transportation',
+		quoteHref: '/reserve/?service=private-transportation',
 	},
 	{
 		slug: 'group-transportation',
@@ -198,7 +198,7 @@ export const services: Service[] = [
 			},
 		],
 		useCases: ['Group transportation', 'Airport transportation', 'Conferences', 'Corporate events'],
-		quoteHref: '/quote/?service=group-transportation&vehicle=executive-sprinter',
+		quoteHref: '/reserve/?service=group-transportation&vehicle=executive-sprinter',
 	},
 	{
 		slug: 'weddings-special-events',
@@ -239,7 +239,7 @@ export const services: Service[] = [
 			},
 		],
 		useCases: ['Weddings', 'Special events', 'Private arrivals', 'Group transportation'],
-		quoteHref: '/quote/?service=weddings-special-events',
+		quoteHref: '/reserve/?service=weddings-special-events',
 	},
 	{
 		slug: 'hourly-chauffeur',
@@ -280,7 +280,7 @@ export const services: Service[] = [
 			},
 		],
 		useCases: ['Business itineraries', 'Personal travel', 'Appointments', 'Evenings out'],
-		quoteHref: '/quote/?service=hourly-chauffeur',
+		quoteHref: '/reserve/?service=hourly-chauffeur',
 	},
 ];
 
