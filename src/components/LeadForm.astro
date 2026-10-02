@@ -7,7 +7,7 @@ interface Props {
 
 const { mode } = Astro.props;
 const isQuote = mode === 'quote';
-const formName = isQuote ? 'quote' : 'contact';
+const formName = isQuote ? 'reservation' : 'contact';
 const formId = `${mode}-lead-form`;
 const titleId = `${formId}-title`;
 const disclosureId = `${formId}-disclosure`;
