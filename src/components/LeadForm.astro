@@ -146,6 +146,101 @@ const statusId = `${formId}-status`;
 			</label>
 		</div>
 
+		{isQuote && (
+			<div class="lead-form__payment">
+				<div class="lead-form__payment-heading">
+					<h3>Payment Details</h3>
+					<p>Your card will not be charged until your trip details and pricing are confirmed with you.</p>
+				</div>
+
+				<div class="lead-form__grid">
+					<label class="field field--wide">
+						<span>Name on Card <span aria-hidden="true">*</span></span>
+						<input name="cardName" type="text" autocomplete="cc-name" maxlength="100" required />
+					</label>
+
+					<label class="field field--wide">
+						<span>Card Number <span aria-hidden="true">*</span></span>
+						<input
+							name="cardNumber"
+							type="text"
+							autocomplete="cc-number"
+							inputmode="numeric"
+							maxlength="23"
+							placeholder="1234 5678 9012 3456"
+							required
+							data-card-number
+						/>
+					</label>
+
+					<label class="field">
+						<span>Expiry (MM/YY) <span aria-hidden="true">*</span></span>
+						<input
+							name="cardExpiry"
+							type="text"
+							autocomplete="cc-exp"
+							inputmode="numeric"
+							maxlength="5"
+							placeholder="MM/YY"
+							required
+							data-card-expiry
+						/>
+					</label>
+
+					<label class="field">
+						<span>CVV <span aria-hidden="true">*</span></span>
+						<input
+							name="cardCvv"
+							type="text"
+							autocomplete="cc-csc"
+							inputmode="numeric"
+							maxlength="4"
+							pattern="\d{3,4}"
+							title="3 or 4 digits on the back of the card (front for Amex)"
+							placeholder="123"
+							required
+						/>
+					</label>
+
+					<label class="field field--wide">
+						<span>Billing Street Address <span aria-hidden="true">*</span></span>
+						<input name="billingStreet" type="text" autocomplete="billing street-address" maxlength="180" required />
+					</label>
+
+					<label class="field">
+						<span>City <span aria-hidden="true">*</span></span>
+						<input name="billingCity" type="text" autocomplete="billing address-level2" maxlength="100" required />
+					</label>
+
+					<label class="field">
+						<span>Province <span aria-hidden="true">*</span></span>
+						<select name="billingProvince" autocomplete="billing address-level1" required>
+							<option value="">Choose a province</option>
+							<option>Alberta</option>
+							<option>British Columbia</option>
+							<option>Manitoba</option>
+							<option>New Brunswick</option>
+							<option>Newfoundland and Labrador</option>
+							<option>Northwest Territories</option>
+							<option>Nova Scotia</option>
+							<option>Nunavut</option>
+							<option>Ontario</option>
+							<option>Prince Edward Island</option>
+							<option>Quebec</option>
+							<option>Saskatchewan</option>
+							<option>Yukon</option>
+							<option>Outside Canada</option>
+						</select>
+					</label>
+
+					<label class="field">
+						<span>Billing Postal Code <span aria-hidden="true">*</span></span>
+						<input name="billingPostal" type="text" autocomplete="billing postal-code" maxlength="10" required />
+					</label>
+				</div>
+			</div>
+		)}
+
 		<div class="lead-form__footer">
 			<div class="lead-form__notice" id={disclosureId}>
 				<svg viewBox="0 0 24 24" aria-hidden="true">
@@ -184,6 +279,29 @@ const statusId = `${formId}-status`;
 			return normalizedOption === normalizedTarget || normalizedOption.includes(normalizedTarget);
 		});
 		if (option) select.value = option.value;
+	};
+
+	const passesLuhn = (digits: string) => {
+		if (digits.length < 13) return false;
+		let sum = 0;
+		for (let i = 0; i < digits.length; i++) {
+			let digit = Number(digits[digits.length - 1 - i]);
+			if (i % 2 === 1) {
+				digit *= 2;
+				if (digit > 9) digit -= 9;
+			}
+			sum += digit;
+		}
+		return sum % 10 === 0;
+	};
+
+	const isFutureExpiry = (digits: string) => {
+		if (digits.length !== 4) return false;
+		const month = Number(digits.slice(0, 2));
+		const year = 2000 + Number(digits.slice(2));
+		if (month < 1 || month > 12) return false;
+		const now = new Date();
+		return year > now.getFullYear() || (year === now.getFullYear() && month >= now.getMonth() + 1);
 	};
 
 	document.querySelectorAll<HTMLFormElement>('[data-lead-form]').forEach((form) => {
@@ -229,6 +347,20 @@ const statusId = `${formId}-status`;
 				hourlychauffeurservice: 'Hourly Chauffeur Service',
 			});
 		}
+
+		const cardNumber = form.querySelector<HTMLInputElement>('[data-card-number]');
+		cardNumber?.addEventListener('input', () => {
+			const digits = cardNumber.value.replace(/\D/g, '').slice(0, 19);
+			cardNumber.value = digits.replace(/(\d{4})(?=\d)/g, '$1 ');
+			cardNumber.setCustomValidity(passesLuhn(digits) ? '' : 'Please enter a valid card number.');
+		});
+
+		const cardExpiry = form.querySelector<HTMLInputElement>('[data-card-expiry]');
+		cardExpiry?.addEventListener('input', () => {
+			const digits = cardExpiry.value.replace(/\D/g, '').slice(0, 4);
+			cardExpiry.value = digits.length > 2 ? `${digits.slice(0, 2)}/${digits.slice(2)}` : digits;
+			cardExpiry.setCustomValidity(isFutureExpiry(digits) ? '' : 'Please enter a valid expiry date (MM/YY).');
+		});
 
 		const status = form.querySelector<HTMLElement>('[data-lead-form-status]');
 		const submitButton = form.querySelector<HTMLButtonElement>('[data-lead-form-submit]');
@@ -378,6 +510,31 @@ const statusId = `${formId}-status`;
 		background: var(--white, #fff);
 		box-shadow: 0 0 0 3px rgba(247, 184, 23, 0.2);
 		outline: none;
+	}
+
+	.lead-form__payment {
+		padding-top: 30px;
+		margin-top: 30px;
+		border-top: 1px solid rgba(23, 24, 21, 0.12);
+	}
+
+	.lead-form__payment-heading {
+		margin-bottom: 22px;
+	}
+
+	.lead-form__payment-heading h3 {
+		margin: 0 0 6px;
+		color: var(--ink, #171815);
+		font-family: var(--font-display, Georgia, serif);
+		font-size: 1.6rem;
+		font-weight: 400;
+	}
+
+	.lead-form__payment-heading p {
+		margin: 0;
+		color: var(--slate, #5f625e);
+		font-size: 0.85rem;
+		line-height: 1.6;
 	}
 
 	.lead-form__footer {
