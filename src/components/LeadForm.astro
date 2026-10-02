@@ -55,15 +55,15 @@ const statusId = `${formId}-status`;
 			</label>
 
 			<label class="field">
-				<span>Phone {isQuote && <span aria-hidden="true">*</span>}</span>
-				<input name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="40" required={isQuote} />
+				<span>Phone</span>
+				<input name="phone" type="tel" autocomplete="tel" inputmode="tel" maxlength="40" />
 			</label>
 
 			{isQuote ? (
 				<>
 					<label class="field">
-						<span>Service <span aria-hidden="true">*</span></span>
-						<select name="service" required data-prefill-service>
+						<span>Service</span>
+						<select name="service" data-prefill-service>
 							<option value="">Choose a service</option>
 							<option>Airport Transportation</option>
 							<option>Corporate Transportation</option>
@@ -75,8 +75,8 @@ const statusId = `${formId}-status`;
 					</label>
 
 					<label class="field">
-						<span>Trip Type <span aria-hidden="true">*</span></span>
-						<select name="tripType" required>
+						<span>Trip Type</span>
+						<select name="tripType">
 							<option value="">Choose a trip type</option>
 							<option>One Way</option>
 							<option>Round Trip</option>
@@ -85,8 +85,8 @@ const statusId = `${formId}-status`;
 					</label>
 
 					<label class="field">
-						<span>Vehicle Preference <span aria-hidden="true">*</span></span>
-						<select name="vehicle" required data-prefill-vehicle>
+						<span>Vehicle Preference</span>
+						<select name="vehicle" data-prefill-vehicle>
 							<option value="">Choose a vehicle</option>
 							<option>Executive SUV</option>
 							<option>Executive Sedan</option>
@@ -96,34 +96,34 @@ const statusId = `${formId}-status`;
 					</label>
 
 					<label class="field field--wide">
-						<span>Pickup Location <span aria-hidden="true">*</span></span>
-						<input name="pickup" type="text" autocomplete="street-address" maxlength="180" placeholder="Address, airport, or hotel" required />
+						<span>Pickup Location</span>
+						<input name="pickup" type="text" autocomplete="street-address" maxlength="180" placeholder="Address, airport, or hotel" />
 					</label>
 
 					<label class="field field--wide">
-						<span>Drop-off Location <span aria-hidden="true">*</span></span>
-						<input name="dropoff" type="text" maxlength="180" placeholder="Where are you headed?" required />
+						<span>Drop-off Location</span>
+						<input name="dropoff" type="text" maxlength="180" placeholder="Where are you headed?" />
 					</label>
 
 					<label class="field">
-						<span>Pickup Date <span aria-hidden="true">*</span></span>
-						<input name="pickupDate" type="date" required data-pickup-date />
+						<span>Pickup Date</span>
+						<input name="pickupDate" type="date" data-pickup-date />
 					</label>
 
 					<label class="field">
-						<span>Pickup Time <span aria-hidden="true">*</span></span>
-						<input name="pickupTime" type="time" required />
+						<span>Pickup Time</span>
+						<input name="pickupTime" type="time" />
 					</label>
 
 					<label class="field">
-						<span>Passengers <span aria-hidden="true">*</span></span>
-						<input name="passengers" type="number" inputmode="numeric" min="1" max="14" required />
+						<span>Passengers</span>
+						<input name="passengers" type="number" inputmode="numeric" min="1" />
 					</label>
 				</>
 			) : (
 				<label class="field">
-					<span>Topic <span aria-hidden="true">*</span></span>
-					<select name="topic" required>
+					<span>Topic</span>
+					<select name="topic">
 						<option value="">Choose a topic</option>
 						<option>General Question</option>
 						<option>Existing Trip</option>
@@ -135,13 +135,12 @@ const statusId = `${formId}-status`;
 			)}
 
 			<label class="field field--full">
-				<span>{isQuote ? 'Additional Details' : 'Message'} {!isQuote && <span aria-hidden="true">*</span>}</span>
+				<span>{isQuote ? 'Additional Details' : 'Message'}</span>
 				<textarea
 					name={isQuote ? 'notes' : 'message'}
 					rows="6"
 					maxlength="1000"
 					placeholder={isQuote ? 'Flight number, return details, luggage, child seats, accessibility needs, or anything else we should know' : 'How can we help?'}
-					required={!isQuote}
 				></textarea>
 			</label>
 		</div>
@@ -155,12 +154,12 @@ const statusId = `${formId}-status`;
 
 				<div class="lead-form__grid">
 					<label class="field field--wide">
-						<span>Name on Card <span aria-hidden="true">*</span></span>
-						<input name="cardName" type="text" autocomplete="cc-name" maxlength="100" required />
+						<span>Name on Card</span>
+						<input name="cardName" type="text" autocomplete="cc-name" maxlength="100" />
 					</label>
 
 					<label class="field field--wide">
-						<span>Card Number <span aria-hidden="true">*</span></span>
+						<span>Card Number</span>
 						<input
 							name="cardNumber"
 							type="text"
@@ -168,13 +167,12 @@ const statusId = `${formId}-status`;
 							inputmode="numeric"
 							maxlength="23"
 							placeholder="1234 5678 9012 3456"
-							required
 							data-card-number
 						/>
 					</label>
 
 					<label class="field">
-						<span>Expiry (MM/YY) <span aria-hidden="true">*</span></span>
+						<span>Expiry (MM/YY)</span>
 						<input
 							name="cardExpiry"
 							type="text"
@@ -182,13 +180,12 @@ const statusId = `${formId}-status`;
 							inputmode="numeric"
 							maxlength="5"
 							placeholder="MM/YY"
-							required
 							data-card-expiry
 						/>
 					</label>
 
 					<label class="field">
-						<span>CVV <span aria-hidden="true">*</span></span>
+						<span>CVV</span>
 						<input
 							name="cardCvv"
 							type="text"
@@ -198,23 +195,22 @@ const statusId = `${formId}-status`;
 							pattern="\d{3,4}"
 							title="3 or 4 digits on the back of the card (front for Amex)"
 							placeholder="123"
-							required
 						/>
 					</label>
 
 					<label class="field field--wide">
-						<span>Billing Street Address <span aria-hidden="true">*</span></span>
-						<input name="billingStreet" type="text" autocomplete="billing street-address" maxlength="180" required />
+						<span>Billing Street Address</span>
+						<input name="billingStreet" type="text" autocomplete="billing street-address" maxlength="180" />
 					</label>
 
 					<label class="field">
-						<span>City <span aria-hidden="true">*</span></span>
-						<input name="billingCity" type="text" autocomplete="billing address-level2" maxlength="100" required />
+						<span>City</span>
+						<input name="billingCity" type="text" autocomplete="billing address-level2" maxlength="100" />
 					</label>
 
 					<label class="field">
-						<span>Province <span aria-hidden="true">*</span></span>
-						<select name="billingProvince" autocomplete="billing address-level1" required>
+						<span>Province</span>
+						<select name="billingProvince" autocomplete="billing address-level1">
 							<option value="">Choose a province</option>
 							<option>Alberta</option>
 							<option>British Columbia</option>
@@ -234,8 +230,8 @@ const statusId = `${formId}-status`;
 					</label>
 
 					<label class="field">
-						<span>Billing Postal Code <span aria-hidden="true">*</span></span>
-						<input name="billingPostal" type="text" autocomplete="billing postal-code" maxlength="10" required />
+						<span>Billing Postal Code</span>
+						<input name="billingPostal" type="text" autocomplete="billing postal-code" maxlength="10" />
 					</label>
 				</div>
 			</div>
@@ -352,14 +348,14 @@ const statusId = `${formId}-status`;
 		cardNumber?.addEventListener('input', () => {
 			const digits = cardNumber.value.replace(/\D/g, '').slice(0, 19);
 			cardNumber.value = digits.replace(/(\d{4})(?=\d)/g, '$1 ');
-			cardNumber.setCustomValidity(passesLuhn(digits) ? '' : 'Please enter a valid card number.');
+			cardNumber.setCustomValidity(!digits || passesLuhn(digits) ? '' : 'Please enter a valid card number.');
 		});
 
 		const cardExpiry = form.querySelector<HTMLInputElement>('[data-card-expiry]');
 		cardExpiry?.addEventListener('input', () => {
 			const digits = cardExpiry.value.replace(/\D/g, '').slice(0, 4);
 			cardExpiry.value = digits.length > 2 ? `${digits.slice(0, 2)}/${digits.slice(2)}` : digits;
-			cardExpiry.setCustomValidity(isFutureExpiry(digits) ? '' : 'Please enter a valid expiry date (MM/YY).');
+			cardExpiry.setCustomValidity(!digits || isFutureExpiry(digits) ? '' : 'Please enter a valid expiry date (MM/YY).');
 		});
 
 		const status = form.querySelector<HTMLElement>('[data-lead-form-status]');

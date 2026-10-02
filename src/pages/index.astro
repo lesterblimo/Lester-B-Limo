@@ -105,7 +105,7 @@ const reviews = [
 							<div class="form-grid">
 								<label class="field">
 									<span>Trip Type</span>
-									<select name="tripType" required>
+									<select name="tripType">
 										<option value="">Select trip type</option>
 										<option>One Way</option>
 										<option>Round Trip</option>
@@ -118,7 +118,7 @@ const reviews = [
 									<span>Pickup Location</span>
 									<span class="input-wrap">
 										<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.1 7-12a7 7 0 1 0-14 0c0 5.9 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>
-										<input name="pickup" type="text" placeholder="Address, airport, or hotel" autocomplete="street-address" required />
+										<input name="pickup" type="text" placeholder="Address, airport, or hotel" autocomplete="street-address" />
 									</span>
 								</label>
 
@@ -126,28 +126,28 @@ const reviews = [
 									<span>Drop-Off Location</span>
 									<span class="input-wrap">
 										<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.1 7-12a7 7 0 1 0-14 0c0 5.9 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>
-										<input name="dropoff" type="text" placeholder="Where are you headed?" required />
+										<input name="dropoff" type="text" placeholder="Where are you headed?" />
 									</span>
 								</label>
 
 								<label class="field">
 									<span>Pickup Date</span>
-									<input name="pickupDate" type="date" required data-pickup-date />
+									<input name="pickupDate" type="date" data-pickup-date />
 								</label>
 
 								<label class="field">
 									<span>Pickup Time</span>
-									<input name="pickupTime" type="time" required />
+									<input name="pickupTime" type="time" />
 								</label>
 
 								<label class="field">
 									<span>Passengers</span>
-									<input name="passengers" type="number" inputmode="numeric" min="1" max="14" placeholder="1" required />
+									<input name="passengers" type="number" inputmode="numeric" min="1" placeholder="1" />
 								</label>
 
 								<label class="field">
 									<span>Vehicle Preference</span>
-									<select name="vehicle" required>
+									<select name="vehicle">
 										<option value="">Select vehicle</option>
 										<option>Executive SUV</option>
 										<option>Executive Sedan</option>
@@ -168,12 +168,12 @@ const reviews = [
 						<div class="form-panel" data-form-step="2" hidden>
 							<div class="form-grid form-grid--contact">
 								<label class="field">
-									<span>Return Details <small>Optional</small></span>
+									<span>Return Details</span>
 									<input name="returnDetails" type="text" placeholder="Return date and time" />
 								</label>
 								<label class="field">
-									<span>Number of Bags <small>Optional</small></span>
-									<input name="bags" type="number" inputmode="numeric" min="0" max="30" placeholder="0" />
+									<span>Number of Bags</span>
+									<input name="bags" type="number" inputmode="numeric" min="0" placeholder="0" />
 								</label>
 								<label class="field">
 									<span>Name</span>
@@ -181,14 +181,14 @@ const reviews = [
 								</label>
 								<label class="field">
 									<span>Phone</span>
-									<input name="phone" type="tel" autocomplete="tel" placeholder="Your phone number" required />
+									<input name="phone" type="tel" autocomplete="tel" placeholder="Your phone number" />
 								</label>
 								<label class="field field--wide">
 									<span>Email</span>
 									<input name="email" type="email" autocomplete="email" placeholder="you@example.com" required />
 								</label>
 								<label class="field field--full">
-									<span>Additional Notes <small>Optional</small></span>
+									<span>Additional Notes</span>
 									<textarea name="notes" rows="3" placeholder="Flight number, child seats, accessibility needs, or anything else we should know"></textarea>
 								</label>
 							</div>
@@ -416,8 +416,8 @@ const reviews = [
 
 		nextButton?.addEventListener('click', () => {
 			if (!firstStep) return;
-			const requiredFields = Array.from(firstStep.querySelectorAll<HTMLInputElement | HTMLSelectElement>('[required]'));
-			const invalidField = requiredFields.find((field) => !field.checkValidity());
+			const stepFields = Array.from(firstStep.querySelectorAll<HTMLInputElement | HTMLSelectElement>('input, select, textarea'));
+			const invalidField = stepFields.find((field) => !field.checkValidity());
 			if (invalidField) {
 				invalidField.reportValidity();
 				return;
