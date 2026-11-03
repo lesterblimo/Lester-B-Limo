@@ -78,12 +78,6 @@ const reviews = [
 							<p class="eyebrow"><span></span>Request a personalized quote</p>
 							<h2 id="quote-heading">Where Can We Take You?</h2>
 						</div>
-						<ol class="form-steps" aria-label="Quote request progress">
-							<li class="is-active" data-step-marker="1" aria-current="step">
-								<span>1</span><small>Trip</small>
-							</li>
-							<li data-step-marker="2"><span>2</span><small>Contact</small></li>
-						</ol>
 					</div>
 					<form
 						class="quote-form"
@@ -101,7 +95,63 @@ const reviews = [
 						<p class="botfield" aria-hidden="true">
 							<label>Leave this field empty<input name="bot-field" type="text" tabindex="-1" autocomplete="off" /></label>
 						</p>
-						<div class="form-panel" data-form-step="1">
+						<div class="form-grid">
+							<label class="field field--wide">
+								<span>Pickup Location</span>
+								<span class="input-wrap">
+									<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.1 7-12a7 7 0 1 0-14 0c0 5.9 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>
+									<input name="pickup" type="text" placeholder="Address, airport, or hotel" autocomplete="street-address" />
+								</span>
+							</label>
+
+							<label class="field field--wide">
+								<span>Drop-Off Location</span>
+								<span class="input-wrap">
+									<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.1 7-12a7 7 0 1 0-14 0c0 5.9 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>
+									<input name="dropoff" type="text" placeholder="Where are you headed?" />
+								</span>
+							</label>
+
+							<label class="field field--short">
+								<span>Pickup Date</span>
+								<input name="pickupDate" type="date" data-pickup-date />
+							</label>
+
+							<label class="field field--short">
+								<span>Pickup Time</span>
+								<input name="pickupTime" type="time" />
+							</label>
+
+							<label class="field field--third">
+								<span>Passengers</span>
+								<input name="passengers" type="number" inputmode="numeric" min="1" placeholder="1" />
+							</label>
+
+							<label class="field field--third">
+								<span>Name</span>
+								<input name="name" type="text" autocomplete="name" placeholder="Your full name" required />
+							</label>
+							<label class="field field--third">
+								<span>Phone</span>
+								<input name="phone" type="tel" autocomplete="tel" placeholder="Your phone number" />
+							</label>
+							<label class="field field--third">
+								<span>Email</span>
+								<input name="email" type="email" autocomplete="email" placeholder="you@example.com" required />
+							</label>
+						</div>
+
+						<button class="more-toggle" type="button" aria-expanded="false" aria-controls="quote-extras" data-extras-toggle>
+							<span class="more-toggle__icon" aria-hidden="true"></span>
+							<span class="more-toggle__text">
+								<strong>Add more details</strong>
+								<small>Optional: trip type, vehicle, return trip, bags, notes</small>
+							</span>
+							<svg class="more-toggle__chevron" viewBox="0 0 20 20" aria-hidden="true"><path d="m5 8 5 5 5-5" /></svg>
+						</button>
+
+						<div class="form-extras" id="quote-extras" data-form-extras>
+							<p class="form-extras__label">Optional details</p>
 							<div class="form-grid">
 								<label class="field">
 									<span>Trip Type</span>
@@ -114,37 +164,6 @@ const reviews = [
 									</select>
 								</label>
 
-								<label class="field field--wide">
-									<span>Pickup Location</span>
-									<span class="input-wrap">
-										<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.1 7-12a7 7 0 1 0-14 0c0 5.9 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>
-										<input name="pickup" type="text" placeholder="Address, airport, or hotel" autocomplete="street-address" />
-									</span>
-								</label>
-
-								<label class="field field--wide">
-									<span>Drop-Off Location</span>
-									<span class="input-wrap">
-										<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.1 7-12a7 7 0 1 0-14 0c0 5.9 7 12 7 12Z"/><circle cx="12" cy="9" r="2.5"/></svg>
-										<input name="dropoff" type="text" placeholder="Where are you headed?" />
-									</span>
-								</label>
-
-								<label class="field">
-									<span>Pickup Date</span>
-									<input name="pickupDate" type="date" data-pickup-date />
-								</label>
-
-								<label class="field">
-									<span>Pickup Time</span>
-									<input name="pickupTime" type="time" />
-								</label>
-
-								<label class="field">
-									<span>Passengers</span>
-									<input name="passengers" type="number" inputmode="numeric" min="1" placeholder="1" />
-								</label>
-
 								<label class="field">
 									<span>Vehicle Preference</span>
 									<select name="vehicle">
@@ -155,52 +174,29 @@ const reviews = [
 										<option>Recommend for Me</option>
 									</select>
 								</label>
-							</div>
 
-							<div class="form-actions form-actions--end">
-								<p><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2 4 4.5v4.8c0 3.9 2.5 6.8 6 8.7 3.5-1.9 6-4.8 6-8.7V4.5L10 2Z"/><path d="m7.5 10 1.6 1.6 3.5-3.7"/></svg>Your trip details stay private.</p>
-								<button class="button button--gold button--large" type="button" data-next-step>
-									Next Step <Fragment set:html={ArrowIcon} />
-								</button>
-							</div>
-						</div>
-
-						<div class="form-panel" data-form-step="2" hidden>
-							<div class="form-grid form-grid--contact">
 								<label class="field">
 									<span>Return Details</span>
 									<input name="returnDetails" type="text" placeholder="Return date and time" />
 								</label>
+
 								<label class="field">
-									<span>Number of Bags</span>
+									<span>Bags</span>
 									<input name="bags" type="number" inputmode="numeric" min="0" placeholder="0" />
 								</label>
-								<label class="field">
-									<span>Name</span>
-									<input name="name" type="text" autocomplete="name" placeholder="Your full name" required />
-								</label>
-								<label class="field">
-									<span>Phone</span>
-									<input name="phone" type="tel" autocomplete="tel" placeholder="Your phone number" />
-								</label>
-								<label class="field field--wide">
-									<span>Email</span>
-									<input name="email" type="email" autocomplete="email" placeholder="you@example.com" required />
-								</label>
+
 								<label class="field field--full">
 									<span>Additional Notes</span>
 									<textarea name="notes" rows="3" placeholder="Flight number, child seats, accessibility needs, or anything else we should know"></textarea>
 								</label>
 							</div>
-							<div class="form-actions">
-								<button class="text-button" type="button" data-prev-step>
-									<svg viewBox="0 0 20 20" aria-hidden="true"><path d="M16 10H5m4-4-4 4 4 4" /></svg>
-									Back to trip details
-								</button>
-								<div class="submit-wrap">
-									<button class="button button--gold button--large" type="submit" data-quote-submit><span data-quote-submit-label>Submit Quote Request</span> <Fragment set:html={ArrowIcon} /></button>
-									<small>We reply using the contact details you provide.</small>
-								</div>
+						</div>
+
+						<div class="form-actions">
+							<p><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 2 4 4.5v4.8c0 3.9 2.5 6.8 6 8.7 3.5-1.9 6-4.8 6-8.7V4.5L10 2Z"/><path d="m7.5 10 1.6 1.6 3.5-3.7"/></svg>Your trip details stay private.</p>
+							<div class="submit-wrap">
+								<button class="button button--gold button--large" type="submit" data-quote-submit><span data-quote-submit-label>Submit Quote Request</span> <Fragment set:html={ArrowIcon} /></button>
+								<small>We reply using the contact details you provide.</small>
 							</div>
 						</div>
 						<p class="form-status" data-form-status role="status" tabindex="-1" hidden></p>
@@ -389,10 +385,8 @@ const reviews = [
 
 	<script>
 		const form = document.querySelector<HTMLFormElement>('[data-quote-form]');
-		const firstStep = document.querySelector<HTMLElement>('[data-form-step="1"]');
-		const secondStep = document.querySelector<HTMLElement>('[data-form-step="2"]');
-		const nextButton = document.querySelector<HTMLButtonElement>('[data-next-step]');
-		const previousButton = document.querySelector<HTMLButtonElement>('[data-prev-step]');
+		const extras = document.querySelector<HTMLElement>('[data-form-extras]');
+		const extrasToggle = document.querySelector<HTMLButtonElement>('[data-extras-toggle]');
 		const status = document.querySelector<HTMLElement>('[data-form-status]');
 		const pickupDate = document.querySelector<HTMLInputElement>('[data-pickup-date]');
 
@@ -402,33 +396,14 @@ const reviews = [
 			pickupDate.min = localToday.toISOString().split('T')[0];
 		}
 
-		const showStep = (step: 1 | 2) => {
-			if (!firstStep || !secondStep) return;
-			firstStep.hidden = step !== 1;
-			secondStep.hidden = step !== 2;
-			document.querySelectorAll('[data-step-marker]').forEach((marker) => {
-				const active = marker.getAttribute('data-step-marker') === String(step);
-				marker.classList.toggle('is-active', active);
-				if (active) marker.setAttribute('aria-current', 'step');
-				else marker.removeAttribute('aria-current');
-			});
+		// Optional fields collapse behind a toggle on small screens; desktop always shows them.
+		const setExtrasOpen = (open: boolean) => {
+			extras?.classList.toggle('is-open', open);
+			extrasToggle?.setAttribute('aria-expanded', String(open));
 		};
 
-		nextButton?.addEventListener('click', () => {
-			if (!firstStep) return;
-			const stepFields = Array.from(firstStep.querySelectorAll<HTMLInputElement | HTMLSelectElement>('input, select, textarea'));
-			const invalidField = stepFields.find((field) => !field.checkValidity());
-			if (invalidField) {
-				invalidField.reportValidity();
-				return;
-			}
-			showStep(2);
-			secondStep?.querySelector<HTMLInputElement>('input')?.focus();
-		});
-
-		previousButton?.addEventListener('click', () => {
-			showStep(1);
-			nextButton?.focus();
+		extrasToggle?.addEventListener('click', () => {
+			setExtrasOpen(extrasToggle.getAttribute('aria-expanded') !== 'true');
 		});
 
 		const quoteSubmit = document.querySelector<HTMLButtonElement>('[data-quote-submit]');
@@ -445,6 +420,7 @@ const reviews = [
 		form?.addEventListener('submit', async (event) => {
 			event.preventDefault();
 			if (!form.checkValidity()) {
+				if (extras?.querySelector(':invalid')) setExtrasOpen(true);
 				form.reportValidity();
 				return;
 			}
@@ -466,7 +442,7 @@ const reviews = [
 				});
 				if (!response.ok) throw new Error(`Request failed with status ${response.status}`);
 				form.reset();
-				showStep(1);
+				setExtrasOpen(false);
 				setQuoteStatus('sent', 'Thank you — your quote request was sent. We will reply using the contact details you provided.');
 				status?.focus();
 			} catch {
@@ -973,64 +949,8 @@ const reviews = [
 			line-height: 1.05;
 		}
 
-		.form-steps {
-			display: flex;
-			gap: 32px;
-			padding: 0;
-			margin: 0 8px 4px 0;
-			list-style: none;
-		}
-
-		.form-steps li {
-			position: relative;
-			display: grid;
-			grid-template-columns: 32px auto;
-			align-items: center;
-			gap: 9px;
-			color: #8a8d87;
-		}
-
-		.form-steps li + li::before {
-			position: absolute;
-			top: 50%;
-			right: calc(100% + 8px);
-			width: 16px;
-			height: 1px;
-			background: #d9d9d5;
-			content: '';
-		}
-
-		.form-steps li > span {
-			display: grid;
-			place-items: center;
-			width: 32px;
-			height: 32px;
-			border: 1px solid #d5d5d1;
-			border-radius: 50%;
-			font-size: 0.75rem;
-			font-weight: 700;
-		}
-
-		.form-steps small {
-			font-size: 0.78rem;
-			font-weight: 600;
-		}
-
-		.form-steps .is-active {
-			color: var(--ink);
-		}
-
-		.form-steps .is-active > span {
-			border-color: var(--gold);
-			background: var(--gold);
-		}
-
-		.form-panel {
+		.quote-form {
 			padding-top: 32px;
-		}
-
-		.form-panel[hidden] {
-			display: none;
 		}
 
 		.form-grid {
@@ -1051,7 +971,15 @@ const reviews = [
 		}
 
 		.field--wide {
-			grid-column: span 9;
+			grid-column: span 12;
+		}
+
+		.field--short {
+			grid-column: span 8;
+		}
+
+		.field--third {
+			grid-column: span 8;
 		}
 
 		.field--full {
@@ -1135,10 +1063,6 @@ const reviews = [
 			margin-top: 30px;
 		}
 
-		.form-actions--end {
-			justify-content: flex-end;
-		}
-
 		.form-actions > p {
 			display: flex;
 			align-items: center;
@@ -1160,29 +1084,31 @@ const reviews = [
 			min-width: 220px;
 		}
 
-		.text-button {
-			display: inline-flex;
+		.more-toggle {
+			display: none;
+		}
+
+		.form-extras {
+			margin-top: 30px;
+		}
+
+		.form-extras__label {
+			display: flex;
 			align-items: center;
-			gap: 8px;
-			padding: 8px 0;
-			border: 0;
-			background: transparent;
-			color: #646660;
-			font-size: 0.84rem;
-			font-weight: 600;
-			cursor: pointer;
+			gap: 14px;
+			margin: 0 0 18px;
+			color: #858781;
+			font-size: 0.7rem;
+			font-weight: 700;
+			letter-spacing: 0.12em;
+			text-transform: uppercase;
 		}
 
-		.text-button:hover {
-			color: var(--ink);
-		}
-
-		.text-button svg {
-			width: 20px;
-			height: 20px;
-			fill: none;
-			stroke: currentColor;
-			stroke-width: 1.7;
+		.form-extras__label::after {
+			flex: 1;
+			height: 1px;
+			background: var(--line);
+			content: '';
 		}
 
 		.submit-wrap {
@@ -2316,6 +2242,11 @@ const reviews = [
 				grid-column: span 12;
 			}
 
+			.field--short,
+			.field--third {
+				grid-column: span 8;
+			}
+
 			.fleet-grid,
 			.airport-grid,
 			.corporate__inner {
@@ -2474,45 +2405,118 @@ const reviews = [
 				font-size: 2.25rem;
 			}
 
-			.form-steps {
-				gap: 14px;
-				margin-right: 0;
-			}
-
-			.form-steps li {
-				grid-template-columns: 28px;
-			}
-
-			.form-steps small {
-				display: none;
-			}
-
-			.form-steps li + li::before {
-				right: calc(100% + 4px);
-				width: 7px;
-			}
-
-			.form-steps li > span {
-				width: 28px;
-				height: 28px;
-			}
-
-			.form-panel {
+			.quote-form {
 				padding-top: 24px;
 			}
 
 			.form-grid {
-				grid-template-columns: 1fr;
-				gap: 17px;
+				grid-template-columns: repeat(2, minmax(0, 1fr));
+				gap: 17px 12px;
 			}
 
 			.field,
-			.field--wide {
+			.field--wide,
+			.field--third {
 				grid-column: 1 / -1;
 			}
 
-			.form-actions,
-			.form-actions--end {
+			.field--short {
+				grid-column: span 1;
+			}
+
+			.more-toggle {
+				display: flex;
+				align-items: center;
+				gap: 12px;
+				width: 100%;
+				padding: 14px 16px;
+				margin-top: 20px;
+				border: 1px dashed #cfcdc4;
+				border-radius: 3px;
+				background: transparent;
+				color: var(--ink);
+				text-align: left;
+				cursor: pointer;
+			}
+
+			.more-toggle[aria-expanded='true'] {
+				border-style: solid;
+				background: #fbfaf7;
+			}
+
+			.more-toggle__icon {
+				position: relative;
+				flex: none;
+				width: 26px;
+				height: 26px;
+				border-radius: 50%;
+				background: var(--gold);
+			}
+
+			.more-toggle__icon::before,
+			.more-toggle__icon::after {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				width: 11px;
+				height: 2px;
+				background: var(--ink);
+				content: '';
+				transform: translate(-50%, -50%);
+				transition: transform 180ms ease;
+			}
+
+			.more-toggle__icon::after {
+				transform: translate(-50%, -50%) rotate(90deg);
+			}
+
+			.more-toggle[aria-expanded='true'] .more-toggle__icon::after {
+				transform: translate(-50%, -50%) rotate(0deg);
+			}
+
+			.more-toggle__text {
+				display: grid;
+				flex: 1;
+				gap: 2px;
+			}
+
+			.more-toggle__text strong {
+				font-size: 0.9rem;
+			}
+
+			.more-toggle__text small {
+				color: #7a7c76;
+				font-size: 0.74rem;
+			}
+
+			.more-toggle__chevron {
+				flex: none;
+				width: 20px;
+				height: 20px;
+				fill: none;
+				stroke: currentColor;
+				stroke-width: 1.7;
+				transition: transform 180ms ease;
+			}
+
+			.more-toggle[aria-expanded='true'] .more-toggle__chevron {
+				transform: rotate(180deg);
+			}
+
+			.form-extras {
+				display: none;
+				margin-top: 17px;
+			}
+
+			.form-extras.is-open {
+				display: block;
+			}
+
+			.form-extras__label {
+				display: none;
+			}
+
+			.form-actions {
 				align-items: stretch;
 				flex-direction: column-reverse;
 				gap: 14px;
@@ -2530,10 +2534,6 @@ const reviews = [
 
 			.submit-wrap {
 				justify-items: center;
-			}
-
-			.text-button {
-				align-self: center;
 			}
 
 			.section-heading--split {
@@ -2727,10 +2727,6 @@ const reviews = [
 
 			.quote-card__header {
 				display: block;
-			}
-
-			.form-steps {
-				margin-top: 20px;
 			}
 
 			.mobile-nav__actions {
